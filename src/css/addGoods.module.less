@@ -1,0 +1,58 @@
+
+.tab{
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+        .tabItem{
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #f6f7f8;
+            color: #323232;
+            border-top: 1px solid #eee;
+            border-right: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            &:first-child{
+                border-left: 1px solid #eee;
+            }
+        }
+        .tabItemActive{
+            background-color: #84ba3f;
+            border-top: 1px solid #84ba3f;
+            border-right: 1px solid #84ba3f;
+            border-bottom: 1px solid #84ba3f;
+            color: #fff;
+            &:first-child{
+                border-left: 1px solid #84ba3f;
+            }
+        }
+}
+.tabObj{
+    border: 1px solid #eee;
+    position: relative;
+    top: -1px;
+    padding: 17px;
+        .tabObjItem{
+            display: none;
+                .fromControlFile{
+                    padding: 20px;
+                    box-shadow: 1px 1px 15px rgba(0,0,0,0.1);
+                    display: inline-block;
+                    img{
+                        width: 50px;
+                    }
+                }
+                p{
+                    width: 90px;
+                    padding: 10px 0;
+                }
+                #fromControlFile{
+                    opacity: 0;
+                    width: 0.1px;
+                    height: 0.1px;
+                }
+        }
+        .active{
+            display: block;
+        }
+}
+            

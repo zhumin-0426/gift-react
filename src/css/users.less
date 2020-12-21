@@ -1,0 +1,39 @@
+.wrapper{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    .content-wrapper{
+        display: flex;
+        flex: 1;
+        .content{
+            background-color: #fafafa;
+                .user-card-top{
+                    padding-bottom: 70px;
+                    .user-pic{
+                         width: 80px;
+                         height: 80px;
+                         left: 50%;
+                         margin-left: -40px;
+                         img{
+                             width: 80px;
+                             height: 80px;
+                             border-radius: 50%;
+                         }
+                    }
+                }
+                .contact-way{
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 25px;
+                    li{
+                        img{
+                            width: 20px;
+                        }
+                    }
+                    li:first-child{
+                        margin-right: 10px;
+                    }
+                }
+        }
+    }
+}

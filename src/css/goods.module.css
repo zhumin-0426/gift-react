@@ -1,0 +1,70 @@
+.search {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  margin-bottom: 30px;
+  margin-top: 15px;
+  overflow: hidden;
+  line-height: 23px;
+}
+.search .searchIcon {
+  width: 22px;
+  height: 24px;
+  background-image: url('../assets/icon/search.png');
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100%;
+  margin-right: 10px;
+  float: left;
+}
+.search .searchIpt {
+  width: 70%;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  float: left;
+}
+.search .searchIpt::-webkit-input-placeholder {
+  color: #323a40;
+}
+.search .searchIpt:-moz-placeholder {
+  color: #323a40;
+}
+.search .searchIpt::-moz-placeholder {
+  color: #323a40;
+}
+.search .searchIpt:-ms-input-placeholder {
+  color: #323a40;
+}
+.search :global .addGoods {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  float: right;
+}
+.search:hover .searchIcon {
+  background-image: url('../assets/icon/search-active.png');
+}
+.goodsCard {
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 17px;
+}
+.goodsCard .goodsName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+.goodsCard .goodsName:hover {
+  color: #84ba3f;
+  transition: all 0.5s;
+}

@@ -1,0 +1,40 @@
+:global .herder {
+  padding: 10px 0;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+}
+:global .herder .logo {
+  width: 230px;
+}
+:global .herder .logo .logo-icon {
+  width: 150px;
+}
+:global .herder .logo .logo-icon img {
+  max-width: 100%;
+}
+:global .herder .line-icon {
+  position: relative;
+  top: 4px;
+}
+:global .herder .navbar-right {
+  margin-right: 40px;
+}
+:global .herder .navbar-right .app-list {
+  width: 400px;
+}
+:global .herder .navbar-right .message {
+  position: relative;
+}
+:global .herder .navbar-right .message .ant-badge {
+  position: absolute;
+  right: -8px;
+  top: 0;
+}
+:global .herder .navbar-right .user-pic {
+  width: 35px;
+  height: 35px;
+}
+:global .herder .navbar-right .user-pic img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}

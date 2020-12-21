@@ -1,0 +1,61 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.wrapper .content-wrapper {
+  display: flex;
+  flex: 1;
+}
+.wrapper .content-wrapper .content {
+  background-color: #fafafa;
+}
+.wrapper .content-wrapper .content .detail-card .goods-attr li {
+  margin-bottom: 10px;
+}
+.wrapper .content-wrapper .content .detail-card .goods-attr li .ant-rate-star:not(:last-child) {
+  margin-right: 0;
+}
+.wrapper .content-wrapper .content .detail-card .tab .tab-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #f6f7f8;
+  color: #323232;
+  border: 1px solid #eee;
+}
+.wrapper .content-wrapper .content .detail-card .tab .tab-item-active {
+  border: 1px solid #84ba3f;
+  background-color: #84ba3f;
+  color: #fff;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj {
+  width: 100%;
+  border: solid 1px #eee;
+  position: relative;
+  top: -1px;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul {
+  margin-bottom: 0;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul li {
+  margin-bottom: 17px;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul li .reviews-user-pic {
+  width: 10%;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul li .reviews-user-pic img {
+  width: 100%;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul li .reviews {
+  width: 90%;
+  border: 1px solid #eee;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul li .reviews p {
+  margin-bottom: 0;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul li .reviews .ant-rate-star:not(:last-child) {
+  margin-right: 0;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj ul .tab-obj-item:last-child {
+  margin-bottom: 0;
+}

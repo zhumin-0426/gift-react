@@ -1,0 +1,67 @@
+.wrapper{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    .content-wrapper{
+        display: flex;
+        flex: 1;
+        .content{
+            background-color: #fafafa;
+            .detail-card{
+                .goods-attr{
+                    li{
+                        margin-bottom: 10px;
+                        .ant-rate-star:not(:last-child){
+                            margin-right: 0;
+                        }
+                    }
+                }
+                .tab{
+                    .tab-item{
+                        padding: 10px 20px;
+                        cursor: pointer;
+                        background: #f6f7f8;
+                        color: #323232;
+                        border: 1px solid #eee;
+                    }
+                    .tab-item-active{
+                        border: 1px solid #84ba3f;
+                        background-color: #84ba3f;
+                        color: #fff;
+                    }
+                }
+                .tab-obj{
+                    width: 100%;
+                    border: solid 1px #eee;
+                    position: relative;
+                    top: -1px;
+                        ul{
+                            margin-bottom: 0;
+                            li{
+                                margin-bottom: 17px;
+                                .reviews-user-pic{
+                                    width: 10%;
+                                    img{
+                                        width: 100%;
+                                    }
+                                }
+                                .reviews{
+                                    width: 90%;
+                                    border: 1px solid #eee;
+                                    p{
+                                        margin-bottom: 0;
+                                    }
+                                    .ant-rate-star:not(:last-child){
+                                        margin-right: 0;
+                                    }
+                                }
+                            }
+                            .tab-obj-item:last-child{
+                                margin-bottom: 0;
+                            }
+                        }
+                }
+            }
+        }
+    }
+}

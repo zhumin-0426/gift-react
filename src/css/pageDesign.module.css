@@ -1,0 +1,277 @@
+:global .tab {
+  position: relative;
+}
+:global .tab .tab-z {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+:global .tab .tab-z:hover {
+  border: dashed 4px #84ba3f;
+}
+.pageDesignCard {
+  width: 100%;
+  height: 550px;
+  padding: 0 11px;
+  overflow-y: scroll;
+}
+.pageDesignCard :global .phone-top {
+  width: 100%;
+}
+.pageDesignCard :global .phone-top img {
+  display: block;
+  max-width: 100%;
+}
+.pageDesignCard :global header {
+  width: 100%;
+  padding-bottom: 60px;
+  background-image: url('../assets/images/pageDesign/herder-bag.png');
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100% ;
+}
+.pageDesignCard :global header .top {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+}
+.pageDesignCard :global header .top .pageDesignLogo {
+  width: 15%;
+  margin-right: 10px;
+  margin-top: 3px;
+}
+.pageDesignCard :global header .top .search {
+  box-sizing: border-box;
+  padding: 0 11px;
+  width: 77%;
+  background-color: #ffffff;
+  border-radius: 30px;
+  border: solid 1px #f2f2f2;
+  overflow: hidden;
+  margin-right: 10px;
+}
+.pageDesignCard :global header .top .search .search-icon {
+  display: block;
+  float: left;
+  width: 25px;
+  margin-top: 7px;
+  margin-right: 11px;
+}
+.pageDesignCard :global header .top .search span {
+  display: block;
+  float: left;
+  font-size: 16px;
+  color: #999;
+  margin-top: 7px;
+}
+.pageDesignCard :global header .top .search .scan {
+  display: block;
+  float: right;
+  width: 25px;
+  margin-top: 7px;
+}
+.pageDesignCard :global header .top .user-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.pageDesignCard :global header .top .user-pic img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.pageDesignCard :global header .banner {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 11px;
+}
+.pageDesignCard :global header .banner img {
+  display: block;
+  max-width: 100%;
+}
+.pageDesignCard :global section .nav {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 11px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.pageDesignCard :global section .nav li {
+  width: 25%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.pageDesignCard :global section .nav li img {
+  display: block;
+  width: 33px;
+  margin: 0 auto;
+  margin-bottom: 12px;
+}
+.pageDesignCard :global section .nav li span {
+  font-size: 13px;
+  color: #000000;
+}
+.pageDesignCard :global section .notice-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 11px;
+}
+.pageDesignCard :global section .notice-wrapper .notice {
+  width: 100%;
+  padding: 20px;
+  margin: 0 auto;
+  background-image: linear-gradient(90deg, #ff3f5a 0%, #ff8e66 66%), linear-gradient(#ffffff, #ffffff);
+  background-blend-mode: normal, 
+                            normal;
+  box-shadow: inset 0px 38px 0px 0px rgba(255, 255, 255, 0.25);
+  border-radius: 43px;
+  overflow: hidden;
+}
+.pageDesignCard :global section .notice-wrapper .notice .title {
+  float: left;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+.pageDesignCard :global section .notice-wrapper .notice .title .title-icon {
+  width: 22px;
+  margin-right: 3px;
+}
+.pageDesignCard :global section .notice-wrapper .notice .title span {
+  font-size: 15px;
+  color: #ffffff;
+}
+.pageDesignCard :global section .notice-wrapper .notice .main {
+  float: left;
+  font-size: 15px;
+  color: #ffffff;
+}
+.pageDesignCard :global section .notice-wrapper .notice .more {
+  float: right;
+  font-size: 15px;
+  color: #ff415a;
+  font-weight: 500;
+}
+.pageDesignCard :global section .rcm-goods {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 11px;
+}
+.pageDesignCard :global section .rcm-goods li {
+  width: 32%;
+}
+.pageDesignCard :global section .rcm-goods li img {
+  display: block;
+  max-width: 100%;
+}
+.pageDesignCard :global section .adv {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 28px 11px;
+}
+.pageDesignCard :global section .adv img {
+  display: block;
+  max-width: 100%;
+}
+.pageDesignCard :global section .tab-classify {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pageDesignCard :global section .tab-classify .tab-item {
+  width: 25%;
+  text-align: center;
+}
+.pageDesignCard :global section .tab-classify .tab-item .title {
+  font-size: 13px;
+  line-height: 32px;
+  letter-spacing: -0.3px;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+.pageDesignCard :global section .tab-classify .tab-item .prompt {
+  margin-top: -5px;
+  font-size: 12px;
+  color: #aeaeae;
+}
+.pageDesignCard :global section .tab-classify .tab-item-active .title {
+  font-size: 15px;
+  color: #ff8400;
+}
+.pageDesignCard :global section .tab-classify .tab-item-active .prompt {
+  color: #ff8400;
+}
+.pageDesignCard :global section .tab-classify .tab-item-active .line {
+  position: relative;
+  width: 13px;
+  height: 3px;
+  background-color: #ff8400;
+  border-radius: 3px;
+  margin: 0 auto;
+  top: 5px;
+}
+.pageDesignCard :global section .tab-obj-classify {
+  width: 100%;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item {
+  width: 49%;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 11px;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item img {
+  max-width: 100%;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item .goods-name {
+  font-size: 12px;
+  color: #000000;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item .describe {
+  font-size: 12px;
+  color: #aeaeae;
+  margin: 5px 0;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item .price-wrapper {
+  display: flex;
+  align-items: baseline;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item .price-wrapper .price {
+  font-size: 14px;
+  color: #ff0000;
+  margin-right: 5px;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item .price-wrapper .line-price {
+  font-size: 12px;
+  color: #aeaeae;
+  text-decoration: line-through;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item:nth-child(odd) {
+  float: left;
+}
+.pageDesignCard :global section .tab-obj-classify .classify-obj-item:nth-child(even) {
+  float: right;
+}
+.pageSetWrapper {
+  width: 100%;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 17px;
+}
+.pageSetWrapper :global .tab-obj-item {
+  display: none;
+}
+.pageSetWrapper :global .active {
+  display: block;
+}

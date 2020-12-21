@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.wrapper .content-wrapper {
+  display: flex;
+  flex: 1;
+}
+.wrapper .content-wrapper .content {
+  background-color: #fafafa;
+}

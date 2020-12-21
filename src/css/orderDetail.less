@@ -1,0 +1,45 @@
+.order-detail-card{
+    .tool{
+        li{
+            padding: 10px 15px;
+        }
+    }
+    .invoice-info{
+        li{
+            font-size: 16px;
+            line-height: 30px;
+            display: table;
+                span{
+                    display: table-cell;
+                }
+                span:first-child{
+                    width: 230px;
+                    font-weight: 600;
+                    font-weight: bold;
+                }
+                span:first-child:after{
+                    content: ':';
+                    float: right;
+                    line-height: inherit;
+                    padding-right: 30px;
+                }
+                span:last-child{
+                    font-weight: normal;
+                    font-size: 14px;
+                }
+        }
+    }
+    thead{
+        tr{
+            border-bottom: solid 2px #f0f0f0;
+        }
+    }
+    tbody{
+        tr{
+            border-bottom: solid 1px #f0f0f0;
+        }
+        tr:last-child{
+            border-bottom: none;
+        }
+    }
+}

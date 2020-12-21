@@ -1,0 +1,35 @@
+.order-detail-card .tool li {
+  padding: 10px 15px;
+}
+.order-detail-card .invoice-info li {
+  font-size: 16px;
+  line-height: 30px;
+  display: table;
+}
+.order-detail-card .invoice-info li span {
+  display: table-cell;
+}
+.order-detail-card .invoice-info li span:first-child {
+  width: 230px;
+  font-weight: 600;
+  font-weight: bold;
+}
+.order-detail-card .invoice-info li span:first-child:after {
+  content: ':';
+  float: right;
+  line-height: inherit;
+  padding-right: 30px;
+}
+.order-detail-card .invoice-info li span:last-child {
+  font-weight: normal;
+  font-size: 14px;
+}
+.order-detail-card thead tr {
+  border-bottom: solid 2px #f0f0f0;
+}
+.order-detail-card tbody tr {
+  border-bottom: solid 1px #f0f0f0;
+}
+.order-detail-card tbody tr:last-child {
+  border-bottom: none;
+}
