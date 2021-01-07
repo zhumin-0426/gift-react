@@ -10,9 +10,9 @@ import './common/css/common.less';
 import './assets/iconfont/iconfont.css';
 // 根组件
 import App from './App';
-ReactDOM.render(
-  <App/>,
-  document.getElementById('root')
+ReactDOM.render( <
+    App / > ,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
