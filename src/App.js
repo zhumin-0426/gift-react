@@ -1,5 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { HashRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 // 样式
 import './App.less';
 // 公共组件
@@ -7,26 +7,18 @@ import SideBar from './components/sidebar';
 import Header from './components/header';
 import Footer from './components/footer';
 // 子组件
-const Login = lazy(() => import('./pages/login'));
-const System = lazy(() => import('./pages/system'));
-const Goods = lazy(() => import('./pages/goods'));
-const Order = lazy(() => import('./pages/order'));
-const Users = lazy(() => import('./pages/users'));
-const PageDesign = lazy(() => import('./pages/pageDesign'));
-const Demo = lazy(() => import('./pages/demo'));
+import Login  from './pages/login';
+import System from './pages/system';
+import Goods from './pages/goods';
+import Order from './pages/order';
+import Users from './pages/users';
+import PageDesign from './pages/pageDesign';
+import Demo from './pages/demo';
 // 根组件
 function App() {
   return (
     <div className="app">
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
-          {/* <Link to="/"></Link>
-          <Link to="/system"></Link>
-          <Link to="/pageDesign"></Link>
-          <Link to="/goods"></Link>
-          <Link to="/orders"></Link>
-          <Link to="/users"></Link>
-          <Link to="/demo"></Link> */}
           <Switch>
             <Route path="/" exact component={Login}></Route>
             <div className="wrapper">
@@ -47,7 +39,6 @@ function App() {
               </div>
             </div>
           </Switch>
-        </Suspense>
       </Router>
     </div>
   )
