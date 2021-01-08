@@ -1,8 +1,4 @@
 import React from 'react';
-// 公共组件
-import Header from '../components/header';
-import Sidebar from '../components/sidebar';
-import Footer from '../components/footer';
 // 样式
 import '../css/users.less';
 import Userpic from '../assets/images/userPic.jpg';
