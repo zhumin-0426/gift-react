@@ -10,8 +10,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userAccount: "",
-            userPassword: ""
+            userAccount: "18820854754",
+            userPassword: "123456"
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,10 +22,13 @@ class Login extends React.Component {
         })
     }
     handleSubmit(event) {
-        console.log('userAccount=>',this.state.userAccount);
-        console.log('userPassword=>',this.state.userPassword);
-        
-        axios.postAxios()
+        let params = {
+            'userPhone':this.state.userAccount,
+            'userPwd':this.state.userPassword
+        }
+        axios.postAxios('/shunde/m/logins/login',params).then(res=>{
+            console.log("res=>",res);
+        });
         event.preventDefault()
     }
     render() {
