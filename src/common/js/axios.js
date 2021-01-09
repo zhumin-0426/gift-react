@@ -1,11 +1,11 @@
 import axios from 'axios';
+import siteinfo from '../../siteinfo';
 
 let getAxios = (url, params) => {
     // 基础路径
-    axios.defaults.baseURL = "http://127.0.0.1:8888/admin";
     return new Promise((resolve, reject) => {
         axios({
-            url: url,
+            url: siteinfo.root+url,
             method: 'get',
             params: params,
         }).then(response => {
@@ -22,10 +22,9 @@ let getAxios = (url, params) => {
 
 let postAxios = (url, params) => {
     // 基础路径
-    axios.defaults.baseURL = "http://127.0.0.1:8888/admin";
     return new Promise((resolve, reject) => {
         axios({
-            url: url,
+            url: siteinfo.root+url,
             method: 'post',
             params: params,
         }).then(response => {
