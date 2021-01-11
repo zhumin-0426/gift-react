@@ -145,7 +145,7 @@ const Sidebar = (props) => {
         }
     })
     return (
-        <div className="sidebar" style={{width:'230px'}}>
+        <div className={props.isCollapsed?'sidebar':'sidebar-active'}>
             <Menu inlineCollapsed={props.isCollapsed} mode="inline" defaultSelectedKeys={['1']} openKeys={openKeys} onOpenChange={onOpenChange} style={{height:'100%',backgroundColor: '#282a39'}}>
                 {SideMenu}
             </Menu>

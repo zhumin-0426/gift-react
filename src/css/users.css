@@ -1,37 +1,25 @@
-.wrapper {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-.wrapper .content-wrapper {
-  display: flex;
-  flex: 1;
-}
-.wrapper .content-wrapper .content {
-  background-color: #fafafa;
-}
-.wrapper .content-wrapper .content .user-card-top {
+.user-card-top {
   padding-bottom: 70px;
 }
-.wrapper .content-wrapper .content .user-card-top .user-pic {
+.user-card-top .user-pic {
   width: 80px;
   height: 80px;
   left: 50%;
   margin-left: -40px;
 }
-.wrapper .content-wrapper .content .user-card-top .user-pic img {
+.user-card-top .user-pic img {
   width: 80px;
   height: 80px;
   border-radius: 50%;
 }
-.wrapper .content-wrapper .content .contact-way {
+.contact-way {
   display: flex;
   justify-content: center;
   margin-top: 25px;
 }
-.wrapper .content-wrapper .content .contact-way li img {
+.contact-way li img {
   width: 20px;
 }
-.wrapper .content-wrapper .content .contact-way li:first-child {
+.contact-way li:first-child {
   margin-right: 10px;
 }
