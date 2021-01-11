@@ -1,12 +1,17 @@
 .wrapper {
+  height: 100vh;
   display: flex;
-  min-height: 100vh;
-  flex-direction: column;
+  flex-flow: column nowrap;
 }
 .wrapper .content-wrapper {
   display: flex;
   flex: 1;
+  overflow: hidden;
 }
 .wrapper .content-wrapper .content {
+  overflow-y: scroll;
   background-color: #fafafa;
+}
+.wrapper .content-wrapper .content::-webkit-scrollbar {
+  display: none;
 }

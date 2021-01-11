@@ -111,7 +111,7 @@ class Herder extends React.Component {
                             </div>
                         </div>
                         <div className="line-icon" onClick={this.toggleCollapsed}>
-                            <i className="iconfont icon-align-left fon-30 text-878"></i>
+                            <i className={this.state.collapsed?"iconfont icon-align-left fon-30 text-878":"iconfont icon-alignleft fon-30 text-878"}></i>
                         </div>
                     </div>
                     <ul className="navbar-right dis-flx align-items-center mb-0">

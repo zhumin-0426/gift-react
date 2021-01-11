@@ -1,12 +1,18 @@
 .wrapper{
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  .content-wrapper{
-      display: flex;
-      flex: 1;
-      .content{
-          background-color: #fafafa;
-      }
-  }
+    // width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+    .content-wrapper{
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        .content{
+            overflow-y: scroll;
+            background-color: #fafafa;
+            &::-webkit-scrollbar {
+              display: none;
+            }
+        }
+    }
 }
