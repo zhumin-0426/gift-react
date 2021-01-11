@@ -45,33 +45,28 @@
 }
 .pageDesignCard :global header .top .search {
   box-sizing: border-box;
-  padding: 0 11px;
+  padding: 11px;
   width: 77%;
   background-color: #ffffff;
   border-radius: 30px;
   border: solid 1px #f2f2f2;
   overflow: hidden;
   margin-right: 10px;
+  display: flex;
 }
 .pageDesignCard :global header .top .search .search-icon {
   display: block;
-  float: left;
-  width: 25px;
-  margin-top: 7px;
+  max-width: 15px;
   margin-right: 11px;
 }
-.pageDesignCard :global header .top .search span {
+.pageDesignCard :global header .top .search div {
   display: block;
-  float: left;
-  font-size: 16px;
+  font-size: 13px;
   color: #999;
-  margin-top: 7px;
 }
 .pageDesignCard :global header .top .search .scan {
   display: block;
-  float: right;
-  width: 25px;
-  margin-top: 7px;
+  width: 15px;
 }
 .pageDesignCard :global header .top .user-pic {
   width: 40px;

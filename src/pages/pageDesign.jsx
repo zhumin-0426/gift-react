@@ -1,6 +1,6 @@
 import React from 'react';
 // 样式
-import Module from '../css/pageDesign.module.css';
+import PageDesignCssModule from '../css/pageDesign.module.css';
 // 图片
 import PageDesignLogo from '../assets/images/pageDesign/logo.png';
 import SearchIcon from '../assets/images/pageDesign/search-icon.png';
@@ -286,15 +286,13 @@ class PageDesign extends React.Component {
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>
                             <Breadcrumb.Item>系统</Breadcrumb.Item>
-                            <Breadcrumb.Item>
-                                页面设计
-                                    </Breadcrumb.Item>
+                            <Breadcrumb.Item>页面设计</Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
                 </Row>
                 <Row gutter={30}>
-                    <Col span={14}>
-                        <div className={Module.pageDesignCard}>
+                    <Col span={6}>
+                        <div className={PageDesignCssModule.pageDesignCard}>
                             <div className="phone-top">
                                 <img src={PhoneTop} alt="" />
                             </div>
@@ -305,10 +303,14 @@ class PageDesign extends React.Component {
                                     <div className="pageDesignLogo">
                                         <img className="w100" src={PageDesignLogo} alt="" />
                                     </div>
-                                    <div className="search">
-                                        <img className="search-icon" src={SearchIcon} alt="" />
-                                        <span>积分换物</span>
-                                        <img className="scan" src={Scan} alt="" />
+                                    <div className={PageDesignCssModule.search}>
+                                        <div className="search-icon">
+                                            <img className="search-icon" src={SearchIcon} alt="" />
+                                        </div>
+                                        <div>积分换物</div>
+                                        <div className="scan">
+                                            <img className="scan" src={Scan} alt="" />
+                                        </div>
                                     </div>
                                     <img className="user-pic" src={UserPic} alt="" />
                                 </div>
@@ -445,8 +447,8 @@ class PageDesign extends React.Component {
                             </section>
                         </div>
                     </Col>
-                    <Col span={10}>
-                        <div className={Module.pageSetWrapper}>
+                    <Col span={18}>
+                        <div className={PageDesignCssModule.pageSetWrapper}>
                             <PageSetForm tabState={this.state.tabState} />
                         </div>
                     </Col>
