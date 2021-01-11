@@ -7,7 +7,25 @@ import Userpic from '../assets/images/userPic.jpg';
 import { Badge, Menu, Dropdown, Divider, Row, Col } from 'antd';
 // 头部
 class Herder extends React.Component {
+    constructor(props){
+        super(props);
+        this.toggleCollapsed = this.toggleCollapsed.bind(this)
+        this.state = {
+            collapsed: true
+        }
+    }
+
+    toggleCollapsed = () => {
+        this.setState({
+          collapsed: !this.state.collapsed,
+        });
+        this.props.getChildDatas(this.state.collapsed);
+    };
+
     render() {
+        const style = {
+            fontSize: 30 + 'px'
+        }
         const userMenu = (
             <Menu>
                 <Menu.Item className="hover-bg-none">
@@ -42,9 +60,6 @@ class Herder extends React.Component {
                 </Menu.Item>
             </Menu>
         );
-        const style = {
-            fontSize: 30 + 'px'
-        }
         const appMenu = (
             <Menu>
                 <Menu.Item className="hover-bg-none">
@@ -95,7 +110,7 @@ class Herder extends React.Component {
                                 <img className="dis-block" src={Logo} alt="" />
                             </div>
                         </div>
-                        <div className="line-icon">
+                        <div className="line-icon" onClick={this.toggleCollapsed}>
                             <i className="iconfont icon-align-left fon-30 text-878"></i>
                         </div>
                     </div>
