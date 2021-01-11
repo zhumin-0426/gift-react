@@ -15,33 +15,47 @@ import Users from './pages/users';
 import PageDesign from './pages/pageDesign';
 import Demo from './pages/demo';
 // 根组件
-function App() {
-  return (
-    <div className="app">
-      <Router>
-          <Switch>
-            <Route path="/" exact component={Login}></Route>
-            <div className="wrapper">
-              <Header />
-              <div className="content-wrapper">
-                <SideBar />
-                <div className="content w100 pd-30">
-                  <Switch>
-                    <Route path="/system" component={System} />
-                    <Route path="/pageDesign" component={PageDesign} />
-                    <Route path="/goods" component={Goods} />
-                    <Route path="/order" component={Order} />
-                    <Route path="/users" component={Users} />
-                    <Route path="/demo" component={Demo} />
-                  </Switch>
-                  <Footer />
+class App extends React.Component{
+   constructor(props){
+      super(props);
+      this.getChildDatas = this.getChildDatas.bind(this);
+      this.state = {
+          isCollapsed:false
+      }
+   }
+   //获取子组件传递的数据 
+   getChildDatas(data){
+      this.setState({
+        isCollapsed :data
+      })
+   }
+   render() {
+      return(
+        <div className="app">
+          <Router>
+              <Switch>
+                <Route path="/" exact component={Login}></Route>
+                <div className="wrapper">
+                  <Header getChildDatas={this.getChildDatas} />
+                  <div className="content-wrapper">
+                    <SideBar isCollapsed={this.state.isCollapsed} />
+                    <div className="content w100 pd-30">
+                      <Switch>
+                        <Route path="/system" component={System} />
+                        <Route path="/pageDesign" component={PageDesign} />
+                        <Route path="/goods" component={Goods} />
+                        <Route path="/order" component={Order} />
+                        <Route path="/users" component={Users} />
+                        <Route path="/demo" component={Demo} />
+                      </Switch>
+                      <Footer />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </Switch>
-      </Router>
+              </Switch>
+          </Router>
     </div>
-  )
-}
-
+      )
+   }
+} 
 export default App;
