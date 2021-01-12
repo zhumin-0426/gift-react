@@ -314,7 +314,7 @@ class PageDesign extends React.Component {
                         </Breadcrumb>
                     </Col>
                 </Row>
-                <Row gutter={60}>
+                <Row gutter={30}>
                     <Col span={6}>
                         <div style={{border:"solid 1px red"}}></div>
                     </Col>
