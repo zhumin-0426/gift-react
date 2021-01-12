@@ -1,6 +1,6 @@
 import React from 'react';
 // 样式
-import PageDesignCssModule from '../css/pageDesign.module.css';
+import styles from '../css/pageDesign.module.css';
 // 图片
 import PageDesignLogo from '../assets/images/pageDesign/logo.png';
 import SearchIcon from '../assets/images/pageDesign/search-icon.png';
@@ -292,27 +292,29 @@ class PageDesign extends React.Component {
                 </Row>
                 <Row gutter={30}>
                     <Col span={6}>
-                        <div className={PageDesignCssModule.pageDesignCard}>
+                        <div className={styles.pageDesignCard}>
                             <div className="phone-top">
                                 <img src={PhoneTop} alt="" />
                             </div>
                             <header>
                                 {/* 搜索 */}
-                                <div className="top pd-11 tab">
+                                <div className={styles.top+ ' pd-11 tab'}>
                                     <div className="tab-z" data-tabstate="1" onClick={this.tabHandle}></div>
                                     <div className="pageDesignLogo">
                                         <img className="w100" src={PageDesignLogo} alt="" />
                                     </div>
-                                    <div className={PageDesignCssModule.search}>
+                                    <div className={styles.search}>
                                         <div className="search-icon">
-                                            <img className="search-icon" src={SearchIcon} alt="" />
+                                            <img className="w100 dis-block" src={SearchIcon} alt="" />
                                         </div>
                                         <div>积分换物</div>
                                         <div className="scan">
-                                            <img className="scan" src={Scan} alt="" />
+                                            <img className="w100 dis-block" src={Scan} alt="" />
                                         </div>
                                     </div>
-                                    <img className="user-pic" src={UserPic} alt="" />
+                                    <div className="user-pic">
+                                        <img src={UserPic} alt="" />
+                                    </div>
                                 </div>
                                 {/* 轮播 */}
                                 <div className=" banner tab">
@@ -375,7 +377,7 @@ class PageDesign extends React.Component {
                                 {/* 广告 */}
                                 <div className=" adv tab">
                                     <div className="tab-z" data-tabstate="6" onClick={this.tabHandle}></div>
-                                    <img src={Adversing} alt="" />
+                                    <img className="w100 dis-block" src={Adversing} alt="" />
                                 </div>
                                 {/* 商品 */}
                                 <div className=" tab-classify tab">
@@ -448,7 +450,7 @@ class PageDesign extends React.Component {
                         </div>
                     </Col>
                     <Col span={18}>
-                        <div className={PageDesignCssModule.pageSetWrapper}>
+                        <div className={styles.pageSetWrapper}>
                             <PageSetForm tabState={this.state.tabState} />
                         </div>
                     </Col>
