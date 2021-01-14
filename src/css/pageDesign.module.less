@@ -19,7 +19,6 @@
     height:550px;
     padding: 0 11px;
     overflow-y: scroll;
-        :global{
             .phone-top{
                 width: 100%;
                 img{
@@ -29,73 +28,68 @@
             }
             header{
                 width: 100%;
-                padding-bottom: 60px;
+                padding-bottom: 15px;
                 background-image: url('../assets/images/pageDesign/herder-bag.png');
                 background-repeat: no-repeat;
                 background-position: 0 0;
                 background-size: 100% ;
                     .top{
                         display: flex;
-                        text-align: center;
+                        align-items: center;
                         justify-content: space-between;
-                            .pageDesignLogo{
-                                width: 15%;
-                                margin-right: 10px;
-                                margin-top: 3px;
+                            :global(.pageDesignLogo){
+                                    width: 20%;
+                                    margin-right: 10px;
+                                    margin-top: 3px;
                             }
-                            .search{
+                            :local(.search){
                                 box-sizing: border-box;
-                                padding: 0 11px;
-                                width: 77%;
+                                padding:4px 8px;
+                                width: 65%;
                                 background-color: #ffffff;
                                 border-radius: 30px;
                                 border: solid 1px #f2f2f2;
-                                overflow: hidden;
                                 margin-right: 10px;
-                                .search-icon{
-                                    display: block;
-                                    float: left;
-                                    width: 25px;
-                                    margin-top: 7px;
-                                    margin-right: 11px;
-                                }
-                                span{
-                                    display: block;
-                                    float: left;
-                                    font-size: 16px;
-                                    color: #999;
-                                    margin-top: 7px;
-                                }
-                                .scan{
-                                    display: block;
-                                    float: right;
-                                    width: 25px;
-                                    margin-top: 7px;
-                                }
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                    :global{
+                                        .search-icon{
+                                            display: block;
+                                            width: 15px;
+                                        }
+                                        div{
+                                            display: block;
+                                            font-size: 12px;
+                                            color: #999;
+                                        }
+                                        .scan{
+                                            display: block;
+                                            width: 15px;
+                                        }
+                                    }
                             }
-                        .user-pic{
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            overflow: hidden;
-                            img{
-                                width: 100%;
-                                height: 100%;
-                                border-radius: 50%;
-                            }
+                        :global(.user-pic){
+                                width: 30px;
+                                height: 30px;
+                                img{
+                                    width: 30px;
+                                    height: 30px;
+                                    border-radius: 50%;
+                                }
                         }
                     }
-                .banner{
-                    box-sizing: border-box;
-                    width: 100%;
-                    padding: 11px;
-                    img{
-                        display: block;
-                        max-width: 100%;
-                    }
+                :global(.banner){
+                        box-sizing: border-box;
+                        width: 100%;
+                        padding: 11px;
+                        img{
+                            display: block;
+                            max-width: 100%;
+                        }
                 }
             }
-        }
+        
         :global{
             section{
                 .nav{
@@ -126,7 +120,7 @@
                     padding: 0 11px;
                     .notice{
                         width: 100%;
-                        padding: 20px;
+                        padding: 10px;
                         margin: 0 auto;
                         background-image: linear-gradient(90deg, 
                             #ff3f5a 0%, 
@@ -150,20 +144,20 @@
                                     margin-right: 3px;
                                 }
                                 span{
-                                    font-size: 15px;
+                                    font-size: 12px;
                                     color: #ffffff;
                                 }
                         }
                         .main{
                             float: left;
-                            font-size: 15px;
+                            font-size: 12px;
                             color: #ffffff;
                         }
                         .more{
                             float: right;
-                            font-size: 15px;
+                            font-size: 12px;
                             color: #ff415a;
-                            font-weight: 500;
+                            font-weight: bolder;
                         }
                     }
                 }
@@ -186,7 +180,7 @@
                 .adv{
                     box-sizing: border-box;
                     width: 100%;
-                    padding: 28px 11px;
+                    padding: 0 11px;
                     img{
                         display: block;
                         max-width: 100%;

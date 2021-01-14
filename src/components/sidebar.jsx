@@ -93,8 +93,7 @@ let sideMenuList = [
         url: '/files'
     },
 ];
-
-const Sidebar = () => {
+const Sidebar = (props) => {
     const [openKeys, setOpenKeys] = React.useState(['sub1']);
     const onOpenChange = keys => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -146,8 +145,8 @@ const Sidebar = () => {
         }
     })
     return (
-        <div className="sidebar">
-            <Menu mode="inline" defaultSelectedKeys={['1']} openKeys={openKeys} onOpenChange={onOpenChange} style={{ width: 230, height: '100%', backgroundColor: '#282a39' }}>
+        <div className={props.isCollapsed?'sidebar':'sidebar-active'}>
+            <Menu inlineCollapsed={props.isCollapsed} mode="inline" defaultSelectedKeys={['1']} openKeys={openKeys} onOpenChange={onOpenChange} style={{height:'100%',backgroundColor: '#282a39'}}>
                 {SideMenu}
             </Menu>
         </div>
