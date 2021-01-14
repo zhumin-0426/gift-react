@@ -38,7 +38,7 @@ class App extends React.Component {
       <div className="app">
         <Router>
           <Switch>
-            <Route path="/" exact component={Login}></Route>
+            <Route path="/login" exact component={Login}></Route>
             <div className="wrapper">
               <Header getChildDatas={this.getChildDatas} />
               <div className="content-wrapper">
