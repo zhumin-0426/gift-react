@@ -8,16 +8,13 @@ import Header from './components/header';
 import Footer from './components/footer';
 // 子组件
 import Login from './pages/login';
-// import System from './pages/system';
-// import Goods from './pages/goods';
-// import Order from './pages/order';
-// import Users from './pages/users';
-// import PageDesign from './pages/pageDesign';
-// import Demo from './pages/demo';
-// 路由表
-import {routerTable} from './common/js/roterTable';
-// 路由守卫组件
-import FrontendAuth from './pages/frontendAuth';
+import System from './pages/system';
+import Goods from './pages/goods';
+import AddGoods from './pages/addGoods';
+import Order from './pages/order';
+import Users from './pages/users';
+import PageDesign from './pages/pageDesign';
+import Demo from './pages/demo';
 // 根组件
 class App extends React.Component {
   constructor(props) {
@@ -44,15 +41,15 @@ class App extends React.Component {
               <div className="content-wrapper">
                 <SideBar isCollapsed={this.state.isCollapsed} />
                 <div className="content w100 pd-30">
-                  <Switch>
-                    {/* <Route path="/system" component={System} />
-                    <Route path="/pageDesign" component={PageDesign} />
-                    <Route path="/goods" component={Goods} />
-                    <Route path="/order" component={Order} />
-                    <Route path="/users" component={Users} />
-                    <Route path="/demo" component={Demo} /> */}
-                    <FrontendAuth routerConfig={routerTable} />
-                  </Switch>
+                      <Switch>
+                        <Route path="/system" component={System} />
+                        <Route path="/pageDesign" component={PageDesign} />
+                        <Route path="/goods" component={Goods} />
+                        <Route path="/addgoods" component={AddGoods} />
+                        <Route path="/order" component={Order} />
+                        <Route path="/users" component={Users} />
+                        <Route path="/demo" component={Demo} />
+                      </Switch>
                   <Footer />
                 </div>
               </div>
