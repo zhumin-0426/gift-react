@@ -50,6 +50,10 @@ function formatter(value) {
 function onChange(checkedValues) {
     console.log('checked = ', checkedValues);
 }
+// 搜索输入框监听
+function searchIptHandle(e){
+    console.log('e',e.nativeEvent.target.defaultValue)
+}
 const PageDesignSetForm = (props) => {
     console.log('设置组件', props);
     let tabState = props.tabState;
@@ -91,7 +95,7 @@ const PageDesignSetForm = (props) => {
                 <h3 className="page-set-title">搜索框</h3>
                 <Divider />
                 <Form.Item label="搜索文字" name="searchTxt">
-                    <Input value="搜索商品" />
+                    <Input value="搜索商品" onChange={searchIptHandle}/>
                 </Form.Item>
                 <Form.Item label="搜索框样式" name="searchStyle">
                     <Radio.Group defaultValue="party">
