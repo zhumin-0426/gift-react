@@ -15,7 +15,7 @@ class Herder extends React.Component {
         }
     }
 
-    toggleCollapsed = () => {
+    toggleCollapsed(){
         this.setState({
           collapsed: !this.state.collapsed,
         });

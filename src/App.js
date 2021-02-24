@@ -7,22 +7,20 @@ import SideBar from './components/sidebar';
 import Header from './components/header';
 import Footer from './components/footer';
 // 子组件
-import Login from './pages/login';
-import System from './pages/system';
-import Goods from './pages/goods';
-import AddGoods from './pages/addGoods';
-import Order from './pages/order';
-import Users from './pages/users';
-import PageDesign from './pages/pageDesign';
-import Demo from './pages/demo';
+import LoginPage from './pages/login';
+import SystemPage from './pages/system';
+import GoodsPage from './pages/goods';
+import OrderPage from './pages/order';
+import UsersPage from './pages/users';
+import PageDesignPage from './pages/pageDesign';
 // 根组件
 class App extends React.Component {
   constructor(props) {
-    super(props);
-    this.getChildDatas = this.getChildDatas.bind(this);
+    super(props)
     this.state = {
       isCollapsed: false
     }
+    this.getChildDatas = this.getChildDatas.bind(this)
   }
   //获取子组件传递的数据 
   getChildDatas(data) {
@@ -35,21 +33,22 @@ class App extends React.Component {
       <div className="app">
         <Router>
           <Switch>
+            <Route path="/login" exact component={LoginPage}></Route>
             <div className="wrapper">
               <Header getChildDatas={this.getChildDatas} />
               <div className="content-wrapper">
-                <SideBar isCollapsed={this.state.isCollapsed} />
+                {/* 侧边栏 */}
+                <SideBar isCollapsed={this.state.isCollapsed} ></SideBar>
                 <div className="content w100 pd-30">
-                      <Switch>
-                        <Route path="/system" component={System} />
-                        <Route path="/pageDesign" component={PageDesign} />
-                        <Route path="/goods" component={Goods} />
-                        <Route path="/addgoods" component={AddGoods} />
-                        <Route path="/order" component={Order} />
-                        <Route path="/users" component={Users} />
-                        <Route path="/demo" component={Demo} />
-                      </Switch>
-                  <Footer />
+                  <Switch>
+                    <Route path="/system" component={SystemPage} />
+                    <Route path="/pageDesign" component={PageDesignPage} />
+                    <Route path="/goods" component={GoodsPage} />
+                    <Route path="/order" component={OrderPage} />
+                    <Route path="/users" component={UsersPage} />
+                  </Switch>
+                  {/* 底部 */}  
+                  <Footer ></Footer>
                 </div>
               </div>
             </div>
