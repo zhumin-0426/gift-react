@@ -116,8 +116,8 @@ class System extends React.Component {
         };
         var data1 = [
             {
-                type: '分类一',
-                value: 27,
+                type: '主页设计',
+                value: 50,
             },
             {
                 type: '分类二',

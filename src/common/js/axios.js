@@ -1,7 +1,7 @@
 import axios from 'axios';
 import siteinfo from '../../siteinfo';
 
-let getAxios = (url, params) => {
+const getAxios = (url, params) => {
     // 基础路径
     return new Promise((resolve, reject) => {
         axios({
@@ -9,7 +9,7 @@ let getAxios = (url, params) => {
             method: 'get',
             params: params,
         }).then(response => {
-            if (response.status == 200) {
+            if (response.status === 200) {
                 resolve(response);
             } else {
                 throw new Error('Response data error')
@@ -20,7 +20,7 @@ let getAxios = (url, params) => {
     })
 }
 
-let postAxios = (url, params) => {
+const postAxios = (url, params) => {
     // 基础路径
     return new Promise((resolve, reject) => {
         axios({
@@ -28,7 +28,7 @@ let postAxios = (url, params) => {
             method: 'post',
             params: params,
         }).then(response => {
-            if (response.status == 200) {
+            if (response.status === 200) {
                 resolve(response);
             } else {
                 throw new Error('Response data error')

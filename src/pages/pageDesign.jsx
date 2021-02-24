@@ -19,15 +19,23 @@ import PhoneTop from '../assets/images/pageDesign/phone-top.png';
 import { Row, Col, Breadcrumb, Divider, Form, Input, Radio, Slider, Checkbox, Button } from 'antd';
 // 拾色器
 import InputColor from 'react-input-color';
+ // 表单数据
+ let formData = {
+    // 搜索框
+    searchTxt: "",
+    searchStyle: "",
+    seachTxtAlign: ""
+}
+// 拾色器监听
 function ColorPicker(props) {
     const [color, setColor] = React.useState({});
     let searchBgCol = color.hex;
     console.log('props=>', props);
-    console.log('searchBgCol=>', searchBgCol)
+    console.log('searchBgCol=>', searchBgCol);
     return (
         <div>
             <InputColor
-                initialValue="#e35da9"
+                initialValue="#ffffff"
                 onChange={setColor}
                 placement="right"
             />
@@ -42,7 +50,8 @@ function formatter(value) {
 function onChange(checkedValues) {
     console.log('checked = ', checkedValues);
 }
-const PageSetForm = (props) => {
+const PageDesignSetForm = (props) => {
+    console.log('设置组件', props);
     let tabState = props.tabState;
     // 单选
     const [value, setValue] = React.useState("party");
@@ -62,11 +71,12 @@ const PageSetForm = (props) => {
         { label: 'Pear', value: 'Pear' },
         { label: 'Orange', value: 'Orange', disabled: false },
     ];
-    // 表单提交成功/失败
+    // 表单提交成功
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        this.props.childComponentDataMonitor()
     };
-
+    // 表单提交失败
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
@@ -80,11 +90,8 @@ const PageSetForm = (props) => {
             <div className={tabState === 1 ? 'search-set active' : 'search-set tab-obj-item'}>
                 <h3 className="page-set-title">搜索框</h3>
                 <Divider />
-                <Form.Item label="背景颜色" name="searchBgCol">
-                    <ColorPicker tabState={tabState} />
-                </Form.Item>
                 <Form.Item label="搜索文字" name="searchTxt">
-                    <Input placeholder="搜索商品" />
+                    <Input value="搜索商品" />
                 </Form.Item>
                 <Form.Item label="搜索框样式" name="searchStyle">
                     <Radio.Group defaultValue="party">
@@ -289,15 +296,30 @@ const PageSetForm = (props) => {
 }
 class PageDesign extends React.Component {
     constructor(props) {
-        super(props);
-        this.tabHandle = this.tabHandle.bind(this);
+        super(props)
         this.state = {
-            tabState: 1
+            tabState: 1,
+            formData: {
+                // 搜索框
+                searchTxt: "",
+                searchStyle: "",
+                seachTxtAlign: ""
+            }
         }
+        this.tabHandle = this.tabHandle.bind(this);
+        this.childComponentDataMonitor = this.childComponentDataMonitor.bind(this);
     }
+    // 点击切换
     tabHandle(e) {
+        const tabstate = Number(e.target.dataset.tabstate);
         this.setState({
-            tabState: Number(e.target.dataset.tabstate)
+            tabState: tabstate
+        })
+    }
+    // 子组件数据监听
+    childComponentDataMonitor(data) {
+        this.setState({
+            formData: data
         })
     }
     render() {
@@ -316,12 +338,12 @@ class PageDesign extends React.Component {
                 </Row>
                 <Row gutter={30}>
                     <Col span={6}>
-                        <div style={{border:"solid 1px red"}}></div>
+                        <div style={{ border: "solid 1px red" }}></div>
                     </Col>
                     <Col span={6}>
                         <div className={styles.pageDesignCard}>
-                            <div className="phone-top">
-                                <img src={PhoneTop} alt="" />
+                            <div className={styles.phoneTop}>
+                                <h4>礼品汇</h4>
                             </div>
                             <header>
                                 {/* 搜索 */}
@@ -478,7 +500,8 @@ class PageDesign extends React.Component {
                     </Col>
                     <Col span={12}>
                         <div className={styles.pageSetWrapper}>
-                            <PageSetForm tabState={this.state.tabState} />
+                            aaa{this.state.childComponentDataMonitor}
+                            <PageDesignSetForm tabState={this.state.tabState} childComponentDataMonitor={this.childComponentDataMonitor}></PageDesignSetForm>
                         </div>
                     </Col>
                 </Row>
