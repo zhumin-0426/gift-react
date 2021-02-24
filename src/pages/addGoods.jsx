@@ -99,7 +99,7 @@ const FormHandle = (props) => {
         </form>
     )
 }
-class Users extends React.Component {
+class AddGoods extends React.Component {
     constructor(props) {
         super(props);
         this.tabChangeEvent = this.tabChangeEvent.bind(this);
@@ -148,4 +148,4 @@ class Users extends React.Component {
     }
 }
 
-export default Users;
+export default AddGoods;

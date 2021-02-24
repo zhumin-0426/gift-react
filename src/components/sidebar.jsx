@@ -52,6 +52,12 @@ let sideMenuList = [
                 url: '/goodsClassify'
             },
             {
+                id: 11,
+                menuItemTitle: "商品评价",
+                lever2: [],
+                url: '/goodsComment'
+            },
+            {
                 id: 13,
                 menuItemTitle: "订单",
                 lever2: [],
