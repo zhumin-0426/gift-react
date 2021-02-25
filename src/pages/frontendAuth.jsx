@@ -16,13 +16,16 @@ class FrontendAuth extends Component {
         // 判断不需要监听的页面
         if (targetRouterConfig && !targetRouterConfig.auth && !isLogin) {
             const { component } = targetRouterConfig;
-            return <Route exact path={pathname} component={component} />
+            return <Route path={pathname} component={component} />
         }
         if (isLogin) {
+            console.log("pathname",pathname)
             // 如果是登陆状态，想要跳转到登陆，重定向到主页
             if (pathname === "/login") {
+                console.log("A")
                 return <Redirect to="/system" />;
             } else {
+                console.log("B")
                 // 如果路由合法，就跳转到相应的路由
                 if (targetRouterConfig) {
                     return (<Route path={pathname} component={targetRouterConfig.component} />);
