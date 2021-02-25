@@ -32,13 +32,61 @@ function ColorPicker(props) {
         </div>
     );
 }
-// 滑动输入条
+function onChange(checkedValues) {
+    console.log('checked = ', checkedValues);
+}
+
+const plainOptions = ['Apple', 'Pear', 'Orange'];
+const options = [
+    { label: 'Apple', value: 'Apple' },
+    { label: 'Pear', value: 'Pear' },
+    { label: 'Orange', value: 'Orange' },
+];
+const optionsWithDisabled = [
+    { label: 'Apple', value: 'Apple' },
+    { label: 'Pear', value: 'Pear' },
+    { label: 'Orange', value: 'Orange', disabled: true },
+];
 function formatter(value) {
     return `${value}%`;
 }
-// 组件
-function onChange(checkedValues) {
-    console.log('checked = ', checkedValues);
+class Demo extends React.Component {
+    state = {
+        value: 1,
+    };
+
+    onChange = e => {
+        console.log('radio checked', e.target.value);
+        this.setState({
+            value: e.target.value,
+        });
+    };
+
+    render() {
+        const radioStyle = {
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px',
+        };
+        const { value } = this.state;
+        return (
+            <Radio.Group onChange={this.onChange} value={value}>
+                <Radio style={radioStyle} value={1}>
+                    Option A
+            </Radio>
+                <Radio style={radioStyle} value={2}>
+                    Option B
+            </Radio>
+                <Radio style={radioStyle} value={3}>
+                    Option C
+            </Radio>
+                <Radio style={radioStyle} value={4}>
+                    More...
+              {value === 4 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+                </Radio>
+            </Radio.Group>
+        );
+    }
 }
 class PageDesign extends React.Component {
     constructor(props) {
@@ -46,10 +94,20 @@ class PageDesign extends React.Component {
         this.state = {
             tabState: 1,
             // 搜索框form数据
-            searchTxt:"积分兑换"
+            searchTxt: "积分兑换",
+            searchStyle: "party",
+            seachTxtAlign: "left",
+            // 轮播formshuju
+            bannerPointShape: "square"
         }
         this.tabHandle = this.tabHandle.bind(this);
         this.searchIptHandle = this.searchIptHandle.bind(this);
+        this.radioHandle = this.radioHandle.bind(this);
+        this.sliderHandle = this.sliderHandle.bind(this);
+    }
+    // 组件挂载时
+    componentDidMount() {
+        console.log('searchTxt', this.state['searchTxt'])
     }
     // 点击切换
     tabHandle(e) {
@@ -60,30 +118,53 @@ class PageDesign extends React.Component {
     }
     // 搜索输入框监听
     searchIptHandle(e) {
-        console.log("e",e);
+        console.log("e", e);
         this.setState({
             searchTxt: e.target.defaultValue
         })
     }
+    // 单选按钮
+    radioHandle(name,e){
+        console.log('name',name);
+        console.log('radio1 checked', e.target.value);
+    }
+    // 滑动输入条
+    sliderHandle(name, value) {
+        console.log('name', name)
+        console.log('value', `${value}%`);
+        return `${value}%`;
+    }
     render() {
-        // 单选
-        // const [value, setValue] = React.useState("party");
-        // const onChange = e => {
-        //     console.log('radio checked', e.target.value);
-        //     setValue(e.target.value);
-        // };
         // 多选
-        const plainOptions = ['Apple', 'Pear', 'Orange'];
         const options = [
             { label: 'Apple', value: 'Apple' },
             { label: 'Pear', value: 'Pear' },
             { label: 'Orange', value: 'Orange' },
         ];
+        const plainOptions = ['Apple', 'Pear', 'Orange'];
+        // 搜索框样式单选
+        const searchSearchStyleOptions = [
+            { label: '方形', value: 'party' },
+            { label: '圆形', value: 'round' },
+            { label: '圆弧', value: 'arc' },
+        ];
+        // 搜索框文字单选
+        const seachTxtAlignOptions = [
+            { label: '居左', value: 'left' },
+            { label: '居中', value: 'center' },
+            { label: '居右', value: 'right' },
+        ]
         const optionsWithDisabled = [
             { label: 'Apple', value: 'Apple' },
             { label: 'Pear', value: 'Pear' },
             { label: 'Orange', value: 'Orange', disabled: false },
         ];
+        // 轮播图指示点单选
+        const bannerPointShapeOptions = [
+            { label: '正方形', value: 'square' },
+            { label: '圆形', value: 'round' },
+            { label: '长方形', value: 'rectangle' },
+        ]
         // 表单提交成功
         const onFinish = (values: any) => {
             console.log('Success:', values);
@@ -97,6 +178,7 @@ class PageDesign extends React.Component {
                 <Row className="content-title mb-10">
                     <Col span={12}>
                         <h2>页面设计</h2>
+                        {/* <Demo /> */}
                     </Col>
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>
@@ -266,7 +348,6 @@ class PageDesign extends React.Component {
                     </Col>
                     <Col span={18}>
                         <div className={styles.pageSetWrapper}>
-                            {/* <PageDesignSetForm tabState={this.state.tabState}></PageDesignSetForm> */}
                             <Form
                                 name="basic"
                                 initialValues={{ remember: true }}
@@ -280,39 +361,34 @@ class PageDesign extends React.Component {
                                         <Input value="搜索商品" onChange={this.searchIptHandle} />
                                     </Form.Item>
                                     <Form.Item label="搜索框样式" name="searchStyle">
-                                        <Radio.Group defaultValue="party">
-                                            <Radio value="party">方形</Radio>
-                                            <Radio value="round">圆形</Radio>
-                                            <Radio value="arc">圆弧</Radio>
-                                        </Radio.Group>
+                                        <Radio.Group options={searchSearchStyleOptions} onChange={(e)=> this.radioHandle("searchStyle",e)} defaultValue={this.state.searchStyle} />
                                     </Form.Item>
                                     <Form.Item label="文字对齐方式" name="seachTxtAlign">
-                                        <Radio.Group defaultValue="left">
-                                            <Radio value="left">居左</Radio>
-                                            <Radio value="center">居中</Radio>
-                                            <Radio value="right">居右</Radio>
-                                        </Radio.Group>
+                                        <Radio.Group options={seachTxtAlignOptions} onChange={(e)=> this.radioHandle("seachTxtAlign",e)} defaultValue={this.state.seachTxtAlign} />
                                     </Form.Item>
                                 </div>
                                 {/* 轮播设置 */}
                                 <div className={this.state.tabState === 2 ? 'banner-set active' : 'banner-set tab-obj-item'}>
                                     <h3 className="page-set-title">轮播</h3>
                                     <Divider />
-                                    <Form.Item label="背景颜色" name="bannerBgCol">
+                                    <Form.Item label="指示点颜色" name="bannerPointColor">
                                         <ColorPicker />
                                     </Form.Item>
+                                    <Form.Item label="指示点形状" name="bannerPointShape">
+                                        <Radio.Group options={bannerPointShapeOptions} onChange={(e)=> this.radioHandle("bannerPointShape",e)} defaultValue={this.state.bannerPointShape} />
+                                    </Form.Item>
                                     <Form.Item label="上下边距" name="bannerTopBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('bannerTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="bannerLfteRightMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('bannerLfteRightMargin', value)} />
                                     </Form.Item>
                                     <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
                                         <Form.Item label="图片" name="bannerPic">
                                             <input type="file" name="bannerPic" />
                                         </Form.Item>
                                         <Form.Item label="H5链接" name="bannerLink">
-                                            <input className="w100 bd-no bd-bottom bg-f7f" type="text" />
+                                            <input className="w100 bd-no bd-bottom bg-f7f out-line-none" type="text" />
                                         </Form.Item>
                                     </div>
                                 </div>
@@ -324,32 +400,32 @@ class PageDesign extends React.Component {
                                         <ColorPicker />
                                     </Form.Item>
                                     <Form.Item label="上下边距" name="navTopBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navTopBottomMargin', value)} />
                                     </Form.Item>
-                                    <Form.Item label="左右边距" name="navTopBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                    <Form.Item label="左右边距" name="navLeftRightMargin">
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navLeftRightMargin', value)} />
                                     </Form.Item>
                                     <Divider dashed />
                                     <Form.Item label="内框背景颜色" name="navInsBgCol">
                                         <ColorPicker />
                                     </Form.Item>
                                     <Form.Item label="上边距" name="navInsTopMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsTopMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="右边距" name="navInsRightMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsRightMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="下边距" name="navInsBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左边距" name="navInsLeftMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsLeftMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="上圆角" name="navInsTopRound">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsTopRound', value)} />
                                     </Form.Item>
                                     <Form.Item label="下圆角" name="navInsBottomRound">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsBottomRound', value)} />
                                     </Form.Item>
                                     <Form.Item label="每行数量" name="navLineNum">
                                         <Radio.Group defaultValue="3">
@@ -378,10 +454,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">消息</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="noticeTopBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('noticeTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="noticeLeftRightMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider  tipFormatter={(value) => this.sliderHandle('noticeLeftRightMargin', value)} />
                                     </Form.Item>
                                 </div>
                                 {/* 热门推荐 */}
@@ -389,10 +465,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">推荐</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="rcmTopBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('rcmTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="rcmLeftRightMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('rcmLeftRightMargin', value)} />
                                     </Form.Item>
                                     <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
                                         <Form.Item label="图片" name="rcmPic">
@@ -408,10 +484,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">广告栏</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="advTopBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('advTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="advLeftRightMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('advLeftRightMargin', value)} />
                                     </Form.Item>
                                     <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
                                         <Form.Item label="图片" name="advPic">
@@ -427,10 +503,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">商品分类导航</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="goodsTabTopBottomMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('goodsTabTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="goodsTabLeftRightMargin">
-                                        <Slider tipFormatter={formatter} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('goodsTabLeftRightMargin', value)} />
                                     </Form.Item>
                                     <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
                                         <Form.Item label="标题" name="goodsTabTitle">
