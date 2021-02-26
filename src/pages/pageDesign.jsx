@@ -18,37 +18,8 @@ import Goods1 from '../assets/images/pageDesign/goods1.png';
 import { Row, Col, Breadcrumb, Divider, Form, Input, Radio, Slider, Checkbox, Button } from 'antd';
 // 拾色器
 import InputColor from 'react-input-color';
-// 拾色器监听
-function ColorPicker(props) {
-    const [color, setColor] = React.useState({});
-    // let searchBgCol = color.hex;
-    return (
-        <div>
-            <InputColor
-                initialValue="#ffffff"
-                onChange={setColor}
-                placement="right"
-            />
-        </div>
-    );
-}
 function onChange(checkedValues) {
     console.log('checked = ', checkedValues);
-}
-
-const plainOptions = ['Apple', 'Pear', 'Orange'];
-const options = [
-    { label: 'Apple', value: 'Apple' },
-    { label: 'Pear', value: 'Pear' },
-    { label: 'Orange', value: 'Orange' },
-];
-const optionsWithDisabled = [
-    { label: 'Apple', value: 'Apple' },
-    { label: 'Pear', value: 'Pear' },
-    { label: 'Orange', value: 'Orange', disabled: true },
-];
-function formatter(value) {
-    return `${value}%`;
 }
 class Demo extends React.Component {
     state = {
@@ -104,10 +75,8 @@ class PageDesign extends React.Component {
         this.searchIptHandle = this.searchIptHandle.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
         this.sliderHandle = this.sliderHandle.bind(this);
-    }
-    // 组件挂载时
-    componentDidMount() {
-        console.log('searchTxt', this.state['searchTxt'])
+        this.colorPicker = this.colorPicker.bind(this);
+        this.iptChange = this.iptChange.bind(this);
     }
     // 点击切换
     tabHandle(e) {
@@ -118,14 +87,13 @@ class PageDesign extends React.Component {
     }
     // 搜索输入框监听
     searchIptHandle(e) {
-        console.log("e", e);
         this.setState({
             searchTxt: e.target.defaultValue
         })
     }
     // 单选按钮
-    radioHandle(name,e){
-        console.log('name',name);
+    radioHandle(name, e) {
+        console.log('name', name);
         console.log('radio1 checked', e.target.value);
     }
     // 滑动输入条
@@ -133,6 +101,17 @@ class PageDesign extends React.Component {
         console.log('name', name)
         console.log('value', `${value}%`);
         return `${value}%`;
+    }
+    // 颜色选择
+    colorPicker = (name, value) => {
+        console.log("name", name);
+        let color = value.rgba;
+    }
+    // 输入框
+    iptChange(name,e){
+        console.log(name);
+        console.log(e.target.value);
+        let val = e.target.value;
     }
     render() {
         // 多选
@@ -361,10 +340,10 @@ class PageDesign extends React.Component {
                                         <Input value="搜索商品" onChange={this.searchIptHandle} />
                                     </Form.Item>
                                     <Form.Item label="搜索框样式" name="searchStyle">
-                                        <Radio.Group options={searchSearchStyleOptions} onChange={(e)=> this.radioHandle("searchStyle",e)} defaultValue={this.state.searchStyle} />
+                                        <Radio.Group options={searchSearchStyleOptions} onChange={(e) => this.radioHandle("searchStyle", e)} defaultValue={this.state.searchStyle} />
                                     </Form.Item>
                                     <Form.Item label="文字对齐方式" name="seachTxtAlign">
-                                        <Radio.Group options={seachTxtAlignOptions} onChange={(e)=> this.radioHandle("seachTxtAlign",e)} defaultValue={this.state.seachTxtAlign} />
+                                        <Radio.Group options={seachTxtAlignOptions} onChange={(e) => this.radioHandle("seachTxtAlign", e)} defaultValue={this.state.seachTxtAlign} />
                                     </Form.Item>
                                 </div>
                                 {/* 轮播设置 */}
@@ -372,10 +351,14 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">轮播</h3>
                                     <Divider />
                                     <Form.Item label="指示点颜色" name="bannerPointColor">
-                                        <ColorPicker />
+                                        <InputColor
+                                            initialValue="#ffffff"
+                                            onChange={(value) => this.colorPicker('bannerPointColor', value)}
+                                            placement="right"
+                                        ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="指示点形状" name="bannerPointShape">
-                                        <Radio.Group options={bannerPointShapeOptions} onChange={(e)=> this.radioHandle("bannerPointShape",e)} defaultValue={this.state.bannerPointShape} />
+                                        <Radio.Group options={bannerPointShapeOptions} onChange={(e) => this.radioHandle("bannerPointShape", e)} defaultValue={this.state.bannerPointShape} />
                                     </Form.Item>
                                     <Form.Item label="上下边距" name="bannerTopBottomMargin">
                                         <Slider tipFormatter={(value) => this.sliderHandle('bannerTopBottomMargin', value)} />
@@ -388,7 +371,7 @@ class PageDesign extends React.Component {
                                             <input type="file" name="bannerPic" />
                                         </Form.Item>
                                         <Form.Item label="H5链接" name="bannerLink">
-                                            <input className="w100 bd-no bd-bottom bg-f7f out-line-none" type="text" />
+                                            <input  type="text" onChange={(e)=>this.iptChange('bannerLink',e)} className="w100 bd-no bd-bottom bg-f7f out-line-none" />
                                         </Form.Item>
                                     </div>
                                 </div>
@@ -397,7 +380,11 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">导航</h3>
                                     <Divider />
                                     <Form.Item label="外框背景颜色" name="navOutBgCol">
-                                        <ColorPicker />
+                                        <InputColor
+                                            initialValue="#ffffff"
+                                            onChange={(value) => this.colorPicker('navOutBgCol', value)}
+                                            placement="right"
+                                        ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="上下边距" name="navTopBottomMargin">
                                         <Slider tipFormatter={(value) => this.sliderHandle('navTopBottomMargin', value)} />
@@ -407,7 +394,11 @@ class PageDesign extends React.Component {
                                     </Form.Item>
                                     <Divider dashed />
                                     <Form.Item label="内框背景颜色" name="navInsBgCol">
-                                        <ColorPicker />
+                                        <InputColor
+                                            initialValue="#ffffff"
+                                            onChange={(value) => this.colorPicker('navInsBgCol', value)}
+                                            placement="right"
+                                        ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="上边距" name="navInsTopMargin">
                                         <Slider tipFormatter={(value) => this.sliderHandle('navInsTopMargin', value)} />
@@ -442,7 +433,11 @@ class PageDesign extends React.Component {
                                             <input className="w100 bd-no bd-bottom bg-f7f" name="navTxt" type="text" />
                                         </Form.Item>
                                         <Form.Item label="文字颜色" name="navTxtCol">
-                                            <ColorPicker />
+                                            <InputColor
+                                                initialValue="#ffffff"
+                                                onChange={(value) => this.colorPicker('navTxtCol', value)}
+                                                placement="right"
+                                            ></InputColor>
                                         </Form.Item>
                                         <Form.Item label="H5链接" name="navLink">
                                             <input className="w100 bd-no bd-bottom bg-f7f" type="text" />
@@ -457,7 +452,7 @@ class PageDesign extends React.Component {
                                         <Slider tipFormatter={(value) => this.sliderHandle('noticeTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="noticeLeftRightMargin">
-                                        <Slider  tipFormatter={(value) => this.sliderHandle('noticeLeftRightMargin', value)} />
+                                        <Slider tipFormatter={(value) => this.sliderHandle('noticeLeftRightMargin', value)} />
                                     </Form.Item>
                                 </div>
                                 {/* 热门推荐 */}
