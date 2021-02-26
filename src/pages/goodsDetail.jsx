@@ -8,7 +8,7 @@ import '../css/goodsDetail.less';
 import GoodsImg from '../assets/images/product-4.jpg';
 // antd 组件
 import { Row, Col, Breadcrumb, Rate } from 'antd';
-class Users extends React.Component {
+class GoodsDetail extends React.Component {
     render() {
         return (
             <div className="wrapper">
@@ -116,4 +116,4 @@ class Users extends React.Component {
     }
 }
 
-export default Users;
+export default GoodsDetail;
