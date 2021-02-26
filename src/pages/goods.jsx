@@ -17,9 +17,7 @@ const Users = () => {
                 <Col span={12} className="text-align-right">
                     <Breadcrumb>
                         <Breadcrumb.Item>系统</Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            商品列表
-                            </Breadcrumb.Item>
+                        <Breadcrumb.Item>商品列表</Breadcrumb.Item>
                     </Breadcrumb>
                 </Col>
             </Row>
