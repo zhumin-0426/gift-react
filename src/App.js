@@ -10,6 +10,7 @@ import Footer from './components/footer';
 import LoginPage from './pages/login';
 import SystemPage from './pages/system';
 import GoodsPage from './pages/goods';
+import GoodsDetailPage from './pages/goodsDetail';
 import OrderPage from './pages/order';
 import UsersPage from './pages/users';
 import PageDesignPage from './pages/pageDesign';
@@ -44,6 +45,7 @@ class App extends React.Component {
                     <Route path="/system" component={SystemPage} />
                     <Route path="/pageDesign" component={PageDesignPage} />
                     <Route path="/goods" component={GoodsPage} />
+                    <Route path="/goodsDetail" component={GoodsDetailPage} />
                     <Route path="/order" component={OrderPage} />
                     <Route path="/users" component={UsersPage} />
                   </Switch>

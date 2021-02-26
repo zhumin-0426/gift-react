@@ -22,41 +22,34 @@ function onChange(checkedValues) {
     console.log('checked = ', checkedValues);
 }
 class Demo extends React.Component {
-    state = {
-        value: 1,
-    };
-
-    onChange = e => {
-        console.log('radio checked', e.target.value);
-        this.setState({
-            value: e.target.value,
-        });
-    };
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            arr: [{
+                txt: "你是堆狗屎"
+            }]
+        }
+        this.addNodes = this.addNodes.bind(this)
+    }
+    addNodes() {
+        let arr = this.state.arr;
+        let newArr = {
+            txt:"你是第二堆狗屎"
+        }
+        arr.push(newArr);
+        this.setState(arr);
+    }
     render() {
-        const radioStyle = {
-            display: 'block',
-            height: '30px',
-            lineHeight: '30px',
-        };
-        const { value } = this.state;
+        let arr = this.state.arr;
+        let element = arr.map((item) =>
+            <div className="demo-child-nodes" >{item.txt}</div>
+        )
         return (
-            <Radio.Group onChange={this.onChange} value={value}>
-                <Radio style={radioStyle} value={1}>
-                    Option A
-            </Radio>
-                <Radio style={radioStyle} value={2}>
-                    Option B
-            </Radio>
-                <Radio style={radioStyle} value={3}>
-                    Option C
-            </Radio>
-                <Radio style={radioStyle} value={4}>
-                    More...
-              {value === 4 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
-                </Radio>
-            </Radio.Group>
-        );
+            <div className="demo">
+                {element}
+                <button onClick={this.addNodes}>点击添加</button>
+            </div>
+        )
     }
 }
 class PageDesign extends React.Component {
@@ -69,7 +62,8 @@ class PageDesign extends React.Component {
             searchStyle: "party",
             seachTxtAlign: "left",
             // 轮播formshuju
-            bannerPointShape: "square"
+            bannerPointShape: "square",
+            // 
         }
         this.tabHandle = this.tabHandle.bind(this);
         this.searchIptHandle = this.searchIptHandle.bind(this);
@@ -108,7 +102,7 @@ class PageDesign extends React.Component {
         let color = value.rgba;
     }
     // 输入框
-    iptChange(name,e){
+    iptChange(name, e) {
         console.log(name);
         console.log(e.target.value);
         let val = e.target.value;
@@ -154,6 +148,7 @@ class PageDesign extends React.Component {
         };
         return (
             <div className="main">
+                <Demo />
                 <Row className="content-title mb-10">
                     <Col span={12}>
                         <h2>页面设计</h2>
@@ -371,7 +366,7 @@ class PageDesign extends React.Component {
                                             <input type="file" name="bannerPic" />
                                         </Form.Item>
                                         <Form.Item label="H5链接" name="bannerLink">
-                                            <input  type="text" onChange={(e)=>this.iptChange('bannerLink',e)} className="w100 bd-no bd-bottom bg-f7f out-line-none" />
+                                            <input type="text" onChange={(e) => this.iptChange('bannerLink', e)} className="w100 bd-no bd-bottom bg-f7f out-line-none" />
                                         </Form.Item>
                                     </div>
                                 </div>
