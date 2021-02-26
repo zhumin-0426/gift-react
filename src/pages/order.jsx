@@ -5,7 +5,7 @@ import '../css/order.less';
 import { Row, Col, Breadcrumb, Table, Tag } from 'antd';
 class Order extends React.Component {
     state = {
-        selectedRowKeys: [], 
+        selectedRowKeys: [],
     };
 
     onSelectChange = selectedRowKeys => {
@@ -124,9 +124,7 @@ class Order extends React.Component {
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>
                             <Breadcrumb.Item>系统</Breadcrumb.Item>
-                            <Breadcrumb.Item>
-                                订单列表
-                                        </Breadcrumb.Item>
+                            <Breadcrumb.Item>订单列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
                 </Row>
