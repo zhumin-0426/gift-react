@@ -292,6 +292,9 @@
     .max-wid-100{
         max-width: 100%;
     }
+    .opacity-0{
+        opacity: 0;
+    }
     .line-clamp1 {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -403,6 +406,52 @@
             color: #626262; 
         }
     }
+    .ant-input.ant-input-bottom-line{
+        background-color: transparent;
+        border-bottom: solid 1px #e6e6e6;
+        padding: 5px 0 5px 0;
+        outline: none;
+        &:focus{
+            outline: none;
+            background: none;
+            box-shadow:none;
+        }
+        &::-webkit-input-placeholder { 
+            color: #626262; 
+        }
+        &:-moz-placeholder { 
+            color: #626262; 
+        }
+        &::-moz-placeholder {  
+            color: #626262; 
+        }
+        &:-ms-input-placeholder {  
+            color: #626262;
+        }
+    }
+    .ant-input.ant-input-file{
+        background-color: transparent;
+        border-bottom: solid 1px #e6e6e6;
+        padding: 5px 0 5px 0;
+        outline: none;
+        &:focus{
+            outline: none;
+            background: none;
+            box-shadow:none;
+        }
+        &::-webkit-input-placeholder { 
+            color: #626262; 
+        }
+        &:-moz-placeholder { 
+            color: #626262; 
+        }
+        &::-moz-placeholder {  
+            color: #626262; 
+        }
+        &:-ms-input-placeholder {  
+            color: #626262;
+        }
+    }
     .form-txt-control{
         border-radius: 2px;
         font-size: 13px;
@@ -502,4 +551,12 @@
         font-weight: bold;
         padding-left: 10px;
         border-left: 4px solid #84ba3f
+    }
+    // 上传图片覆盖物
+    .ipt-file-cover-element{
+        width: 94px;
+        height: 50px;
+        background-image: url('../../assets/images/img-upload-bag.png');
+        background-repeat: no-repeat;
+        background-size: 94px 50px;
     }
