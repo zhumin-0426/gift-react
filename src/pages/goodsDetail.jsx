@@ -1,16 +1,200 @@
-import React from 'react';
+import React, { useState } from 'react';
 // 样式
 import '../css/goodsDetail.less';
 import GoodsImg from '../assets/images/product-4.jpg';
 // antd 组件
-import { Row, Col, Breadcrumb, Rate } from 'antd';
+import { Row, Col, Breadcrumb, Rate, Divider, Form, Input, Upload, Radio,Button } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import Editor from 'react-umeditor';
 
 class Describe extends React.Component {
-    render(){
-        return(
-            <div className="tab-obj pd-17">
-                这是坨屎
-            </div>
+    constructor(props) {
+        super(props);
+        this.state = {
+            fileList: [{
+                uid: '-1',
+                name: 'image.png',
+                status: 'done',
+                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+            }],
+            goodsStyle: 'single',
+            goodsInventoryCalculate: 'xd',
+            // 编辑器
+            content: "",
+            goodsState: "shelves"
+        }
+        this.setFileList = this.setFileList.bind(this);
+        this.radioHandle = this.radioHandle.bind(this);
+    }
+    // 图片上传回调
+    setFileList = (value) => {
+        console.log('value', value)
+    }
+    // 单选按钮
+    radioHandle(name, e) {
+        console.log('name', name);
+        console.log('radio1 checked', e.target.value);
+    }
+    // 编辑器
+    handleChange(content) {
+        this.setState({
+            content: content
+        })
+    }
+    getIcons() {
+        var icons = [
+            "source | undo redo | bold italic underline strikethrough fontborder emphasis | ",
+            "paragraph fontfamily fontsize | superscript subscript | ",
+            "forecolor backcolor | removeformat | insertorderedlist insertunorderedlist | selectall | ",
+            "cleardoc  | indent outdent | justifyleft justifycenter justifyright | touppercase tolowercase | ",
+            "horizontal date time  | image emotion spechars | inserttable"
+        ]
+        return icons;
+    }
+    getPlugins() {
+        return {
+            "image": {
+                "uploader": {
+                    "name": "file",
+                    "url": "/api/upload"
+                }
+            }
+        }
+    }
+    render() {
+        // 表单提交成功
+        const onFinish = (values: any) => {
+            console.log('Success:', values);
+        };
+        // 表单提交失败
+        const onFinishFailed = (errorInfo: any) => {
+            console.log('Failed:', errorInfo);
+        };
+        // 图片上传
+        // const [fileList, setFileList] = useState([
+        //     {
+        //         uid: '-1',
+        //         name: 'image.png',
+        //         status: 'done',
+        //         url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        //     },
+        // ]);
+
+        const onChange = ({ fileList: newFileList }) => {
+            this.setFileList(newFileList);
+        };
+
+        const onPreview = async file => {
+            let src = file.url;
+            if (!src) {
+                src = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file.originFileObj);
+                    reader.onload = () => resolve(reader.result);
+                });
+            }
+            const image = new Image();
+            image.src = src;
+            const imgWindow = window.open(src);
+            imgWindow.document.write(image.outerHTML);
+        };
+        // 商品规格
+        const goodsStyleOptions = [
+            { label: '单规格', value: 'single' },
+            { label: '多规格', value: 'double' }
+        ];
+        const goodsInventoryOptions = [
+            { label: '下单减库存', value: 'xd' },
+            { label: '付款减库存', value: 'fk' }
+        ]
+        const goodsStateOptions = [
+            { label: '上架', value: 'shelves' },
+            { label: '下架', value: 'theShelves' }
+        ];
+        // 编辑器
+        var icons = this.getIcons();
+        var plugins = this.getPlugins();
+        return (
+            <>
+                <div className="tab-obj pd-17">
+                    <Form
+                        name="basic"
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}>
+                        <h3 className="page-set-title">基本信息</h3>
+                        <Divider />
+                        <Form.Item label="商品名称" name="goodsName">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="商品分类" name="goodsClassify">
+                            <select className="ant-select w100" name="" id="">
+                                <option value="">1</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                            </select>
+                        </Form.Item>
+                        <Form.Item label="商品图片" name="goodsPic">
+                            <ImgCrop rotate>
+                                <Upload
+                                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                    listType="picture-card"
+                                    fileList={this.state.fileList}
+                                    onChange={onChange}
+                                    onPreview={onPreview}
+                                >
+                                    {this.state.fileList.length < 5 && '+ Upload'}
+                                </Upload>
+                            </ImgCrop>
+                            <div className="prompt text-6c7 fon-12 mt-10">尺寸750x750像素比，大小2M以下</div>
+                        </Form.Item>
+                        <Form.Item label="商品卖点" name="goodsPic">
+                            <Input />
+                            <div className="prompt text-6c7 fon-12 mt-10">选填，商品卖点简述，例如：此款商品美观大方 性价比较高 不容错过</div>
+                        </Form.Item>
+                        <h3 className="page-set-title">规格/库存</h3>
+                        <Divider />
+                        <Form.Item label="商品规格" name="goodsStyle">
+                            <Radio.Group options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsStyle} />
+                        </Form.Item>
+                        <div className="goodsStyleBox">
+                            <Form.Item label="商品市场价格" name="goodsPrice">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="商品划线价格" name="goodsLineMoney">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="商品现有库存" name="goodsInventory">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="商品已购数量" name="buyGoodsNum">
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="库存计算方式" name="goodsInventoryCalculate">
+                                <Radio.Group options={goodsInventoryOptions} onChange={(e) => this.radioHandle("goodsInventoryCalculate", e)} defaultValue={this.state.goodsInventoryCalculate} />
+                            </Form.Item>
+                        </div>
+                        <h3 className="page-set-title">商品详情</h3>
+                        <Divider />
+                        <Editor ref="editor"
+                            icons={icons}
+                            value={this.state.content} defaultValue="<p>React Umeditor</p>"
+                            onChange={this.handleChange.bind(this)}
+                            plugins={plugins} />
+                        <h3 className="page-set-title mt-20">其他</h3>
+                        <Divider />
+                        <Form.Item label="商品线上状态" name="goodsState">
+                            <Radio.Group options={goodsStateOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsState} />
+                        </Form.Item>
+                        <Form.Item label="商品初始销量" name="originSales">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button className="pull-right" type="primary" htmlType="submit">保存</Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            </>
         )
     }
 }
@@ -124,10 +308,10 @@ class GoodsDetail extends React.Component {
                                         </li>
                                     </ul>
                                     <div className="tab dis-flx align-items-center">
-                                        <div className={this.state.tabId===1?'tab-item tab-item-active':'tab-item'} data-id={1} onClick={this.tabChange}>
-                                            描述
+                                        <div className={this.state.tabId === 1 ? 'tab-item tab-item-active' : 'tab-item'} data-id={1} onClick={this.tabChange}>
+                                            详细
                                         </div>
-                                        <div className={this.state.tabId===2?'tab-item tab-item-active':'tab-item'} data-id={2} onClick={this.tabChange}>
+                                        <div className={this.state.tabId === 2 ? 'tab-item tab-item-active' : 'tab-item'} data-id={2} onClick={this.tabChange}>
                                             评论
                                         </div>
                                     </div>
