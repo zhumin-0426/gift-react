@@ -34,7 +34,7 @@ class Demo extends React.Component {
     addNodes() {
         let arr = this.state.arr;
         let newArr = {
-            txt:"你是第二堆狗屎"
+            txt: "你是第二堆狗屎"
         }
         arr.push(newArr);
         this.setState(arr);
@@ -363,10 +363,12 @@ class PageDesign extends React.Component {
                                     </Form.Item>
                                     <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
                                         <Form.Item label="图片" name="bannerPic">
-                                            <input type="file" name="bannerPic" />
+                                            <div className="ipt-file-cover-element pos-r">
+                                                <Input className="pos-a opacity-0 w100 h100" type='file' />
+                                            </div>
                                         </Form.Item>
                                         <Form.Item label="H5链接" name="bannerLink">
-                                            <input type="text" onChange={(e) => this.iptChange('bannerLink', e)} className="w100 bd-no bd-bottom bg-f7f out-line-none" />
+                                            <Input className="ant-input-bottom-line" onChange={(e) => this.iptChange('bannerLink', e)} />
                                         </Form.Item>
                                     </div>
                                 </div>
