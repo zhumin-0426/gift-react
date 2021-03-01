@@ -63,7 +63,10 @@ class PageDesign extends React.Component {
             seachTxtAlign: "left",
             // 轮播formshuju
             bannerPointShape: "square",
-            // 
+            // 轮播节点列表
+            bannerNodesList: [
+                { picTitle: "图片", linkTitle: "H5链接" }
+            ]
         }
         this.tabHandle = this.tabHandle.bind(this);
         this.searchIptHandle = this.searchIptHandle.bind(this);
@@ -71,6 +74,7 @@ class PageDesign extends React.Component {
         this.sliderHandle = this.sliderHandle.bind(this);
         this.colorPicker = this.colorPicker.bind(this);
         this.iptChange = this.iptChange.bind(this);
+        this.addOptionsNodes = this.addOptionsNodes.bind(this);
     }
     // 点击切换
     tabHandle(e) {
@@ -106,6 +110,31 @@ class PageDesign extends React.Component {
         console.log(name);
         console.log(e.target.value);
         let val = e.target.value;
+    }
+    // 添加选项节点
+    addOptionsNodes(stateArrName) {
+        let newNodesObj
+        switch (stateArrName) {
+            case 'bannerNodesList':
+                newNodesObj = { picTitle: "图片", linkTitle: "H5链接" };
+                break;
+
+            default:
+                break;
+        }
+        let newStateArr = this.state[stateArrName];
+        newStateArr.push(newNodesObj);
+        this.setState(newStateArr);
+    }
+    // 删除选项节点
+    deleteOptionsNodes(index, stateArrName) {
+        let newStateArr = this.state[stateArrName];
+        if (newStateArr.length === 1) {
+            alert('必须有一项')
+        } else {
+            delete newStateArr[index];
+            this.setState(newStateArr);
+        }
     }
     render() {
         // 多选
@@ -146,9 +175,11 @@ class PageDesign extends React.Component {
         const onFinishFailed = (errorInfo: any) => {
             console.log('Failed:', errorInfo);
         };
+        // 轮播节点列表
+        const bannerNodesList = this.state.bannerNodesList;
         return (
             <div className="main">
-                <Demo />
+                {/* <Demo /> */}
                 <Row className="content-title mb-10">
                     <Col span={12}>
                         <h2>页面设计</h2>
@@ -361,16 +392,24 @@ class PageDesign extends React.Component {
                                     <Form.Item label="左右边距" name="bannerLfteRightMargin">
                                         <Slider tipFormatter={(value) => this.sliderHandle('bannerLfteRightMargin', value)} />
                                     </Form.Item>
-                                    <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
-                                        <Form.Item label="图片" name="bannerPic">
-                                            <div className="ipt-file-cover-element pos-r">
-                                                <Input className="pos-a opacity-0 w100 h100" type='file' />
+                                    {
+                                        bannerNodesList.map((item, index) => {
+                                            return <div className="nodes-box pd-17 bg-f7f bor-rds-3 mb-20" key={index}>
+                                                <Form.Item label={item.picTitle} name="bannerPic">
+                                                    <div className="ipt-file-cover-element pos-r">
+                                                        <Input className="pos-a opacity-0 w100 h100" type='file' />
+                                                    </div>
+                                                </Form.Item>
+                                                <Form.Item label={item.linkTitle} name="bannerLink">
+                                                    <Input className="ant-input-bottom-line" onChange={(e) => this.iptChange('bannerLink', e)} />
+                                                </Form.Item>
+                                                <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'bannerNodesList')}></div>
                                             </div>
-                                        </Form.Item>
-                                        <Form.Item label="H5链接" name="bannerLink">
-                                            <Input className="ant-input-bottom-line" onChange={(e) => this.iptChange('bannerLink', e)} />
-                                        </Form.Item>
-                                    </div>
+                                        })
+                                    }
+                                    <Form.Item>
+                                        <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('bannerNodesList')}>添加一个</Button>
+                                    </Form.Item>
                                 </div>
                                 {/* 导航设置 */}
                                 <div className={this.state.tabState === 3 ? 'nav-set active' : 'nav-set tab-obj-item'}>
@@ -543,7 +582,7 @@ class PageDesign extends React.Component {
                                     </Form.Item>
                                 </div>
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit">保存页面</Button>
+                                    <Button className="pull-right" type="primary" htmlType="submit">保存页面</Button>
                                 </Form.Item>
                             </Form>
                         </div>
