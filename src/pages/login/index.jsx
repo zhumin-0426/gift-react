@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from '../common/js/axios';
+import axios from '../../common/js/axios';
 // 样式
-import '../css/login.less';
-import loginBag from '../assets/images/login-bag.jpg';
-import loginInnerBg from '../assets/images/login-inner-bg.jpg';
+import '../../css/login.less';
+import loginBag from '../../assets/images/login-bag.jpg';
+import loginInnerBg from '../../assets/images/login-inner-bg.jpg';
 // antd组件
 import { Row, Col } from 'antd';
 class Login extends React.Component {
@@ -59,7 +59,7 @@ class Login extends React.Component {
                             </Col>
                             <Col xs={24} sm={24} xl={8}>
                                 <div className="login-form pd-30 bg-fff">
-                                    {/* <h3 className="mb-30 fon-30">后 台 登 入</h3> */}
+                                    <h3 className="mb-30 fon-30">后 台 登 入</h3>
                                     <form onSubmit={this.handleSubmit}>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">账号</label>

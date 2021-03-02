@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // 样式
-import '../css/goodsDetail.less';
-import GoodsImg from '../assets/images/product-4.jpg';
+import '../../css/goodsDetail.less';
+import GoodsImg from '../../assets/images/product-4.jpg';
 // antd 组件
 import { Row, Col, Breadcrumb, Rate, Divider, Form, Input, Upload, Radio,Button } from 'antd';
 import ImgCrop from 'antd-img-crop';

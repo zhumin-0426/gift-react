@@ -1,9 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 // 样式
-import GoodsCssModule from '../css/goods.module.css';
+import GoodsCssModule from '../../css/goods.module.css';
 // 图片
-import GoodsImg from '../assets/images/product-4.jpg';
+import GoodsImg from '../../assets/images/product-4.jpg';
 // antd 组件
 import { Row, Col, Breadcrumb, Pagination } from 'antd';
 const Users = () => {

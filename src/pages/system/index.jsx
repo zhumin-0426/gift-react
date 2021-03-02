@@ -1,6 +1,6 @@
 import React from 'react';
 // 样式
-import '../css/system.module.css';
+import '../../css/system.module.css';
 // antd 组件
 import { Row, Col, Breadcrumb, Menu, Dropdown } from 'antd';
 // Charts 组件

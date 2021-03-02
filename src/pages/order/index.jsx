@@ -1,6 +1,6 @@
 import React from 'react';
 // 样式
-import '../css/order.less';
+import '../../css/order.less';
 // antd 组件
 import { Row, Col, Breadcrumb, Table, Tag } from 'antd';
 class Order extends React.Component {
