@@ -1,9 +1,9 @@
 import React from 'react';
 // 样式
-import '../css/users.less';
-import Userpic from '../assets/images/userPic.jpg';
-import QQ from '../assets/images/QQ.png';
-import Wx from '../assets/images/wx.png';
+import '../../css/users.less';
+import Userpic from '../../assets/images/userPic.jpg';
+import QQ from '../../assets/images/QQ.png';
+import Wx from '../../assets/images/wx.png';
 // antd 组件
 import { Row, Col, Breadcrumb, Divider, Menu, Dropdown, Pagination } from 'antd';
 class Users extends React.Component {

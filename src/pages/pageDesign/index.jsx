@@ -1,19 +1,19 @@
 import React from 'react';
 // 样式
-import styles from '../css/pageDesign.module.css';
+import styles from '../../css/pageDesign.module.css';
 // 图片
-import PageDesignLogo from '../assets/images/pageDesign/logo.png';
-import SearchIcon from '../assets/images/pageDesign/search-icon.png';
-import Scan from '../assets/images/pageDesign/scan.png';
-import UserPic from '../assets/images/pageDesign/user-pic.png';
-import Banner from '../assets/images/pageDesign/banner.png';
-import NavIcon from '../assets/images/pageDesign/nav-item-icon1.png';
-import TigIcon from '../assets/images/pageDesign/tig-icon.png';
-import goodsBarItem1 from '../assets/images/pageDesign/goods-bar-item1.png';
-import goodsBarItem2 from '../assets/images/pageDesign/goods-bar-item2.png';
-import goodsBarItem3 from '../assets/images/pageDesign/goods-bar-item3.png';
-import Adversing from '../assets/images/pageDesign/adversing.png';
-import Goods1 from '../assets/images/pageDesign/goods1.png';
+import PageDesignLogo from '../../assets/images/pageDesign/logo.png';
+import SearchIcon from '../../assets/images/pageDesign/search-icon.png';
+import Scan from '../../assets/images/pageDesign/scan.png';
+import UserPic from '../../assets/images/pageDesign/user-pic.png';
+import Banner from '../../assets/images/pageDesign/banner.png';
+import NavIcon from '../../assets/images/pageDesign/nav-item-icon1.png';
+import TigIcon from '../../assets/images/pageDesign/tig-icon.png';
+import goodsBarItem1 from '../../assets/images/pageDesign/goods-bar-item1.png';
+import goodsBarItem2 from '../../assets/images/pageDesign/goods-bar-item2.png';
+import goodsBarItem3 from '../../assets/images/pageDesign/goods-bar-item3.png';
+import Adversing from '../../assets/images/pageDesign/adversing.png';
+import Goods1 from '../../assets/images/pageDesign/goods1.png';
 // antd 组件
 import { Row, Col, Breadcrumb, Divider, Form, Input, Radio, Slider, Checkbox, Button } from 'antd';
 // 拾色器

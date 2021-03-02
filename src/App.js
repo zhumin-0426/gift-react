@@ -7,13 +7,17 @@ import SideBar from './components/sidebar';
 import Header from './components/header';
 import Footer from './components/footer';
 // 子组件
-import LoginPage from './pages/login';
-import SystemPage from './pages/system';
-import GoodsPage from './pages/goods';
-import GoodsDetailPage from './pages/goodsDetail';
-import OrderPage from './pages/order';
-import UsersPage from './pages/users';
-import PageDesignPage from './pages/pageDesign';
+import Login from './pages/login/index';
+import Registered from './pages/login/registered';
+import System from './pages/system/index';
+import Goods from './pages/goods/index';
+import GoodsDetail from './pages/goods/goodsDetail';
+import Order from './pages/order/index';
+import User from './pages/user/index';
+import PageDesign from './pages/pageDesign/index';
+// 
+import {FrontendAuth} from './pages/FrontendAuth';
+import {routerConfig  } from './pages/routerConfig ';
 // 根组件
 class App extends React.Component {
   constructor(props) {
@@ -34,7 +38,8 @@ class App extends React.Component {
       <div className="app">
         <Router>
           <Switch>
-            <Route path="/login" exact component={LoginPage}></Route>
+            {/* <Route path="/login" exact component={Login}></Route>
+            <Route path="/registered" exact component={Registered}></Route> */}
             <div className="wrapper">
               <Header getChildDatas={this.getChildDatas} />
               <div className="content-wrapper">
@@ -42,12 +47,13 @@ class App extends React.Component {
                 <SideBar isCollapsed={this.state.isCollapsed} ></SideBar>
                 <div className="content w100 pd-30">
                   <Switch>
-                    <Route path="/system" component={SystemPage} />
-                    <Route path="/pageDesign" component={PageDesignPage} />
-                    <Route path="/goods" component={GoodsPage} />
-                    <Route path="/goodsDetail" component={GoodsDetailPage} />
-                    <Route path="/order" component={OrderPage} />
-                    <Route path="/users" component={UsersPage} />
+                    {/* <Route path="/system" component={System} />
+                    <Route path="/pageDesign" component={PageDesign} />
+                    <Route path="/goods" component={Goods} />
+                    <Route path="/goodsDetail" component={GoodsDetail} />
+                    <Route path="/order" component={Order} />
+                    <Route path="/user" component={User} /> */}
+                    <FrontendAuth config={routerConfig} />
                   </Switch>
                   {/* 底部 */}  
                   <Footer ></Footer>
