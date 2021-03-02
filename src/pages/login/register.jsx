@@ -6,6 +6,7 @@ import loginBag from '../../assets/images/register-bg.jpg';
 import loginInnerBg from '../../assets/images/register-inner-bg.jpg';
 // antd组件
 import { Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
 class Registered extends React.Component {
     constructor(props) {
         super(props);
@@ -70,8 +71,9 @@ class Registered extends React.Component {
                                             <input className="w100 ant-input fon-w-500" type="password" placeholder="请输入您的密码" name="userPassword" value={this.state.userPassword} onChange={this.handleChange} />
                                         </div>
                                         <div className="form-item">
-                                            <button type="submit" className="login-btn">登入 <i className="iconfont icon-check fon-14" style={loginBtn}></i></button>
+                                            <button type="submit" className="login-btn">立即创建 <i className="iconfont icon-check fon-14" style={loginBtn}></i></button>
                                         </div>
+                                        <div className="register-prompt mt-20 text-626">创建成功了吗？<strong className="text-84b"><Link to="/login">在这里登入</Link></strong></div>
                                     </form>
                                 </div>
                             </Col>
