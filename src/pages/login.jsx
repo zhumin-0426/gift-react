@@ -59,7 +59,7 @@ class Login extends React.Component {
                             </Col>
                             <Col xs={24} sm={24} xl={8}>
                                 <div className="login-form pd-30 bg-fff">
-                                    <h3 className="mb-30 fon-30">后 台 登 入</h3>
+                                    {/* <h3 className="mb-30 fon-30">后 台 登 入</h3> */}
                                     <form onSubmit={this.handleSubmit}>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">账号</label>
