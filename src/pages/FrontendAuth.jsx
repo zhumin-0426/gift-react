@@ -4,7 +4,6 @@ import { propsModel } from './frontend-auth.model';
 
 export class FrontendAuth extends React.Component<any, propsModel>{
     render() {
-        console.log("this.props",this.props);
         const { location, config } = this.props;
         const { pathname } = location;
         const isLogin = localStorage.getItem('user_id')
@@ -19,7 +18,7 @@ export class FrontendAuth extends React.Component<any, propsModel>{
 
         if (isLogin) {
             // 如果是登陆状态，想要跳转到登陆，重定向到主页
-            if (pathname === '/login') {
+            if (pathname === '/login'||pathname === '/register') {
                 return <Redirect to='/' />
             } else {
                 // 如果路由合法，就跳转到相应的路由

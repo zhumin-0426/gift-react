@@ -6,10 +6,7 @@ interface routerConfigModel {
     auth?:boolean
 }
 export const routerConfig:routerConfigModel[] = [
-    {
-        path:'/login',
-        component:Login,
-    },{
+   {
         path:'/',
         component:System,
         auth:true,
