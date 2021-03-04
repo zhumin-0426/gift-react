@@ -156,7 +156,7 @@ class System extends React.Component {
             <div className="main">
                 <Row className="content-title mb-10">
                     <Col span={12}>
-                        <h2>数据统计</h2>
+                        <h3><strong>数据统计</strong></h3>
                     </Col>
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>

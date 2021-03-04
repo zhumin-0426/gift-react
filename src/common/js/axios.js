@@ -5,7 +5,7 @@ const getAxios = (url, params) => {
     // 基础路径
     return new Promise((resolve, reject) => {
         axios({
-            url: siteinfo.root+url,
+            url: siteinfo.root + url,
             method: 'get',
             params: params,
         }).then(response => {
@@ -20,13 +20,13 @@ const getAxios = (url, params) => {
     })
 }
 
-const postAxios = (url, params) => {
+const postAxios = (url, data) => {
     // 基础路径
     return new Promise((resolve, reject) => {
         axios({
-            url: siteinfo.root+url,
+            url: siteinfo.root + url,
             method: 'post',
-            params: params,
+            data: data,
         }).then(response => {
             if (response.status === 200) {
                 resolve(response);

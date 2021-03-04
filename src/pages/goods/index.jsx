@@ -12,7 +12,7 @@ const Users = () => {
             {/* 标题导航 */}
             <Row>
                 <Col span={12}>
-                    <h2>商品列表</h2>
+                    <h3><strong>商品列表</strong></h3>
                 </Col>
                 <Col span={12} className="text-align-right">
                     <Breadcrumb>

@@ -11,8 +11,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userAccount: "18820854754",
-            userPassword: "123456"
+            adminAccount: "18820854754",
+            password: "123456"
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,11 +23,11 @@ class Login extends React.Component {
         })
     }
     handleSubmit(event) {
-        let params = {
-            'userPhone': this.state.userAccount,
-            'userPwd': this.state.userPassword
+        let data = {
+            'adminAccount': this.state.adminAccount,
+            'password': this.state.password
         }
-        axios.postAxios('/shunde/m/logins/login', params).then(res => {
+        axios.postAxios('/login/dologin', data).then(res => {
             console.log("res=>", res);
         });
         event.preventDefault()
@@ -64,11 +64,11 @@ class Login extends React.Component {
                                     <form onSubmit={this.handleSubmit}>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">账号</label>
-                                            <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入您的账号" name="userAccount" value={this.state.userAccount} onChange={this.handleChange} />
+                                            <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入您的账号" name="adminAccount" value={this.state.adminAccount} onChange={this.handleChange} />
                                         </div>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">密码</label>
-                                            <input className="w100 ant-input fon-w-500" type="password" placeholder="请输入您的密码" name="userPassword" value={this.state.userPassword} onChange={this.handleChange} />
+                                            <input className="w100 ant-input fon-w-500" type="password" placeholder="请输入您的密码" name="password" value={this.state.password} onChange={this.handleChange} />
                                         </div>
                                         <div className="remember-password mb-20">
                                             <Checkbox className="text-626">记住密码</Checkbox>

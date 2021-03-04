@@ -262,7 +262,7 @@ class GoodsDetail extends React.Component {
             <div className="main">
                 <Row>
                     <Col span={12}>
-                        <h2>商品详情</h2>
+                        <h3><strong>商品详情</strong></h3>
                     </Col>
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>

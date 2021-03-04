@@ -117,7 +117,7 @@ class AddGoods extends React.Component {
             <div className="main">
                 <Row>
                     <Col span={12}>
-                        <h2>添加商品</h2>
+                        <h3><strong>添加商品</strong></h3>
                     </Col>
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>

@@ -20,7 +20,7 @@ class Users extends React.Component {
                     <div className="content w100 pd-30">
                         <Row>
                             <Col span={12}>
-                                <h2>用户信息</h2>
+                                <h3><strong>用户信息</strong></h3>
                             </Col>
                             <Col span={12} className="text-align-right">
                                 <Breadcrumb>
