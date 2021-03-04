@@ -27,7 +27,7 @@ class Order extends React.Component {
                     <div className="content w100 pd-30">
                         <Row>
                             <Col span={12}>
-                                <h2>订单详情</h2>
+                                <h3><strong>订单详情</strong></h3>
                             </Col>
                             <Col span={12} className="text-align-right">
                                 <Breadcrumb>

@@ -68,7 +68,7 @@ class AddUser extends React.Component {
                     <div className="content w100 pd-30">
                         <Row className="content-title mb-10">
                             <Col span={12}>
-                                <h2>添加联系人</h2>
+                                <h3><strong>添加联系人</strong></h3>
                             </Col>
                             <Col span={12} className="text-align-right">
                                 <Breadcrumb>

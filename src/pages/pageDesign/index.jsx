@@ -65,7 +65,7 @@ class PageDesign extends React.Component {
             bannerPointShape: "square",
             // 轮播节点列表
             bannerNodesList: [
-                { picTitle: "图片", linkTitle: "H5链接" }
+                { picTitle: "图片", linkTitle: "H5链接" ,link:"aaa"}
             ]
         }
         this.tabHandle = this.tabHandle.bind(this);
@@ -73,7 +73,7 @@ class PageDesign extends React.Component {
         this.radioHandle = this.radioHandle.bind(this);
         this.sliderHandle = this.sliderHandle.bind(this);
         this.colorPicker = this.colorPicker.bind(this);
-        this.iptChange = this.iptChange.bind(this);
+        this.inputChange = this.inputChange.bind(this);
         this.addOptionsNodes = this.addOptionsNodes.bind(this);
     }
     // 点击切换
@@ -106,17 +106,27 @@ class PageDesign extends React.Component {
         let color = value.rgba;
     }
     // 输入框
-    iptChange(name, e) {
-        console.log(name);
-        console.log(e.target.value);
+    inputChange(name,index,e) {
         let val = e.target.value;
+        switch (name) {
+            case 'bannerLink':
+                let bannerNodesList = this.state.bannerNodesList;
+                bannerNodesList[index].link = val;
+                console.log('bannerNodesList1',bannerNodesList)
+                this.setState(bannerNodesList);
+                console.log('bannerNodesList2',this.state.bannerNodesList)
+                break;
+        
+            default:
+                break;
+        }
     }
     // 添加选项节点
     addOptionsNodes(stateArrName) {
         let newNodesObj
         switch (stateArrName) {
             case 'bannerNodesList':
-                newNodesObj = { picTitle: "图片", linkTitle: "H5链接" };
+                newNodesObj = { picTitle: "图片", linkTitle: "H5链接",link:"" };
                 break;
 
             default:
@@ -176,14 +186,12 @@ class PageDesign extends React.Component {
             console.log('Failed:', errorInfo);
         };
         // 轮播节点列表
-        const bannerNodesList = this.state.bannerNodesList;
+        let bannerNodesList = this.state.bannerNodesList;
         return (
             <div className="main">
-                {/* <Demo /> */}
                 <Row className="content-title mb-10">
                     <Col span={12}>
-                        <h2>页面设计</h2>
-                        {/* <Demo /> */}
+                        <h3><strong>页面设计</strong></h3>
                     </Col>
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>
@@ -401,7 +409,7 @@ class PageDesign extends React.Component {
                                                     </div>
                                                 </Form.Item>
                                                 <Form.Item label={item.linkTitle} name="bannerLink">
-                                                    <Input className="ant-input-bottom-line" onChange={(e) => this.iptChange('bannerLink', e)} />
+                                                    <Input defaultValue={item.link} className="ant-input-bottom-line" onChange={(e) => this.inputChange('bannerLink',index, e)} />
                                                 </Form.Item>
                                                 <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'bannerNodesList')}></div>
                                             </div>
