@@ -5,7 +5,7 @@ const getAxios = (url, params) => {
     // 基础路径
     return new Promise((resolve, reject) => {
         axios({
-            url: siteinfo.root + url,
+            url: siteinfo.baseUrl + url,
             method: 'get',
             params: params,
         }).then(response => {
@@ -24,7 +24,7 @@ const postAxios = (url, data) => {
     // 基础路径
     return new Promise((resolve, reject) => {
         axios({
-            url: siteinfo.root + url,
+            url: siteinfo.baseUrl + url,
             method: 'post',
             data: data,
         }).then(response => {
