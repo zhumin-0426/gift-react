@@ -28,7 +28,7 @@ class App extends React.Component {
     })
   }
   render() {
-    const isLogin = localStorage.getItem('user_id');
+    const isLogin = localStorage.getItem('userId');
     let loginPage,registerPage
     if(!isLogin){
         loginPage = <Route path="/login" exact component={Login}></Route>;

@@ -1,4 +1,4 @@
 module.exports = {
-    // root:"http://lb.28888753.cn"//线上地址
-    root:"/api"//本地地址
+    // baseUrl:"http://lb.28888753.cn"//线上地址
+    baseUrl:"/api"//本地地址
 }
