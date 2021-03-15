@@ -30,17 +30,53 @@ class PageDesign extends React.Component {
             searchTxt: "积分兑换",
             searchStyle: "party",
             seachTxtAlign: "left",
-            // 轮播formshuju
+            // 轮播
+            bannerPointColor: "#ffffff",
             bannerPointShape: "square",
-            // 轮播节点列表
+            bannerTopBottomMargin: "",
+            bannerLfteRightMargin: "",
             bannerNodesList: [
-                { name: 'bannerLink', linkAddress: "https://www.baidu.com" }
+                { linkAddress: "https://www.baidu.com" }
+            ],
+            // 导航
+            navOutBgCol: "#ffffff",
+            navTopBottomMargin: "",
+            navLeftRightMargin: "",
+            navInsBgCol: "#ffffff",
+            navInsTopMargin: "",
+            navInsRightMargin: "",
+            navInsBottomMargin: "",
+            navInsLeftMargin: "",
+            navInsTopRound: "",
+            navInsTopRound: "",
+            navInsBottomRound: "",
+            navLineNum: "3",
+            navNodesList: [
+                { navTxt: "", navTxtCol: "", linkAddress: "https://www.baidu.com" }
+            ],
+            // 系统消息
+            noticeTopBottomMargin: "",
+            noticeLeftRightMargin: "",
+            // 推荐
+            rcmTopBottomMargin: "",
+            rcmLeftRightMargin: "",
+            recNodesList: [
+                { linkAddress: "" }
+            ],
+            //广告栏 
+            advTopBottomMargin: "",
+            advLeftRightMargin: "",
+            advNodesList: [{ linkAddress: "https://www.baidu.com" }],
+            // 商品分类导航
+            goodsTabTopBottomMargin: "",
+            goodsTabLeftRightMargin: "",
+            goodsTabNodesList: [
+                { goodsTabTitle: "", goodsTabScptTxt: "" }
             ]
         }
         this.tabHandle = this.tabHandle.bind(this);
-        this.searchIptHandle = this.searchIptHandle.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
-        this.sliderHandle = this.sliderHandle.bind(this);
+        this.sliderChange = this.sliderChange.bind(this);
         this.colorPicker = this.colorPicker.bind(this);
         this.inputChange = this.inputChange.bind(this);
         this.addOptionsNodes = this.addOptionsNodes.bind(this);
@@ -52,38 +88,142 @@ class PageDesign extends React.Component {
             tabState: tabStateVal
         })
     }
-    // 搜索输入框监听
-    searchIptHandle(e) {
+    // 单选按钮
+    radioHandle(e) {
         this.setState({
-            searchTxt: e.target.defaultValue
+            [e.target.name]: e.target.value
         })
     }
-    // 单选按钮
-    radioHandle(name, e) {
-        console.log('name', name);
-        console.log('radio1 checked', e.target.value);
-    }
     // 滑动输入条
-    sliderHandle(name, value) {
-        console.log('name', name)
-        console.log('value', `${value}%`);
-        return `${value}%`;
+    sliderChange(name, value) {
+        let val = `${value}%`;
+        console.log('val', val)
+        switch (name) {
+            case "bannerTopBottomMargin":
+                this.setState({ bannerTopBottomMargin: val });
+                break;
+            case "bannerLfteRightMargin":
+                this.setState({ bannerLfteRightMargin: val });
+                break;
+            case "bannerLfteRightMargin":
+                this.setState({ bannerLfteRightMargin: val });
+                break;
+            case "navTopBottomMargin":
+                this.setState({ navTopBottomMargin: val });
+                break;
+            case "navLeftRightMargin":
+                this.setState({ navLeftRightMargin: val });
+                break;
+            case "navInsTopMargin":
+                this.setState({ navInsTopMargin: val });
+                break;
+            case "navInsRightMargin":
+                this.setState({ navInsRightMargin: val });
+                break;
+            case "navInsBottomMargin":
+                this.setState({ navInsBottomMargin: val });
+                break;
+            case "navInsLeftMargin":
+                this.setState({ navInsLeftMargin: val });
+                break;
+            case "navInsTopRound":
+                this.setState({ navInsTopRound: val });
+                break;
+            case "navInsBottomRound":
+                this.setState({ navInsBottomRound: val });
+                break;
+            case "noticeTopBottomMargin":
+                this.setState({ noticeTopBottomMargin: val });
+                break;
+            case "noticeLeftRightMargin":
+                this.setState({ noticeLeftRightMargin: val });
+                break;
+            case "rcmTopBottomMargin":
+                this.setState({ rcmTopBottomMargin: val });
+                break;
+            case "rcmLeftRightMargin":
+                this.setState({ rcmLeftRightMargin: val });
+                break;
+            case "advTopBottomMargin":
+                this.setState({ advTopBottomMargin: val });
+                break;
+            case "advLeftRightMargin":
+                this.setState({ advLeftRightMargin: val });
+                break;
+            case "goodsTabTopBottomMargin":
+                this.setState({ goodsTabTopBottomMargin: val });
+                break;
+            case "goodsTabLeftRightMargin":
+                this.setState({ goodsTabLeftRightMargin: val });
+                break;
+            default:
+                break;
+        }
+    }
+    sliderTipFormatter(value) {
+        return `${value}%`
     }
     // 颜色选择
-    colorPicker = (name, value) => {
-        console.log("name", name);
+    colorPicker = (name, value, index) => {
         let color = value.rgba;
+        switch (name) {
+            case "bannerPointColor":
+                this.setState({ bannerPointColor: color });
+                break;
+            case "navOutBgCol":
+                this.setState({ navOutBgCol: color });
+                break;
+            case "navInsBgCol":
+                this.setState({ navInsBgCol: color });
+                break;
+            case 'navTxtCol':
+                let navNodesList = this.state.navNodesList;
+                navNodesList[index].navTxtCol = color;
+                this.setState(navNodesList);
+            default:
+                break;
+        }
     }
     // 输入框
     inputChange(name, index, e) {
         let val = e.target.value;
+        let bannerNodesList = this.state.bannerNodesList;
+        let navNodesList = this.state.navNodesList;
+        let recNodesList = this.state.recNodesList;
+        let advNodesList = this.state.advNodesList;
+        let goodsTabNodesList = this.state.goodsTabNodesList;
         switch (name) {
+            case 'searchTxt':
+                this.setState({ searchTxt: val });
+                break;
             case 'bannerLink':
-                let bannerNodesList = this.state.bannerNodesList;
-                bannerNodesList[index].link = val;
+                bannerNodesList[index].linkAddress = val;
                 this.setState(bannerNodesList);
                 break;
-
+            case 'navTxt':
+                navNodesList[index].navTxt = val;
+                this.setState(navNodesList);
+                break;
+            case 'navLinkAddress':
+                navNodesList[index].linkAddress = val;
+                this.setState(navNodesList);
+                break;
+            case 'reclinkAddress':
+                recNodesList[index].linkAddress = val;
+                this.setState(recNodesList);
+                break;
+            case 'advlinkAddress':
+                advNodesList[index].linkAddress = val;
+                this.setState(advNodesList);
+                break;
+            case 'goodsTabTitle':
+                goodsTabNodesList[index].goodsTabTitle = val;
+                this.setState(goodsTabNodesList);
+                break;
+            case 'goodsTabScptTxt':
+                goodsTabNodesList[index].goodsTabScptTxt = val;
+                this.setState(goodsTabNodesList);
+                break;
             default:
                 break;
         }
@@ -93,7 +233,19 @@ class PageDesign extends React.Component {
         let newNodesObj
         switch (stateArrName) {
             case 'bannerNodesList':
-                newNodesObj = { name: '', linkAddress: '' };
+                newNodesObj = { linkAddress: '' };
+                break;
+            case 'navNodesList':
+                newNodesObj = { navTxt: '', navTxtCol: "", linkAddress: '' };
+                break;
+            case 'recNodesList':
+                newNodesObj = { linkAddress: '' };
+                break;
+            case 'advNodesList':
+                newNodesObj = { linkAddress: '' };
+                break;
+            case 'goodsTabNodesList':
+                newNodesObj = { goodsTabTitle: "", goodsTabScptTxt: "" };
                 break;
             default:
                 break;
@@ -143,6 +295,12 @@ class PageDesign extends React.Component {
             { label: '圆形', value: 'round' },
             { label: '长方形', value: 'rectangle' },
         ]
+        // 导航数量
+        const navLineNumOptions = [
+            { label: '3', value: '3' },
+            { label: '4', value: '4' },
+            { label: '5', value: '5' },
+        ]
         // 表单提交成功
         const onFinish = (values: any) => {
             console.log('Success:', values);
@@ -160,11 +318,85 @@ class PageDesign extends React.Component {
                         <Input className="pos-a opacity-0 w100 h100" type='file' />
                     </div>
                 </Form.Item>
-                <Form.Item label="链接地址" name={item.name}>
+                <Form.Item label="链接地址" name={['bannerNodesList', index, 'linkAddress']}>
                     <Input defaultValue={item.linkAddress} className="ant-input-bottom-line" onChange={(e) => this.inputChange('bannerLink', index, e)} />
                 </Form.Item>
                 <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'bannerNodesList')}></div>
             </div>
+        })
+        // 导航节点列表
+        let navNodesList = this.state.navNodesList;
+        let bannerNodesItem = navNodesList.map((item, index) => {
+            return <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
+                <Form.Item label="图片" name="navPic">
+                    <div className="ipt-file-cover-element pos-r">
+                        <Input className="pos-a opacity-0 w100 h100" type='file' />
+                    </div>
+                </Form.Item>
+                <Form.Item label="文字内容" name={['navNodesList', index, 'navTxt']}>
+                    <Input defaultValue={item.navTxt} className="ant-input-bottom-line" onChange={(e) => this.inputChange('navTxt', index, e)} />
+                </Form.Item>
+                <Form.Item label="文字颜色" name={['navNodesList', index, 'navTxtCol']}>
+                    <InputColor
+                        initialValue="#ffffff"
+                        onChange={(value) => this.colorPicker('navTxtCol', value, index)}
+                        placement="right"
+                    ></InputColor>
+                </Form.Item>
+                <Form.Item label="H5链接" name={['navNodesList', index, 'linkAddress']}>
+                    <Input defaultValue={item.linkAddress} className="ant-input-bottom-line" onChange={(e) => this.inputChange('navLinkAddress', index, e)} />
+                </Form.Item>
+                <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'navNodesList')}></div>
+            </div>
+        })
+        // 推荐节点列表
+        let recNodesList = this.state.recNodesList;
+        let recNodesItem = recNodesList.map((item, index) => {
+            return (
+                <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
+                    <Form.Item label="图片" name="rcmPic">
+                        <div className="ipt-file-cover-element pos-r">
+                            <Input className="pos-a opacity-0 w100 h100" type='file' />
+                        </div>
+                    </Form.Item>
+                    <Form.Item label="H5链接" name={['recNodesList', index, 'linkAddress']}>
+                        <Input defaultValue={item.linkAddress} className="ant-input-bottom-line" onChange={(e) => this.inputChange('reclinkAddress', index, e)} />
+                    </Form.Item>
+                    <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'recNodesList')}></div>
+                </div>
+            )
+        })
+        // 广告节点列表
+        let advNodesList = this.state.advNodesList;
+        let advNodesItem = advNodesList.map((item, index) => {
+            return (
+                <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
+                    <Form.Item label="图片" name="advPic">
+                        <div className="ipt-file-cover-element pos-r">
+                            <Input className="pos-a opacity-0 w100 h100" type='file' />
+                        </div>
+                    </Form.Item>
+                    <Form.Item label="H5链接" name={['advNodesList', index, 'linkAddress']}>
+                        <Input defaultValue={item.linkAddress} className="ant-input-bottom-line" onChange={(e) => this.inputChange('advlinkAddress', index, e)} />
+                    </Form.Item>
+                    <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'advNodesList')}></div>
+                </div>
+            )
+        })
+        // 商品分类导航
+        let goodsTabNodesList = this.state.goodsTabNodesList;
+        let goodsTabNodesItem = goodsTabNodesList.map((item, index) => {
+            return (
+                <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
+                    <Form.Item label="标题" name={['goodsTabNodesList', index, 'goodsTabTitle']}>
+                        <Input defaultValue={item.linkAddress} className="ant-input-bottom-line" onChange={(e) => this.inputChange('goodsTabTitle', index, e)} />
+                    </Form.Item>
+                    <Form.Item label="描述文字" name={['goodsTabNodesList', index, 'goodsTabScptTxt']}>
+                        <Input defaultValue={item.linkAddress} className="ant-input-bottom-line" onChange={(e) => this.inputChange('goodsTabScptTxt', index, e)} />
+                    </Form.Item>
+                    <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'goodsTabNodesList')}></div>
+                </div>
+            )
         })
         return (
             <div className="main">
@@ -342,7 +574,7 @@ class PageDesign extends React.Component {
                         <div className={styles.pageSetWrapper}>
                             <Form
                                 name="page_set_form"
-                                ref={this.formRef}
+                                initialValues={{ bannerNodesList: bannerNodesList, navNodesList: navNodesList, recNodesList: recNodesList, advNodesList: advNodesList, goodsTabNodesList: goodsTabNodesList }}
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}>
                                 {/* 搜索设置 */}
@@ -350,13 +582,13 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">搜索框</h3>
                                     <Divider />
                                     <Form.Item label="搜索文字" name="searchTxt">
-                                        <Input value="搜索商品" onChange={this.searchIptHandle} />
+                                        <Input defaultValue="积分兑换" onChange={(e) => this.inputChange('searchTxt', '', e)} />
                                     </Form.Item>
                                     <Form.Item label="搜索框样式" name="searchStyle">
-                                        <Radio.Group options={searchSearchStyleOptions} onChange={(e) => this.radioHandle("searchStyle", e)} defaultValue={this.state.searchStyle} />
+                                        <Radio.Group name="searchStyle" options={searchSearchStyleOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.searchStyle} />
                                     </Form.Item>
                                     <Form.Item label="文字对齐方式" name="seachTxtAlign">
-                                        <Radio.Group options={seachTxtAlignOptions} onChange={(e) => this.radioHandle("seachTxtAlign", e)} defaultValue={this.state.seachTxtAlign} />
+                                        <Radio.Group name="seachTxtAlign" options={seachTxtAlignOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.seachTxtAlign} />
                                     </Form.Item>
                                 </div>
                                 {/* 轮播设置 */}
@@ -371,13 +603,13 @@ class PageDesign extends React.Component {
                                         ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="指示点形状" name="bannerPointShape">
-                                        <Radio.Group options={bannerPointShapeOptions} onChange={(e) => this.radioHandle("bannerPointShape", e)} defaultValue={this.state.bannerPointShape} />
+                                        <Radio.Group name="bannerPointShape" options={bannerPointShapeOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.bannerPointShape} />
                                     </Form.Item>
                                     <Form.Item label="上下边距" name="bannerTopBottomMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('bannerTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('bannerTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="bannerLfteRightMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('bannerLfteRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('bannerLfteRightMargin', value)} />
                                     </Form.Item>
                                     {bannerNodesItems}
                                     <Form.Item>
@@ -396,10 +628,10 @@ class PageDesign extends React.Component {
                                         ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="上下边距" name="navTopBottomMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="navLeftRightMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navLeftRightMargin', value)} />
                                     </Form.Item>
                                     <Divider dashed />
                                     <Form.Item label="内框背景颜色" name="navInsBgCol">
@@ -410,58 +642,40 @@ class PageDesign extends React.Component {
                                         ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="上边距" name="navInsTopMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsTopMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsTopMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="右边距" name="navInsRightMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsRightMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="下边距" name="navInsBottomMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左边距" name="navInsLeftMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsLeftMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsLeftMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="上圆角" name="navInsTopRound">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsTopRound', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsTopRound', value)} />
                                     </Form.Item>
                                     <Form.Item label="下圆角" name="navInsBottomRound">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('navInsBottomRound', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsBottomRound', value)} />
                                     </Form.Item>
                                     <Form.Item label="每行数量" name="navLineNum">
-                                        <Radio.Group defaultValue="3">
-                                            <Radio value="3">3</Radio>
-                                            <Radio value="4">4</Radio>
-                                            <Radio value="5">5</Radio>
-                                        </Radio.Group>
+                                        <Radio.Group name="navLineNum" options={navLineNumOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.navLineNum} />
                                     </Form.Item>
-                                    <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
-                                        <Form.Item label="图片" name="navPic">
-                                            <input type="file" name="navPic" />
-                                        </Form.Item>
-                                        <Form.Item label="文字内容" name="navTxt">
-                                            <input className="w100 bd-no bd-bottom bg-f7f" name="navTxt" type="text" />
-                                        </Form.Item>
-                                        <Form.Item label="文字颜色" name="navTxtCol">
-                                            <InputColor
-                                                initialValue="#ffffff"
-                                                onChange={(value) => this.colorPicker('navTxtCol', value)}
-                                                placement="right"
-                                            ></InputColor>
-                                        </Form.Item>
-                                        <Form.Item label="H5链接" name="navLink">
-                                            <input className="w100 bd-no bd-bottom bg-f7f" type="text" />
-                                        </Form.Item>
-                                    </div>
+                                    {bannerNodesItem}
+                                    <Form.Item>
+                                        <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('navNodesList')}>添加一个</Button>
+                                    </Form.Item>
                                 </div>
-                                {/* 消息提示 */}
+                                {/* 系统消息 */}
                                 <div className={this.state.tabState === 4 ? 'notice-set active' : 'notice-set tab-obj-item'}>
-                                    <h3 className="page-set-title">消息</h3>
+                                    <h3 className="page-set-title">系统消息</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="noticeTopBottomMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('noticeTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('noticeTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="noticeLeftRightMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('noticeLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('noticeLeftRightMargin', value)} />
                                     </Form.Item>
                                 </div>
                                 {/* 热门推荐 */}
@@ -469,57 +683,45 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">推荐</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="rcmTopBottomMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('rcmTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('rcmTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="rcmLeftRightMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('rcmLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('rcmLeftRightMargin', value)} />
                                     </Form.Item>
-                                    <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
-                                        <Form.Item label="图片" name="rcmPic">
-                                            <input type="file" name="rcmPic" />
-                                        </Form.Item>
-                                        <Form.Item label="H5链接" name="RcmLink">
-                                            <input className="w100 bd-no bd-bottom bg-f7f" type="text" />
-                                        </Form.Item>
-                                    </div>
+                                    {recNodesItem}
+                                    <Form.Item>
+                                        <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('recNodesList')}>添加一个</Button>
+                                    </Form.Item>
                                 </div>
                                 {/* 广告 */}
                                 <div className={this.state.tabState === 6 ? 'adv-set active' : 'adv-set tab-obj-item'}>
                                     <h3 className="page-set-title">广告栏</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="advTopBottomMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('advTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('advTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="advLeftRightMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('advLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('advLeftRightMargin', value)} />
                                     </Form.Item>
-                                    <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
-                                        <Form.Item label="图片" name="advPic">
-                                            <input type="file" name="" id="" />
-                                        </Form.Item>
-                                        <Form.Item label="H5链接" name="advLink">
-                                            <input className="w100 bd-no bd-bottom bg-f7f" type="text" />
-                                        </Form.Item>
-                                    </div>
+                                    {advNodesItem}
+                                    <Form.Item>
+                                        <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('advNodesList')}>添加一个</Button>
+                                    </Form.Item>
                                 </div>
                                 {/* 商品分类导航设置 */}
                                 <div className={this.state.tabState === 7 ? 'goods-tab-set active' : 'goods-tab-set tab-obj-item'}>
                                     <h3 className="page-set-title">商品分类导航</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="goodsTabTopBottomMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('goodsTabTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('goodsTabTopBottomMargin', value)} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="goodsTabLeftRightMargin">
-                                        <Slider tipFormatter={(value) => this.sliderHandle('goodsTabLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('goodsTabLeftRightMargin', value)} />
                                     </Form.Item>
-                                    <div className="from-item pd-17 bg-f7f bor-rds-3 mb-20">
-                                        <Form.Item label="标题" name="goodsTabTitle">
-                                            <input className="w100 bd-no bd-bottom bg-f7f" type="text" />
-                                        </Form.Item>
-                                        <Form.Item label="描述文字" name="goodsTabDec">
-                                            <input className="w100 bd-no bd-bottom bg-f7f" type="text" />
-                                        </Form.Item>
-                                    </div>
+                                    {goodsTabNodesItem}
+                                    <Form.Item>
+                                        <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('goodsTabNodesList')}>添加一个</Button>
+                                    </Form.Item>
                                 </div>
                                 {/* 商品设置 */}
                                 <div className={this.state.tabState === 8 ? 'goods-set active' : 'goods-set tab-obj-item'}>
