@@ -21,37 +21,6 @@ import InputColor from 'react-input-color';
 function onChange(checkedValues) {
     console.log('checked = ', checkedValues);
 }
-class Demo extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            arr: [{
-                txt: "你是堆狗屎"
-            }]
-        }
-        this.addNodes = this.addNodes.bind(this)
-    }
-    addNodes() {
-        let arr = this.state.arr;
-        let newArr = {
-            txt: "你是第二堆狗屎"
-        }
-        arr.push(newArr);
-        this.setState(arr);
-    }
-    render() {
-        let arr = this.state.arr;
-        let element = arr.map((item) =>
-            <div className="demo-child-nodes" >{item.txt}</div>
-        )
-        return (
-            <div className="demo">
-                {element}
-                <button onClick={this.addNodes}>点击添加</button>
-            </div>
-        )
-    }
-}
 class PageDesign extends React.Component {
     constructor(props) {
         super(props)
@@ -65,7 +34,7 @@ class PageDesign extends React.Component {
             bannerPointShape: "square",
             // 轮播节点列表
             bannerNodesList: [
-                { picTitle: "图片", linkTitle: "H5链接" ,link:"aaa"}
+                { name: 'bannerLink', linkAddress: "https://www.baidu.com" }
             ]
         }
         this.tabHandle = this.tabHandle.bind(this);
@@ -106,17 +75,15 @@ class PageDesign extends React.Component {
         let color = value.rgba;
     }
     // 输入框
-    inputChange(name,index,e) {
+    inputChange(name, index, e) {
         let val = e.target.value;
         switch (name) {
             case 'bannerLink':
                 let bannerNodesList = this.state.bannerNodesList;
                 bannerNodesList[index].link = val;
-                console.log('bannerNodesList1',bannerNodesList)
                 this.setState(bannerNodesList);
-                console.log('bannerNodesList2',this.state.bannerNodesList)
                 break;
-        
+
             default:
                 break;
         }
@@ -126,9 +93,8 @@ class PageDesign extends React.Component {
         let newNodesObj
         switch (stateArrName) {
             case 'bannerNodesList':
-                newNodesObj = { picTitle: "图片", linkTitle: "H5链接",link:"" };
+                newNodesObj = { name: '', linkAddress: '' };
                 break;
-
             default:
                 break;
         }
@@ -187,6 +153,19 @@ class PageDesign extends React.Component {
         };
         // 轮播节点列表
         let bannerNodesList = this.state.bannerNodesList;
+        let bannerNodesItems = bannerNodesList.map((item, index) => {
+            return <div className="nodes-box pd-17 bg-f7f bor-rds-3 mb-20" key={index}>
+                <Form.Item label={item.picTitle} name="bannerPic">
+                    <div className="ipt-file-cover-element pos-r">
+                        <Input className="pos-a opacity-0 w100 h100" type='file' />
+                    </div>
+                </Form.Item>
+                <Form.Item label="链接地址" name={item.name}>
+                    <Input defaultValue={item.linkAddress} className="ant-input-bottom-line" onChange={(e) => this.inputChange('bannerLink', index, e)} />
+                </Form.Item>
+                <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'bannerNodesList')}></div>
+            </div>
+        })
         return (
             <div className="main">
                 <Row className="content-title mb-10">
@@ -362,8 +341,8 @@ class PageDesign extends React.Component {
                     <Col span={18}>
                         <div className={styles.pageSetWrapper}>
                             <Form
-                                name="basic"
-                                initialValues={{ remember: true }}
+                                name="page_set_form"
+                                ref={this.formRef}
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}>
                                 {/* 搜索设置 */}
@@ -400,21 +379,7 @@ class PageDesign extends React.Component {
                                     <Form.Item label="左右边距" name="bannerLfteRightMargin">
                                         <Slider tipFormatter={(value) => this.sliderHandle('bannerLfteRightMargin', value)} />
                                     </Form.Item>
-                                    {
-                                        bannerNodesList.map((item, index) => {
-                                            return <div className="nodes-box pd-17 bg-f7f bor-rds-3 mb-20" key={index}>
-                                                <Form.Item label={item.picTitle} name="bannerPic">
-                                                    <div className="ipt-file-cover-element pos-r">
-                                                        <Input className="pos-a opacity-0 w100 h100" type='file' />
-                                                    </div>
-                                                </Form.Item>
-                                                <Form.Item label={item.linkTitle} name="bannerLink">
-                                                    <Input defaultValue={item.link} className="ant-input-bottom-line" onChange={(e) => this.inputChange('bannerLink',index, e)} />
-                                                </Form.Item>
-                                                <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'bannerNodesList')}></div>
-                                            </div>
-                                        })
-                                    }
+                                    {bannerNodesItems}
                                     <Form.Item>
                                         <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('bannerNodesList')}>添加一个</Button>
                                     </Form.Item>

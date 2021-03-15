@@ -1,12 +1,12 @@
 import React from 'react';
 // 公共组件
-import Header from '../components/header';
-import Sidebar from '../components/sidebar';
-import Footer from '../components/footer';
+import Header from '../../components/header';
+import Sidebar from '../../components/sidebar';
+import Footer from '../../components/footer';
 // 样式
-import '../css/userMsg.less';
-import userPic from '../assets/images/userPic.jpg';
-import Icon from '../assets/icon/02.png';
+import '../../css/userMsg.less';
+import userPic from '../../assets/images/userPic.jpg';
+import Icon from '../../assets/icon/02.png';
 
 // antd 组件
 import { Row, Col, Breadcrumb, } from 'antd';

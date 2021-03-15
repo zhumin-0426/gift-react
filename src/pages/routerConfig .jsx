@@ -1,6 +1,8 @@
 import System from './system/index';
 import ErrorPage from './error/404';
-import PageDesign from './pageDesign/index'
+import PageDesign from './pageDesign/index';
+import UserMsg from './user/userMsg';
+import Demo from './demo';
 interface routerConfigModel {
     path: string,
     component?: any,
@@ -20,7 +22,14 @@ export const routerConfig: routerConfigModel[] = [
         component: PageDesign,
         auth: true,
     },{
+        path: '/usermsg',
+        component: UserMsg,
+        auth: true,
+    },{
         path:'/404',
         component:ErrorPage
+    },{
+        path:'/demo',
+        component:Demo
     }
 ];
