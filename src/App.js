@@ -49,7 +49,7 @@ class App extends React.Component {
                   <Switch>
                     <FrontendAuth config={routerConfig} />
                   </Switch>
-                  {/* 底部a */}
+                  {/* 底部 */}
                   <Footer ></Footer>
                 </div>
               </div>
