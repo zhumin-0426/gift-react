@@ -19,6 +19,19 @@
     height:550px;
     padding: 0 11px;
     overflow-y: scroll;
+    &::-webkit-scrollbar{
+        width: 7px
+    }
+    &::-webkit-scrollbar-thumb{
+        border-radius: 20px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2);
+    }
+    &::-webkit-scrollbar-track{
+        // -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        // border-radius: 0;
+        // background: transparent;
+    }
             .phoneTop{
                 width: 100%;
                 height: 66px;

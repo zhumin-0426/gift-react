@@ -18,9 +18,6 @@ import Goods1 from '../../assets/images/pageDesign/goods1.png';
 import { Row, Col, Breadcrumb, Divider, Form, Input, Radio, Slider, Checkbox, Button } from 'antd';
 // 拾色器
 import InputColor from 'react-input-color';
-function onChange(checkedValues) {
-    console.log('checked = ', checkedValues);
-}
 class PageDesign extends React.Component {
     constructor(props) {
         super(props)
@@ -72,10 +69,21 @@ class PageDesign extends React.Component {
             goodsTabLeftRightMargin: "",
             goodsTabNodesList: [
                 { goodsTabTitle: "", goodsTabScptTxt: "" }
-            ]
+            ],
+            // 商品
+            goodsSort: "comprehensive",
+            goodsPlayMain: ['goodsName', 'goodsScr'],
+            goodsTopBottomMargin: "",
+            goodsLfteRightMargin: "",
+            goodsPicRound: "",
+            goodsInsTopBottomMargin: "",
+            goodsInsLfteRightMargin: "",
+            goodsOutTopBottomMargin: "",
+            goodsOutLfteRightMargin: "",
         }
         this.tabHandle = this.tabHandle.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
+        this.checkBoxChange = this.checkBoxChange.bind(this);
         this.sliderChange = this.sliderChange.bind(this);
         this.colorPicker = this.colorPicker.bind(this);
         this.inputChange = this.inputChange.bind(this);
@@ -93,6 +101,26 @@ class PageDesign extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+    // 多选按钮
+    checkBoxChange(name, e) {
+        let val = e.target["data-val"];
+        let checked = e.target.checked;
+        switch (name) {
+            case 'goodsPlayMain':
+                let goodsPlayMain = this.state.goodsPlayMain;
+                if (checked) {
+                    if (!goodsPlayMain.includes(val)) {
+                        goodsPlayMain.push(val);
+                    }
+                } else {
+                    goodsPlayMain.splice(goodsPlayMain.indexOf(val), 1)
+                }
+                this.setState(goodsPlayMain);
+                break;
+            default:
+                break;
+        }
     }
     // 滑动输入条
     sliderChange(name, value) {
@@ -155,6 +183,28 @@ class PageDesign extends React.Component {
                 break;
             case "goodsTabLeftRightMargin":
                 this.setState({ goodsTabLeftRightMargin: val });
+                break;
+            // 
+            case "goodsTopBottomMargin":
+                this.setState({ goodsTopBottomMargin: val });
+                break;
+            case "goodsLfteRightMargin":
+                this.setState({ goodsLfteRightMargin: val });
+                break;
+            case "goodsPicRound":
+                this.setState({ goodsPicRound: val });
+                break;
+            case "goodsInsTopBottomMargin":
+                this.setState({ goodsInsTopBottomMargin: val });
+                break;
+            case "goodsInsLfteRightMargin":
+                this.setState({ goodsInsLfteRightMargin: val });
+                break;
+            case "goodsOutTopBottomMargin":
+                this.setState({ goodsOutTopBottomMargin: val });
+                break;
+            case "goodsOutLfteRightMargin":
+                this.setState({ goodsOutLfteRightMargin: val });
                 break;
             default:
                 break;
@@ -265,13 +315,6 @@ class PageDesign extends React.Component {
         }
     }
     render() {
-        // 多选
-        const options = [
-            { label: 'Apple', value: 'Apple' },
-            { label: 'Pear', value: 'Pear' },
-            { label: 'Orange', value: 'Orange' },
-        ];
-        const plainOptions = ['Apple', 'Pear', 'Orange'];
         // 搜索框样式单选
         const searchSearchStyleOptions = [
             { label: '方形', value: 'party' },
@@ -284,11 +327,6 @@ class PageDesign extends React.Component {
             { label: '居中', value: 'center' },
             { label: '居右', value: 'right' },
         ]
-        const optionsWithDisabled = [
-            { label: 'Apple', value: 'Apple' },
-            { label: 'Pear', value: 'Pear' },
-            { label: 'Orange', value: 'Orange', disabled: false },
-        ];
         // 轮播图指示点单选
         const bannerPointShapeOptions = [
             { label: '正方形', value: 'square' },
@@ -300,6 +338,12 @@ class PageDesign extends React.Component {
             { label: '3', value: '3' },
             { label: '4', value: '4' },
             { label: '5', value: '5' },
+        ]
+        // 商品排序
+        const goodsSortOptions = [
+            { label: '综合', value: 'comprehensive' },
+            { label: '销量', value: 'sales' },
+            { label: '价格', value: 'price' },
         ]
         // 表单提交成功
         const onFinish = (values: any) => {
@@ -397,7 +441,11 @@ class PageDesign extends React.Component {
                     <div className="delete" onClick={() => this.deleteOptionsNodes(index, 'goodsTabNodesList')}></div>
                 </div>
             )
+
+
         })
+        // 商品
+        let goodsPlayMain = this.state.goodsPlayMain;
         return (
             <div className="main">
                 <Row className="content-title mb-10">
@@ -570,11 +618,11 @@ class PageDesign extends React.Component {
                             </section>
                         </div>
                     </Col>
-                    <Col span={18}>
+                    <Col span={10}>
                         <div className={styles.pageSetWrapper}>
                             <Form
                                 name="page_set_form"
-                                initialValues={{ bannerNodesList: bannerNodesList, navNodesList: navNodesList, recNodesList: recNodesList, advNodesList: advNodesList, goodsTabNodesList: goodsTabNodesList }}
+                                initialValues={{ bannerNodesList: bannerNodesList, navNodesList: navNodesList, recNodesList: recNodesList, advNodesList: advNodesList, goodsTabNodesList: goodsTabNodesList, goodsPlayMain: goodsPlayMain }}
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}>
                                 {/* 搜索设置 */}
@@ -609,7 +657,7 @@ class PageDesign extends React.Component {
                                         <Slider onChange={(value) => this.sliderChange('bannerTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="bannerLfteRightMargin">
-                                        <Slider onChange={(value) => this.sliderChange('bannerLfteRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('bannerLfteRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     {bannerNodesItems}
                                     <Form.Item>
@@ -628,10 +676,10 @@ class PageDesign extends React.Component {
                                         ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="上下边距" name="navTopBottomMargin">
-                                        <Slider onChange={(value) => this.sliderChange('navTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="navLeftRightMargin">
-                                        <Slider onChange={(value) => this.sliderChange('navLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Divider dashed />
                                     <Form.Item label="内框背景颜色" name="navInsBgCol">
@@ -642,22 +690,22 @@ class PageDesign extends React.Component {
                                         ></InputColor>
                                     </Form.Item>
                                     <Form.Item label="上边距" name="navInsTopMargin">
-                                        <Slider onChange={(value) => this.sliderChange('navInsTopMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsTopMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="右边距" name="navInsRightMargin">
-                                        <Slider onChange={(value) => this.sliderChange('navInsRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="下边距" name="navInsBottomMargin">
-                                        <Slider onChange={(value) => this.sliderChange('navInsBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左边距" name="navInsLeftMargin">
-                                        <Slider onChange={(value) => this.sliderChange('navInsLeftMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsLeftMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="上圆角" name="navInsTopRound">
-                                        <Slider onChange={(value) => this.sliderChange('navInsTopRound', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsTopRound', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="下圆角" name="navInsBottomRound">
-                                        <Slider onChange={(value) => this.sliderChange('navInsBottomRound', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('navInsBottomRound', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="每行数量" name="navLineNum">
                                         <Radio.Group name="navLineNum" options={navLineNumOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.navLineNum} />
@@ -672,10 +720,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">系统消息</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="noticeTopBottomMargin">
-                                        <Slider onChange={(value) => this.sliderChange('noticeTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('noticeTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="noticeLeftRightMargin">
-                                        <Slider onChange={(value) => this.sliderChange('noticeLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('noticeLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                 </div>
                                 {/* 热门推荐 */}
@@ -683,10 +731,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">推荐</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="rcmTopBottomMargin">
-                                        <Slider onChange={(value) => this.sliderChange('rcmTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('rcmTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="rcmLeftRightMargin">
-                                        <Slider onChange={(value) => this.sliderChange('rcmLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('rcmLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     {recNodesItem}
                                     <Form.Item>
@@ -698,10 +746,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">广告栏</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="advTopBottomMargin">
-                                        <Slider onChange={(value) => this.sliderChange('advTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('advTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="advLeftRightMargin">
-                                        <Slider onChange={(value) => this.sliderChange('advLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('advLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     {advNodesItem}
                                     <Form.Item>
@@ -713,10 +761,10 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">商品分类导航</h3>
                                     <Divider />
                                     <Form.Item label="上下边距" name="goodsTabTopBottomMargin">
-                                        <Slider onChange={(value) => this.sliderChange('goodsTabTopBottomMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('goodsTabTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="goodsTabLeftRightMargin">
-                                        <Slider onChange={(value) => this.sliderChange('goodsTabLeftRightMargin', value)} />
+                                        <Slider onChange={(value) => this.sliderChange('goodsTabLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     {goodsTabNodesItem}
                                     <Form.Item>
@@ -728,32 +776,76 @@ class PageDesign extends React.Component {
                                     <h3 className="page-set-title">商品</h3>
                                     <Divider />
                                     <Form.Item label="商品分类" name="goodsClassify">
-                                        <select className="ant-select w100" name="" id="">
+                                        <select className="form-select w100" name="" id="">
                                             <option value="">1</option>
                                             <option value="">2</option>
                                             <option value="">3</option>
                                         </select>
                                     </Form.Item>
                                     <Form.Item label="商品排序" name="goodsSort">
-                                        {/* <Radio.Group onChange={onChange} value={value}>
-                                            <Radio value={1}>综合</Radio>
-                                            <Radio value={2}>销量</Radio>
-                                            <Radio value={3}>价格</Radio>
-                                        </Radio.Group> */}
+                                        <Radio.Group name="goodsSort" options={goodsSortOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.goodsSort} />
                                     </Form.Item>
-                                    <Form.Item label="显示内容" name="goodsTxt">
-                                        <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
-                                        <br />
-                                        <br />
-                                        <Checkbox.Group options={options} defaultValue={['Pear']} onChange={onChange} />
-                                        <br />
-                                        <br />
-                                        <Checkbox.Group
-                                            options={optionsWithDisabled}
-                                            disabled
-                                            defaultValue={['Apple']}
-                                            onChange={onChange}
-                                        />
+                                    <Divider />
+                                    <Form.Item label="商品上下边距" name="goodsTopBottomMargin">
+                                        <Slider onChange={(value) => this.sliderChange('goodsTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
+                                    </Form.Item>
+                                    <Form.Item label="商品左右边距" name="goodsLfteRightMargin">
+                                        <Slider onChange={(value) => this.sliderChange('goodsLfteRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
+                                    </Form.Item>
+                                    <Form.Item label="商品图片圆角" name="goodsPicRound">
+                                        <Slider onChange={(value) => this.sliderChange('goodsPicRound', value)} tipFormatter={this.sliderTipFormatter} />
+                                    </Form.Item>
+                                    <Divider />
+                                    <Form.Item label="内框上下边距" name="goodsInsTopBottomMargin">
+                                        <Slider onChange={(value) => this.sliderChange('goodsInsTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
+                                    </Form.Item>
+                                    <Form.Item label="内框左右边距" name="goodsInsLfteRightMargin">
+                                        <Slider onChange={(value) => this.sliderChange('goodsInsLfteRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
+                                    </Form.Item>
+                                    <Divider />
+                                    <Form.Item label="外框上下边距" name="goodsOutTopBottomMargin">
+                                        <Slider onChange={(value) => this.sliderChange('goodsOutTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
+                                    </Form.Item>
+                                    <Form.Item label="外框左右边距" name="goodsOutLfteRightMargin">
+                                        <Slider onChange={(value) => this.sliderChange('goodsOutLfteRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
+                                    </Form.Item>
+                                    <Divider />
+                                    <Form.Item label="显示内容" name="goodsPlayMain">
+                                        <Checkbox
+                                            data-val="goodsName"
+                                            defaultChecked={goodsPlayMain.includes('goodsName') ? true : false}
+                                            onChange={(e) => this.checkBoxChange('goodsPlayMain', e)}
+                                        >
+                                            商品名称
+                                            </Checkbox>
+                                        <Checkbox
+                                            data-val="goodsScr"
+                                            defaultChecked={goodsPlayMain.includes('goodsScr') ? true : false}
+                                            onChange={(e) => this.checkBoxChange('goodsPlayMain', e)}
+                                        >
+                                            商品描述
+                                            </Checkbox>
+                                        <Checkbox
+                                            data-val="goodsPrice"
+                                            defaultChecked={goodsPlayMain.includes('goodsPrice') ? true : false}
+                                            onChange={(e) => this.checkBoxChange('goodsPlayMain', e)}
+                                        >
+                                            商品价格
+                                            </Checkbox>
+                                        <Checkbox
+                                            data-val="goodsLinePrice"
+                                            defaultChecked={goodsPlayMain.includes('goodsLinePrice') ? true : false}
+                                            onChange={(e) => this.checkBoxChange('goodsPlayMain', e)}
+                                        >
+                                            商品划线价格
+                                            </Checkbox>
+                                        <Checkbox
+                                            data-val="goodsSales"
+                                            defaultChecked={goodsPlayMain.includes('goodsSales') ? true : false}
+                                            onChange={(e) => this.checkBoxChange('goodsPlayMain', e)}
+                                        >
+                                            销量
+                                            </Checkbox>
                                     </Form.Item>
                                 </div>
                                 <Form.Item>
