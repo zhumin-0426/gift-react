@@ -317,7 +317,7 @@
 .small-logo {
   height: 40px;
 }
-.ant-select {
+.form-select {
   border-radius: 2px;
   font-size: 13px;
   height: auto;
@@ -327,25 +327,25 @@
   color: #323232;
   border: none;
 }
-.ant-select:focus {
+.form-select:focus {
   outline: none;
   background: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
   transition: box-shadow, background 0.8s;
 }
-.ant-select::-webkit-input-placeholder {
+.form-select::-webkit-input-placeholder {
   color: #626262;
 }
-.ant-select:-moz-placeholder {
+.form-select:-moz-placeholder {
   color: #626262;
 }
-.ant-select::-moz-placeholder {
+.form-select::-moz-placeholder {
   color: #626262;
 }
-.ant-select:-ms-input-placeholder {
+.form-select:-ms-input-placeholder {
   color: #626262;
 }
-.ant-select:-ms-input-placeholder {
+.form-select:-ms-input-placeholder {
   color: #626262;
 }
 .ant-textarea {
@@ -540,6 +540,35 @@
   cursor: pointer;
   outline: none;
 }
+.delete-btn {
+  border: solid 1px #ff4d4f;
+  padding: 4px 10px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #ff4d4f;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  background: transparent;
+}
+.upload-file {
+  padding: 6px 12px;
+  background-color: #84ba3f;
+  color: #fff;
+  border-radius: 3px;
+  position: relative;
+}
+.upload-file input {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
 .page-set-title {
   font-size: 14px;
   font-weight: bold;
@@ -552,4 +581,7 @@
   background-image: url('../../assets/images/img-upload-bag.png');
   background-repeat: no-repeat;
   background-size: 94px 50px;
+}
+.ant-form-item-label > label {
+  height: 100%!important;
 }
