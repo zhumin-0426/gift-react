@@ -1,7 +1,7 @@
 import React from 'react';
 // 样式
-import AddGoodsCssMoudle from '../css/addGoods.module.css';
-import UploadIcon from '../assets/icon/upload.png';
+import AddGoodsCssMoudle from '../../css/addGoods.module.css';
+import UploadIcon from '../../assets/icon/upload.png';
 // antd 组件
 import { Row, Col, Breadcrumb } from 'antd';
 // from表单

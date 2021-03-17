@@ -1,11 +1,11 @@
 import React from 'react';
 // 公共组件
-import Header from '../components/header';
-import Sidebar from '../components/sidebar';
-import Footer from '../components/footer';
+import Header from '../../components/header';
+import Sidebar from '../../components/sidebar';
+import Footer from '../../components/footer';
 // 样式
-import '../css/orderDetail.less';
-import Logo from '../assets/icon/logo.png';
+import '../../css/orderDetail.less';
+import Logo from '../../assets/icon/logo.png';
 // antd 组件
 import { Row, Col, Breadcrumb } from 'antd';
 class Order extends React.Component {

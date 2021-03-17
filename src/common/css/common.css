@@ -549,14 +549,23 @@
   border-radius: 3px;
   cursor: pointer;
   outline: none;
-  background: transparent;
+  background: #fff;
+}
+.delete-btn:hover {
+  color: #fff;
+  background: #ff4d4f;
 }
 .upload-file {
   padding: 6px 12px;
-  background-color: #84ba3f;
-  color: #fff;
+  border: solid 1px #84ba3f;
+  background-color: #fff;
+  color: #84ba3f;
   border-radius: 3px;
   position: relative;
+}
+.upload-file:hover {
+  background-color: #84ba3f;
+  color: #fff;
 }
 .upload-file input {
   display: block;
