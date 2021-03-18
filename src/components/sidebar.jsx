@@ -67,18 +67,18 @@ let sideMenuList = [
     },
     {
         id: 4,
-        menuItemTitle: "用户",
+        menuItemTitle: "会员",
         menuItemIcon: <UserOutlined />,
         level1: [
             {
                 id: 11,
-                menuItemTitle: "用户列表",
+                menuItemTitle: "会员列表",
                 lever2: [],
                 url: '/users'
             },
             {
                 id: 12,
-                menuItemTitle: "用户等级",
+                menuItemTitle: "会员等级",
                 lever2: [],
                 url: '/userLevel'
             }
@@ -93,7 +93,7 @@ let sideMenuList = [
     },
     {
         id: 6,
-        menuItemTitle: "文件",
+        menuItemTitle: "文件管理",
         menuItemIcon: <FileOutlined />,
         level1: [],
         url: '/files'

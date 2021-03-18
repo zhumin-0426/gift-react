@@ -20,11 +20,7 @@ class Order extends React.Component {
 
     render() {
         return (
-            <div className="wrapper">
-                <Header />
-                <div className="content-wrapper">
-                    <Sidebar />
-                    <div className="content w100 pd-30">
+            <div className="main">
                         <Row>
                             <Col span={12}>
                                 <h3><strong>订单详情</strong></h3>
@@ -176,9 +172,6 @@ class Order extends React.Component {
                                 </div>
                             </Col>
                         </Row>
-                        <Footer />
-                    </div>
-                </div>
             </div>
         )
     }
