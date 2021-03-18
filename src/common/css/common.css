@@ -590,6 +590,7 @@
   background-image: url('../../assets/images/img-upload-bag.png');
   background-repeat: no-repeat;
   background-size: 94px 50px;
+  cursor: pointer;
 }
 .ant-form-item-label > label {
   height: 100%!important;

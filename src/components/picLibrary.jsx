@@ -1,40 +1,15 @@
-import React, { useState } from 'react'
-import { Modal, Button, Row, Col, Select, Upload, message, Pagination, Input, Popconfirm } from 'antd';
+import React from 'react'
+import { Modal, Button, Row, Col, Select, message, Pagination, Input, Popconfirm } from 'antd';
 import { QuestionCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import Draggable from 'react-draggable';
 import Delete from '../assets/images/pageDesign/delete.png';
 import Editor from '../assets/images/pageDesign/editor.png';
 import Checkout from '../assets/images/checkout.png';
 import axios from '../common/js/axios';
-import '../css/demo.less';
+import '../css/picLibrary.less';
 const { Option } = Select;
 const { confirm } = Modal;
-// 文件上传
-// class Demo extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.upLoadFile = this.upLoadFile.bind(this);
-//     }
-//     upLoadFile(e) {
-//         console.log("e", e);
-//         console.log('files', e.target.files);
-//         e.preventDefault();
-//         let file = e.target.files[0];
-//         const formdata = new FormData();
-//         formdata.append('file', file);
-//         axios.postAxios('/pageDesign/index', formdata).then(res => {
-//             console.log('res',res)
-//         })
-//     }
-//     render() {
-//         return (
-//             <div>
-//                 <input type="file" onChange={this.upLoadFile} />
-//             </div>
-//         )
-//     }
-// }
-// 确认对话框
+// 对话框=>确认
 function showConfirm() {
     confirm({
         centered: true,
@@ -51,7 +26,7 @@ function showConfirm() {
         },
     });
 }
-// 对话框
+// 对话框=> 添加分组
 class AddGroup extends React.Component {
     constructor(props) {
         console.log('props', props)
@@ -88,12 +63,14 @@ class AddGroup extends React.Component {
         );
     }
 }
-class Demo extends React.Component {
+// 对话框=> 图片库
+class PicLibrary extends React.Component {
     constructor(props) {
         super(props)
+        console.log("props",props)
         this.state = {
             // 显示/隐藏
-            visible: false,
+            visible: this.props.picLibraryStatus,
             //禁用 是/否
             disabled: true,
             bounds: { left: 0, top: 0, bottom: 0, right: 0 },
@@ -139,13 +116,15 @@ class Demo extends React.Component {
         this.setState({
             visible: false,
         });
+        this.props.picLibraryBackStatus(this.state.visible)
     };
-    // 对话框=>删除/取消
+    // 对话框=>删除/取消/背景
     handleCancel = e => {
         console.log(e);
         this.setState({
             visible: false,
         });
+        this.props.picLibraryBackStatus(this.state.visible)
     };
     // 侧边栏点击事件
     sideItemChange(e) {
@@ -198,9 +177,9 @@ class Demo extends React.Component {
         console.log('picCollection', picCollection)
     }
     // 分页
-    pageChange(page, pageSize){
-        console.log('page',page);
-        console.log('pageSize',pageSize);
+    pageChange(page, pageSize) {
+        console.log('page', page);
+        console.log('pageSize', pageSize);
     }
     onStart = (event, uiData) => {
         const { clientWidth, clientHeight } = window?.document?.documentElement;
@@ -221,7 +200,6 @@ class Demo extends React.Component {
         return (
             <>
                 {this.state.isModalVisible ? <AddGroup isModalVisible={this.state.isModalVisible} changeAddGroupStatus={this.changeAddGroupStatus} /> : ''}
-                <Button onClick={this.showModal}>Open Draggable Modal</Button>
                 <Modal
                     centered
                     title={
@@ -337,7 +315,7 @@ class Demo extends React.Component {
                                         )
                                     })}
                                 </ul>
-                                <Pagination className="pull-right" simple pageSize={12} total={50} onChange={this.pageChange}/>
+                                <Pagination className="pull-right" simple pageSize={12} total={50} onChange={this.pageChange} />
                             </div>
                         </Col>
                     </Row>
@@ -346,66 +324,5 @@ class Demo extends React.Component {
         );
     }
 }
-// import { Form, Input, Button, Row, Col } from 'antd'
 
-// const Demo = () => {
-//     const [contacts, setContacts] = useState([{ name: 'zhangsan', mobile: '15011176302' }]);
-//     console.log('contacts', contacts)
-//     // 提交
-//     const [form] = Form.useForm()
-//     const submitForm = () => {
-//         form.validateFields()
-//             .then(values => {
-//                 console.log(values);
-//             })
-//     }
-//     // 添加
-//     const add = () => {
-//         form.setFieldsValue({ "contacts": [...contacts, { name: '', mobile: '' }] })
-//         return setContacts([...contacts, { name: '', mobile: '' }])
-//     }
-//     // 删除
-//     const del = (index) => {
-//         form.setFieldsValue({ "contacts": [...contacts.slice(0, index), ...contacts.slice(index + 1)] })
-//         return setContacts([...contacts.slice(0, index), ...contacts.slice(index + 1)])
-//     }
-//     // 输入框监听
-//     const onChange = (index, name, event) => {
-//         let tempArray = [...contacts];
-//         if ('name' === name)
-//             tempArray[index] = { ...tempArray[index], name: event.target.value }
-//         else
-//             tempArray[index] = { ...tempArray[index], mobile: event.target.value }
-//         return setContacts(tempArray)
-//     }
-//     const contactsItems = contacts.map((item, index) => {
-//         return <Row key={index}>
-//             <Col span={10}>
-//                 <Form.Item label="name" name={['contacts', index, 'name']}><Input onChange={(event) => onChange(index, 'name', event)} /></Form.Item>
-//             </Col>
-//             <Col span={10}>
-//                 <Form.Item label="mobile" name={['contacts', index, 'mobile']} ><Input onChange={(event) => onChange(index, 'mobile', event)} /></Form.Item>
-//             </Col>
-//             <Col span={3} offset={1}>
-//                 <Button type="primary" onClick={() => del(index)}>-</Button>
-//             </Col>
-//         </Row>
-//     })
-//     return <Row>
-//         <Col>
-//             <Form name="user_form" form={form} layout={'horizontal'} onFinish={submitForm} initialValues={{ contacts: contacts }}>
-//                 <Form.Item label="username" name="username">
-//                     <Input />
-//                 </Form.Item>
-//                 <Form.Item label="contacts">
-//                     {contactsItems}
-//                 </Form.Item>
-//                 <Form.Item><Button type="primary" onClick={add}>+</Button></Form.Item>
-//                 <Form.Item>
-//                     <Button type="primary" htmlType='submit'>submit</Button>
-//                 </Form.Item>
-//             </Form>
-//         </Col>
-//     </Row>
-// }
-export default Demo
+export default PicLibrary

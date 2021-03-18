@@ -16,6 +16,8 @@ import Adversing from '../../assets/images/pageDesign/adversing.png';
 import Goods1 from '../../assets/images/pageDesign/goods1.png';
 // antd 组件
 import { Row, Col, Breadcrumb, Divider, Form, Input, Radio, Slider, Checkbox, Button } from 'antd';
+// 图片库组件
+import PicLibrary from '../../components/picLibrary';
 // 拾色器
 import InputColor from 'react-input-color';
 class PageDesign extends React.Component {
@@ -80,6 +82,8 @@ class PageDesign extends React.Component {
             goodsInsLfteRightMargin: "",
             goodsOutTopBottomMargin: "",
             goodsOutLfteRightMargin: "",
+            // 图片库
+            picLibraryStatus: false
         }
         this.tabHandle = this.tabHandle.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
@@ -88,6 +92,8 @@ class PageDesign extends React.Component {
         this.colorPicker = this.colorPicker.bind(this);
         this.inputChange = this.inputChange.bind(this);
         this.addOptionsNodes = this.addOptionsNodes.bind(this);
+        this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
+        this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
     }
     // 点击切换
     tabHandle(e) {
@@ -314,6 +320,15 @@ class PageDesign extends React.Component {
             this.setState(newStateArr);
         }
     }
+    // 图片库=>数据返回
+    picLibraryBackStatus(data) {
+        this.setState({
+            picLibraryStatus:!data
+        })
+    }
+    picLibraryStatusChange() {
+        this.setState({ picLibraryStatus:true});
+    }
     render() {
         // 搜索框样式单选
         const searchSearchStyleOptions = [
@@ -357,9 +372,9 @@ class PageDesign extends React.Component {
         let bannerNodesList = this.state.bannerNodesList;
         let bannerNodesItems = bannerNodesList.map((item, index) => {
             return <div className="nodes-box pd-17 bg-f7f bor-rds-3 mb-20" key={index}>
-                <Form.Item label={item.picTitle} name="bannerPic">
-                    <div className="ipt-file-cover-element pos-r">
-                        <Input className="pos-a opacity-0 w100 h100" type='file' />
+                <Form.Item label="图片" name="bannerPic">
+                    <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
+                        {/* <Input className="pos-a opacity-0 w100 h100" type='file' /> */}
                     </div>
                 </Form.Item>
                 <Form.Item label="链接地址" name={['bannerNodesList', index, 'linkAddress']}>
@@ -620,6 +635,8 @@ class PageDesign extends React.Component {
                     </Col>
                     <Col span={10}>
                         <div className={styles.pageSetWrapper}>
+                            {/* 图片库组件 */}
+                            {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
                             <Form
                                 name="page_set_form"
                                 initialValues={{ bannerNodesList: bannerNodesList, navNodesList: navNodesList, recNodesList: recNodesList, advNodesList: advNodesList, goodsTabNodesList: goodsTabNodesList, goodsPlayMain: goodsPlayMain }}

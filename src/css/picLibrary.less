@@ -1,0 +1,159 @@
+.sidebar{
+    width:100%;
+    height:340px;
+    overflow-y:scroll;
+    &::-webkit-scrollbar{
+        width: 7px
+    }
+    &::-webkit-scrollbar-thumb{
+        border-radius: 20px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2);
+    }
+    &::-webkit-scrollbar-track{
+        // -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        // border-radius: 0;
+        // background: transparent;
+    }
+    .side-item{
+        padding:10px 15px;
+        text-align:center;
+        color: #595961;
+        cursor: pointer;
+        position: relative;
+        &:hover{
+            background-color: rgba(132,186,63,0.2);
+        }
+        .cover{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .new-side-item{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        &:hover{
+            .editor{
+                display: block
+            }
+            .delete{
+                display: block
+            }
+        }
+        .editor{
+            display: none;
+            z-index: 999;
+            img{
+                display: block;
+                width:15px;
+                height: 15px;
+            }
+        }
+        .delete{
+            display: none;
+            position: relative;
+            img{
+                display: block;
+                width:15px;
+                height: 15px;
+            }
+        }
+    }
+    .side-item-active{
+        background-color: rgba(132,186,63,0.2);
+        color: #84ba3f
+    }
+}
+.add-group{
+    padding:10px 15px;
+    text-align:center;
+    color: #84ba3f;
+    cursor: pointer;
+    &:hover{
+        color: #689133;
+    }
+}
+.sidebar-change-obj{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    overflow: hidden;
+    .top{
+        margin-bottom: 10px;
+        .left{
+            button{
+                margin-left: 10px
+            }
+        }
+    }
+    .content{
+        width: 100%;
+        height: 380px;
+        overflow-y:scroll;
+        display: flex;
+        flex-wrap: wrap;
+        &::-webkit-scrollbar{
+            width: 7px
+        }
+        &::-webkit-scrollbar-thumb{
+            border-radius: 20px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.2);
+        }
+        &::-webkit-scrollbar-track{
+            // -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            // border-radius: 0;
+            // background: transparent;
+        }
+        li{
+            box-sizing: border-box;
+            width: 25%;
+            padding: 10px;
+                .img-box{
+                    width: 100%;
+                    height: 180px;
+                    padding: 10px;
+                    border-radius: 8px;
+                    border: 1px solid rgba(0,0,0,.05);
+                    position: relative;
+                    &:hover{
+                        border: 1px solid #84ba3f;
+                        transition: border 0.5s;
+                    }
+                    .img{
+                        width: 100%;
+                        height: 120px;
+                        background-repeat: no-repeat;
+                        background-size: 100%;
+                        background-size: cover;
+                        background-position: center;
+                        margin-bottom: 10px
+                    }
+                    .cover{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 8px;
+                        background-color: rgba(0,0,0,0.6);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        opacity: 0;
+                        img{
+                            display: block;
+                            width: 80px
+                        }
+                    }
+                    .cover-active{
+                        opacity: 1;
+                    }
+                }
+        }
+    }
+}
