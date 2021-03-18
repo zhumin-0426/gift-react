@@ -562,6 +562,7 @@
   color: #84ba3f;
   border-radius: 3px;
   position: relative;
+  cursor: pointer;
 }
 .upload-file:hover {
   background-color: #84ba3f;

@@ -6,7 +6,7 @@ import Delete from '../assets/images/pageDesign/delete.png';
 import Editor from '../assets/images/pageDesign/editor.png';
 import Checkout from '../assets/images/checkout.png';
 import axios from '../common/js/axios';
-import '../css/picLibrary.less';
+import styles from '../css/picLibrary.module.css';
 const { Option } = Select;
 const { confirm } = Modal;
 // 对话框=>确认
@@ -251,7 +251,7 @@ class PicLibrary extends React.Component {
                 >
                     <Row>
                         <Col span={4}>
-                            <ul className="sidebar">
+                            <ul className={styles.sidebar}>
                                 <li className={this.state.currentSideItemId === 0 ? "side-item side-item-active" : "side-item"} data-group-id={0} onClick={this.sideItemChange}>全部</li>
                                 <li className={this.state.currentSideItemId === 1 ? "side-item side-item-active" : "side-item"} data-group-id={1} onClick={this.sideItemChange}>未分组</li>
                                 {sideList.map((item, index) => {
@@ -272,10 +272,10 @@ class PicLibrary extends React.Component {
                                     )
                                 })}
                             </ul>
-                            <div className="add-group" onClick={this.addGroupChange}>新增分组</div>
+                            <div className={styles.addGroup} onClick={this.addGroupChange}>新增分组</div>
                         </Col>
                         <Col span={20}>
-                            <div className="sidebar-change-obj">
+                            <div className={styles.sidebarChangeObj}>
                                 <div className="top dis-flx justify-space-between">
                                     <div className="left">
                                         <Select placeholder="移动图片" style={{ width: 120 }} onSelect={this.movePic}>
@@ -289,13 +289,13 @@ class PicLibrary extends React.Component {
                                         </Popconfirm>
                                     </div>
                                     <div className="right">
-                                        <div className="upload-file">
+                                        <button className="upload-file">
                                             <i className="iconfont icon-tianjia fon-14" style={{
                                                 marginRight: 4
                                             }}></i>
                                               上传图片
                                               <input type="file" />
-                                        </div>
+                                        </button>
                                     </div>
                                 </div>
                                 <ul className="content">

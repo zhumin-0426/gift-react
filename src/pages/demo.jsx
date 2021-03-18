@@ -6,7 +6,7 @@ import Delete from '../assets/images/pageDesign/delete.png';
 import Editor from '../assets/images/pageDesign/editor.png';
 import Checkout from '../assets/images/checkout.png';
 import axios from '../common/js/axios';
-import '../css/demo.less';
+import styles from '../css/demo.module.css';
 const { Option } = Select;
 const { confirm } = Modal;
 // 文件上传
@@ -106,7 +106,7 @@ class Demo extends React.Component {
             isModalVisible: false,
             // 图片列表
             picList: [
-                { id: 0, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false, },
+                { id: 0, imgUrl: "https://www.chaorenmall.com/uploads/1/202009241802589a73a3073.jpg", picName: "1", coverBol: false, },
                 { id: 1, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "2", coverBol: false },
                 { id: 2, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
                 { id: 3, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
@@ -273,7 +273,7 @@ class Demo extends React.Component {
                 >
                     <Row>
                         <Col span={4}>
-                            <ul className="sidebar">
+                            <ul className={styles.sidebar}>
                                 <li className={this.state.currentSideItemId === 0 ? "side-item side-item-active" : "side-item"} data-group-id={0} onClick={this.sideItemChange}>全部</li>
                                 <li className={this.state.currentSideItemId === 1 ? "side-item side-item-active" : "side-item"} data-group-id={1} onClick={this.sideItemChange}>未分组</li>
                                 {sideList.map((item, index) => {
@@ -294,10 +294,10 @@ class Demo extends React.Component {
                                     )
                                 })}
                             </ul>
-                            <div className="add-group" onClick={this.addGroupChange}>新增分组</div>
+                            <div className={styles.addGroup} onClick={this.addGroupChange}>新增分组</div>
                         </Col>
                         <Col span={20}>
-                            <div className="sidebar-change-obj">
+                        <div className={styles.sidebarChangeObj}>
                                 <div className="top dis-flx justify-space-between">
                                     <div className="left">
                                         <Select placeholder="移动图片" style={{ width: 120 }} onSelect={this.movePic}>
@@ -337,7 +337,7 @@ class Demo extends React.Component {
                                         )
                                     })}
                                 </ul>
-                                <Pagination className="pull-right" simple pageSize={12} total={50} onChange={this.pageChange}/>
+                                <Pagination className="pull-right" simple pageSize={12} total={50} onChange={this.pageChange} />
                             </div>
                         </Col>
                     </Row>
