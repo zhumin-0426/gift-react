@@ -323,11 +323,11 @@ class PageDesign extends React.Component {
     // 图片库=>数据返回
     picLibraryBackStatus(data) {
         this.setState({
-            picLibraryStatus:!data
+            picLibraryStatus: !data
         })
     }
     picLibraryStatusChange() {
-        this.setState({ picLibraryStatus:true});
+        this.setState({ picLibraryStatus: true });
     }
     render() {
         // 搜索框样式单选
@@ -374,7 +374,6 @@ class PageDesign extends React.Component {
             return <div className="nodes-box pd-17 bg-f7f bor-rds-3 mb-20" key={index}>
                 <Form.Item label="图片" name="bannerPic">
                     <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
-                        {/* <Input className="pos-a opacity-0 w100 h100" type='file' /> */}
                     </div>
                 </Form.Item>
                 <Form.Item label="链接地址" name={['bannerNodesList', index, 'linkAddress']}>
@@ -388,8 +387,7 @@ class PageDesign extends React.Component {
         let bannerNodesItem = navNodesList.map((item, index) => {
             return <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
                 <Form.Item label="图片" name="navPic">
-                    <div className="ipt-file-cover-element pos-r">
-                        <Input className="pos-a opacity-0 w100 h100" type='file' />
+                    <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
                     </div>
                 </Form.Item>
                 <Form.Item label="文字内容" name={['navNodesList', index, 'navTxt']}>
@@ -414,8 +412,7 @@ class PageDesign extends React.Component {
             return (
                 <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
                     <Form.Item label="图片" name="rcmPic">
-                        <div className="ipt-file-cover-element pos-r">
-                            <Input className="pos-a opacity-0 w100 h100" type='file' />
+                        <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
                         </div>
                     </Form.Item>
                     <Form.Item label="H5链接" name={['recNodesList', index, 'linkAddress']}>
@@ -431,8 +428,7 @@ class PageDesign extends React.Component {
             return (
                 <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
                     <Form.Item label="图片" name="advPic">
-                        <div className="ipt-file-cover-element pos-r">
-                            <Input className="pos-a opacity-0 w100 h100" type='file' />
+                        <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
                         </div>
                     </Form.Item>
                     <Form.Item label="H5链接" name={['advNodesList', index, 'linkAddress']}>

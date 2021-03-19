@@ -12,12 +12,39 @@
         padding: 0px 20px;
         transform: translateY(50%);
         .user-pic{
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 1px 1px 15px rgba(0,0,0,0.1);
+            margin-right: 30px;
+            position: relative;
             img{
-                max-width: 120px;
-                box-shadow: 1px 1px 15px rgba(0,0,0,0.1);
-                margin-right: 30px;
-                border: 5px solid #fff;
+                width: inherit;
+                height: inherit;
                 border-radius: 50%;
+            }
+            .cover{
+                display: none;
+                width: inherit;
+                height: inherit;
+                position: absolute;
+                top: 0;
+                left: 0;
+                border-radius: 50%;
+                text-align: center;
+                line-height: 120px;
+                background-color: rgba(0,0,0,0.5);
+                img{
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            &:hover{
+                background-color: transparent;
+                .cover{
+                    display: block;
+                }
             }
         }
         .editor-btn{
@@ -31,6 +58,7 @@
         }
         .editor-btn:hover{
             background-color:#1f8136 ;
+            transition: all 0.3s;
         }
     }
 }
@@ -54,9 +82,25 @@
     transition: all .35s ease;
 }
 .notice-card{
+    margin-top: 30px;
     img{
         width: 50px;
         border-radius: 50%;
         margin-right: 15px;
+    }
+}
+.send-notice-card{
+    overflow: hidden;
+    .send{
+         background-color: #323232;
+         border: none;
+         padding: 13px 23px;
+         color: #fff;
+         font-weight: bold;
+         border-radius: 3px;
+         font-size: 16px;
+         &:hover{
+            background-color: #84ba3f;
+         }
     }
 }

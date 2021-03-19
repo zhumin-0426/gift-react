@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import '../css/sidebar.less';
 // antd组件
 import { Menu } from 'antd';
-import { CodeOutlined, ShoppingCartOutlined, UserOutlined, BarChartOutlined, MessageOutlined, FileOutlined } from '@ant-design/icons';
+import { CodeOutlined, ShoppingCartOutlined, UserOutlined, BarChartOutlined, MessageOutlined, FileOutlined ,DollarOutlined} from '@ant-design/icons';
 const { SubMenu } = Menu;
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 // 列表结构
@@ -26,12 +26,12 @@ let sideMenuList = [
                 lever2: [],
                 url: '/pageDesign'
             },
-            {
-                id: 8,
-                menuItemTitle: "底部导航设置",
-                lever2: [],
-                url: '/bottomNav'
-            }
+            // {
+            //     id: 8,
+            //     menuItemTitle: "底部导航设置",
+            //     lever2: [],
+            //     url: '/bottomNav'
+            // }
         ]
     },
     {
@@ -51,15 +51,46 @@ let sideMenuList = [
                 lever2: [],
                 url: '/goodsClassify'
             },
-            {
-                id: 11,
-                menuItemTitle: "商品评价",
-                lever2: [],
-                url: '/goodsComment'
-            },
+            // {
+            //     id: 11,
+            //     menuItemTitle: "商品评价",
+            //     lever2: [],
+            //     url: '/goodsComment'
+            // },
+            // {
+            //     id: 13,
+            //     menuItemTitle: "订单",
+            //     lever2: [],
+            //     url: '/order'
+            // },
+        ]
+    },
+    {
+        id: 11,
+        menuItemTitle: "交易",
+        menuItemIcon: <DollarOutlined />,
+        level1: [
+            // {
+            //     id: 9,
+            //     menuItemTitle: "商品列表",
+            //     lever2: [],
+            //     url: '/goods'
+            // },
+            // {
+            //     id: 10,
+            //     menuItemTitle: "商品分类",
+            //     lever2: [],
+            //     url: '/goodsClassify'
+            // },
+            // {
+            //     id: 11,
+            //     menuItemTitle: "商品评价",
+            //     lever2: [],
+            //     url: '/goodsComment'
+            // },
             {
                 id: 13,
-                menuItemTitle: "订单",
+                menuItemTitle: "订单列表",
                 lever2: [],
                 url: '/order'
             },
@@ -74,23 +105,23 @@ let sideMenuList = [
                 id: 11,
                 menuItemTitle: "会员列表",
                 lever2: [],
-                url: '/users'
+                url: '/members'
             },
-            {
-                id: 12,
-                menuItemTitle: "会员等级",
-                lever2: [],
-                url: '/userLevel'
-            }
+            // {
+            //     id: 12,
+            //     menuItemTitle: "会员等级",
+            //     lever2: [],
+            //     url: '/userLevel'
+            // }
         ]
     },
-    {
-        id: 5,
-        menuItemTitle: "消息",
-        menuItemIcon: <MessageOutlined />,
-        level1: [],
-        url: '/mssage'
-    },
+    // {
+    //     id: 5,
+    //     menuItemTitle: "消息",
+    //     menuItemIcon: <MessageOutlined />,
+    //     level1: [],
+    //     url: '/mssage'
+    // },
     {
         id: 6,
         menuItemTitle: "文件管理",

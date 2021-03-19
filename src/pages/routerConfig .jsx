@@ -1,7 +1,9 @@
 import System from './system/index';
 import ErrorPage from './error/404';
 import PageDesign from './pageDesign/index';
-import UserMsg from './user/userMsg';
+import UserMsg from './user/index';
+import Members from './members/index';
+// import AddMembers from './user/addUser';
 import Goods from './goods/index';
 import AddGoods from './goods/addGoods';
 import GoodsDetail from './goods/goodsDetail';
@@ -25,6 +27,10 @@ export const routerConfig: routerConfigModel[] = [
     },{
         path: '/pageDesign',
         component: PageDesign,
+        auth: true,
+    },{
+        path: '/members',
+        component: Members,
         auth: true,
     },{
         path: '/usermsg',
