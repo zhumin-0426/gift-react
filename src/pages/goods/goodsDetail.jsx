@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 // 样式
 import '../../css/goodsDetail.less';
 import GoodsImg from '../../assets/images/product-4.jpg';
+import UploadIcon from '../../assets/icon/upload.png';
 // antd 组件
-import { Row, Col, Breadcrumb, Rate, Divider, Form, Input, Upload, Radio,Button } from 'antd';
+import { Row, Col, Breadcrumb, Rate, Divider, Form, Input, Upload, Radio, Button } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import Editor from 'react-umeditor';
-
+// 图片库组件
+import PicLibrary from '../../components/picLibrary';
 class Describe extends React.Component {
     constructor(props) {
         super(props);
@@ -21,10 +23,14 @@ class Describe extends React.Component {
             goodsInventoryCalculate: 'xd',
             // 编辑器
             content: "",
-            goodsState: "shelves"
+            goodsState: "shelves",
+            // 图片库
+            picLibraryStatus: false
         }
         this.setFileList = this.setFileList.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
+        this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
+        this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
     }
     // 图片上传回调
     setFileList = (value) => {
@@ -61,13 +67,22 @@ class Describe extends React.Component {
             }
         }
     }
+    // 图片库=>数据返回
+    picLibraryBackStatus(data) {
+        this.setState({
+            picLibraryStatus: !data
+        })
+    }
+    picLibraryStatusChange() {
+        this.setState({ picLibraryStatus: true });
+    }
     render() {
         // 表单提交成功
-        const onFinish = (values: any) => {
+        const onFinish = (values) => {
             console.log('Success:', values);
         };
         // 表单提交失败
-        const onFinishFailed = (errorInfo: any) => {
+        const onFinishFailed = (errorInfo) => {
             console.log('Failed:', errorInfo);
         };
         // 图片上传
@@ -116,6 +131,8 @@ class Describe extends React.Component {
         var plugins = this.getPlugins();
         return (
             <>
+                {/* 图片库组件 */}
+                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
                 <div className="tab-obj pd-17">
                     <Form
                         name="basic"
@@ -128,14 +145,14 @@ class Describe extends React.Component {
                             <Input />
                         </Form.Item>
                         <Form.Item label="商品分类" name="goodsClassify">
-                            <select className="ant-select w100" name="" id="">
+                            <select className="form-select w100" name="" id="">
                                 <option value="">1</option>
                                 <option value="">2</option>
                                 <option value="">3</option>
                             </select>
                         </Form.Item>
                         <Form.Item label="商品图片" name="goodsPic">
-                            <ImgCrop rotate>
+                            {/* <ImgCrop rotate>
                                 <Upload
                                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                                     listType="picture-card"
@@ -145,10 +162,17 @@ class Describe extends React.Component {
                                 >
                                     {this.state.fileList.length < 5 && '+ Upload'}
                                 </Upload>
-                            </ImgCrop>
+                                <div className="fromControlFile">
+                                    <img src={UploadIcon} alt="" />
+                                </div>
+                            </ImgCrop> */}
+                            <div className="fromControlFile" onClick={this.picLibraryStatusChange}>
+                                <img src={UploadIcon} alt="" />
+                                <p className="fon-13 text-626"> 添加图片</p>
+                            </div>
                             <div className="prompt text-6c7 fon-12 mt-10">尺寸750x750像素比，大小2M以下</div>
                         </Form.Item>
-                        <Form.Item label="商品卖点" name="goodsPic">
+                        <Form.Item label="商品描述" name="goodsPic">
                             <Input />
                             <div className="prompt text-6c7 fon-12 mt-10">选填，商品卖点简述，例如：此款商品美观大方 性价比较高 不容错过</div>
                         </Form.Item>
@@ -158,19 +182,19 @@ class Describe extends React.Component {
                             <Radio.Group options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsStyle} />
                         </Form.Item>
                         <div className="goodsStyleBox">
-                            <Form.Item label="商品市场价格" name="goodsPrice">
+                            <Form.Item label="商品价格" name="goodsPrice">
                                 <Input />
                             </Form.Item>
-                            <Form.Item label="商品划线价格" name="goodsLineMoney">
+                            <Form.Item label="划线价格" name="goodsLineMoney">
                                 <Input />
                             </Form.Item>
-                            <Form.Item label="商品现有库存" name="goodsInventory">
+                            <Form.Item label="现有库存" name="goodsInventory">
                                 <Input />
                             </Form.Item>
-                            <Form.Item label="商品已购数量" name="buyGoodsNum">
+                            {/* <Form.Item label="商品已购数量" name="buyGoodsNum">
                                 <Input />
-                            </Form.Item>
-                            <Form.Item label="库存计算方式" name="goodsInventoryCalculate">
+                            </Form.Item> */}
+                            <Form.Item label="库存计算" name="goodsInventoryCalculate">
                                 <Radio.Group options={goodsInventoryOptions} onChange={(e) => this.radioHandle("goodsInventoryCalculate", e)} defaultValue={this.state.goodsInventoryCalculate} />
                             </Form.Item>
                         </div>
@@ -183,10 +207,10 @@ class Describe extends React.Component {
                             plugins={plugins} />
                         <h3 className="page-set-title mt-20">其他</h3>
                         <Divider />
-                        <Form.Item label="商品线上状态" name="goodsState">
+                        <Form.Item label="线上状态" name="goodsState">
                             <Radio.Group options={goodsStateOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsState} />
                         </Form.Item>
-                        <Form.Item label="商品初始销量" name="originSales">
+                        <Form.Item label="初始销量" name="originSales">
                             <Input />
                         </Form.Item>
                         <Form.Item>

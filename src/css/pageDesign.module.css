@@ -23,8 +23,11 @@
 }
 .pageDesignCard::-webkit-scrollbar-thumb {
   border-radius: 20px;
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(131, 131, 131, 0.2);
+}
+.pageDesignCard:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 1s;
 }
 .pageDesignCard .phoneTop {
   width: 100%;

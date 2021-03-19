@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "..\\..\\work\\拓客汇\\拓客汇\\admin\\vue-element-admin"
 		}
 	]
 }

@@ -175,7 +175,7 @@ class System extends React.Component {
                                     <i className="iconfont icon-chart fon-44 text-dc3"></i>
                                 </div>
                                 <div className="car-data">
-                                    <div className="car-data-title fon-14 text-343">访问量</div>
+                                    <div className="car-data-title fon-14 text-343">访问</div>
                                     <div className="car-data-num fon-22 text-323 fon-w-500">100</div>
                                 </div>
                             </div>
@@ -192,7 +192,7 @@ class System extends React.Component {
                                     <i className="iconfont icon-shopping-cart fon-44 text-ffc"></i>
                                 </div>
                                 <div className="car-data">
-                                    <div className="car-data-title fon-14 text-343">访问量</div>
+                                    <div className="car-data-title fon-14 text-343">购买</div>
                                     <div className="car-data-num fon-22 text-323 fon-w-500">100</div>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@ class System extends React.Component {
                                     <i className="iconfont icon-dollar fon-44 text-28a"></i>
                                 </div>
                                 <div className="car-data">
-                                    <div className="car-data-title fon-14 text-343">访问量</div>
+                                    <div className="car-data-title fon-14 text-343">收入</div>
                                     <div className="car-data-num fon-22 text-323 fon-w-500">100</div>
                                 </div>
                             </div>
@@ -226,7 +226,7 @@ class System extends React.Component {
                                     <i className="iconfont icon-twitter fon-44 text-007"></i>
                                 </div>
                                 <div className="car-data">
-                                    <div className="car-data-title fon-14 text-343">访问量</div>
+                                    <div className="car-data-title fon-14 text-343">用户</div>
                                     <div className="car-data-num fon-22 text-323 fon-w-500">100</div>
                                 </div>
                             </div>

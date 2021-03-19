@@ -3,113 +3,219 @@ import React from 'react';
 import AddGoodsCssMoudle from '../../css/addGoods.module.css';
 import UploadIcon from '../../assets/icon/upload.png';
 // antd 组件
-import { Row, Col, Breadcrumb } from 'antd';
-// from表单
-const FormHandle = (props) => {
-    console.log("props", props);
-    let tabid = props.tabid;
-    const prevStepEvent = () => {
-        var stepNum = this.state.tabid;
-        if (Number(stepNum) !== 0) {
-            this.setState({
-                tabid: (Number(stepNum) - 1) + ''
-            })
+import { Row, Col, Breadcrumb, Form, Input, Radio } from 'antd';
+import FormItem from 'antd/lib/form/FormItem';
+import Editor from 'react-umeditor';
+// 图片库组件
+import PicLibrary from '../../components/picLibrary';
+const { TextArea } = Input;
+
+class FromList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            // 编辑器
+            content: "",
+            // 图片库
+            picLibraryStatus: false
         }
+        this.prevStepEvent = this.prevStepEvent.bind(this);
+        this.nextStepEvent = this.nextStepEvent.bind(this);
+        this.radioHandle = this.radioHandle.bind(this);
+        this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
+        this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
     }
-    const nextStepEvent = () => {
-        var stepNum = this.state.tabid;
-        console.log(stepNum)
+    // 上一步
+    prevStepEvent() {
+        var tabid = (Number(this.props.tabid) - 1) + '';
+        this.props.childPassData(tabid)
+    }
+    // 下一步
+    nextStepEvent() {
+        var tabid = (Number(this.props.tabid) + 1) + '';
+        this.props.childPassData(tabid)
+    }
+    // 单选按钮
+    radioHandle(name, e) {
+        console.log('name', name);
+        console.log('radio1 checked', e.target.value);
+    }
+    // 编辑器
+    handleChange(content) {
         this.setState({
-            tabid: (Number(stepNum) + 1) + ''
+            content: content
         })
     }
-    return (
-        <form action="">
-            <div className={tabid === '0' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                <div className="form-item mb-15">
-                    <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">商品名称</label>
-                    <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入商品名称" />
-                </div>
-                <div className="form-item mb-15">
-                    <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">商品描述</label>
-                    <textarea className="ant-textarea fon-w-500 w100" name="" id="" cols="30" rows="10" placeholder="请输入商品描述"></textarea>
-                </div>
-                <div className="form-item">
-                    <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">商品类别</label>
-                    <select className="ant-select w100" name="" id="">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                    </select>
-                </div>
-                <div className="form-item">
-                    <div className="step-btn text-align-right mt-20 mb-20">
-                        <button className="prev-step-btn mr-20 fon-13" onClick={prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</button>
-                        <button className="next-step-btn fon-13" onClick={nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</button>
+    getIcons() {
+        var icons = [
+            "source | undo redo | bold italic underline strikethrough fontborder emphasis | ",
+            "paragraph fontfamily fontsize | superscript subscript | ",
+            "forecolor backcolor | removeformat | insertorderedlist insertunorderedlist | selectall | ",
+            "cleardoc  | indent outdent | justifyleft justifycenter justifyright | touppercase tolowercase | ",
+            "horizontal date time  | image emotion spechars | inserttable"
+        ]
+        return icons;
+    }
+    getPlugins() {
+        return {
+            "image": {
+                "uploader": {
+                    "name": "file",
+                    "url": "/api/upload"
+                }
+            }
+        }
+    }
+    // 图片库=>数据返回
+    picLibraryBackStatus(data) {
+        this.setState({
+            picLibraryStatus: !data
+        })
+    }
+    picLibraryStatusChange() {
+        this.setState({ picLibraryStatus: true });
+    }
+    render() {
+        let tabid = this.props.tabid;
+        // 商品规格
+        const goodsStyleOptions = [
+            { label: '单规格', value: 'single' },
+            { label: '多规格', value: 'double' }
+        ];
+        // 表单提交
+        const onFinish = (values) => {
+            console.log('Success:', values);
+        };
+
+        const onFinishFailed = (errorInfo) => {
+            console.log('Failed:', errorInfo);
+        };
+        // 编辑器
+        var icons = this.getIcons();
+        var plugins = this.getPlugins();
+        return (
+            <>
+                {/* 图片库组件 */}
+                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
+                <Form
+                    layout="vertical"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
+                    <div className={tabid === '0' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
+                        <Form.Item
+                            label="商品名称"
+                            name="goodsName"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '亲，您还没有输入商品名称哦!',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="商品名称" />
+                        </Form.Item>
+                        <Form.Item
+                            label="商品描述"
+                            name="goodsDescribe"
+                        >
+                            <TextArea rows={4} />
+                        </Form.Item>
+                        <Form.Item
+                            label="商品类别"
+                            name="goodsType"
+                        >
+                            <select className="form-select w100" name="" id="">
+                                <option value="">1</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                            </select>
+                        </Form.Item>
+                        <Form.Item
+                            label="商品价格"
+                            name="price"
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label="划线价格"
+                            name="linePrice"
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="商品规格" name="goodsStyle">
+                            <Radio.Group options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} />
+                        </Form.Item>
+                        <FormItem>
+                            <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
+                        </FormItem>
                     </div>
-                </div>
-            </div>
-            <div className={tabid === '1' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                <div className="form-item upload-img">
-                    <label htmlFor={AddGoodsCssMoudle.fromControlFile} className={AddGoodsCssMoudle.fromControlFile}>
-                        <img src={UploadIcon} alt="" />
-                    </label>
-                    <p className="text-align fon-13 text-626"> 上传图片</p>
-                    <input id={AddGoodsCssMoudle.fromControlFile} type="file" />
-                </div>
-                <div className="form-item">
-                    <div className="step-btn text-align-right mt-20 mb-20">
-                        <button className="prev-step-btn mr-20 fon-13" onClick={prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</button>
-                        <button className="next-step-btn fon-13" onClick={nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</button>
+                    <div className={tabid === '1' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
+                        <Form.Item>
+                            <div className={AddGoodsCssMoudle.fromControlFile} onClick={this.picLibraryStatusChange}>
+                                <img src={UploadIcon} alt="" />
+                            </div>
+                            <p className="text-align fon-13 text-626"> 上传图片</p>
+                            <div className="prompt text-6c7 fon-12 mt-10">尺寸750x750像素比，大小2M以下</div>
+                        </Form.Item>
+                        <FormItem>
+                            <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
+                            <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
+                        </FormItem>
                     </div>
-                </div>
-            </div>
-            <div className={tabid === '2' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                <div className="form-item mb-15">
-                    <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">划线价格</label>
-                    <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入划线价格" />
-                </div>
-                <div className="form-item mb-15">
-                    <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">实际价格</label>
-                    <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入划线价格" />
-                </div>
-                <div className="form-item">
-                    <div className="step-btn text-align-right mt-20 mb-20">
-                        <button className="prev-step-btn mr-20 fon-13" onClick={prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</button>
-                        <button className="next-step-btn fon-13" onClick={nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</button>
+                    <div className={tabid === '2' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
+                        <FormItem><Editor ref="editor"
+                            icons={icons}
+                            value={this.state.content} defaultValue="<p>React Umeditor</p>"
+                            onChange={this.handleChange.bind(this)}
+                            plugins={plugins} /></FormItem>
+                        <FormItem>
+                            <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
+                            <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
+                        </FormItem>
                     </div>
-                </div>
-            </div>
-            <div className={tabid === '3' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                <div className="form-item mb-15">
-                    <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">实际销量</label>
-                    <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入实际销量" />
-                </div>
-                <div className="form-item mb-15">
-                    <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">现有库存</label>
-                    <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入现有库存" />
-                </div>
-                <div className="form-item">
-                    <div className="step-btn text-align-right mt-20 mb-20">
-                        <button className="prev-step-btn mr-20 fon-13" onClick={prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</button>
-                        <button className="next-step-btn fon-13"><i className="iconfont icon-save24 mr-10 fon-12"></i>提交</button>
+                    <div className={tabid === '3' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
+                        <Form.Item
+                            label="销量"
+                            name="sales"
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label="库存"
+                            name="inventory"
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <button className="next-step-btn fon-13 pull-right"><i className="iconfont icon-save24 mr-10 fon-12"></i>提交</button>
+                            <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
+                        </Form.Item>
                     </div>
-                </div>
-            </div>
-        </form>
-    )
+                </Form>
+            </>
+        )
+    }
 }
 class AddGoods extends React.Component {
     constructor(props) {
         super(props);
-        this.tabChangeEvent = this.tabChangeEvent.bind(this);
         this.state = {
             tabid: "0"
         }
+        this.tabChangeEvent = this.tabChangeEvent.bind(this)
+        this.childPassData = this.childPassData.bind(this)
     }
+    // tab切换
     tabChangeEvent(e) {
         this.setState({
             tabid: e.target.dataset.tabid
+        })
+    }
+    // 子组件传递数据
+    childPassData(data) {
+        this.setState({
+            tabid: data
         })
     }
     render() {
@@ -124,7 +230,7 @@ class AddGoods extends React.Component {
                             <Breadcrumb.Item>系统</Breadcrumb.Item>
                             <Breadcrumb.Item>
                                 添加商品
-                                        </Breadcrumb.Item>
+                            </Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
                 </Row>
@@ -134,11 +240,11 @@ class AddGoods extends React.Component {
                             <ul className={AddGoodsCssMoudle.tab}>
                                 <li className={this.state.tabid === "0" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="0" onClick={this.tabChangeEvent}>商品属性</li>
                                 <li className={this.state.tabid === "1" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="1" onClick={this.tabChangeEvent}>商品图片</li>
-                                <li className={this.state.tabid === "2" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="2" onClick={this.tabChangeEvent}>商品价格</li>
+                                <li className={this.state.tabid === "2" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="2" onClick={this.tabChangeEvent}>商品详情</li>
                                 <li className={this.state.tabid === "3" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="3" onClick={this.tabChangeEvent}>商品数量</li>
                             </ul>
                             <div className={AddGoodsCssMoudle.tabObj}>
-                                <FormHandle tabid={this.state.tabid} />
+                                <FromList tabid={this.state.tabid} childPassData={this.childPassData} />
                             </div>
                         </div>
                     </Col >

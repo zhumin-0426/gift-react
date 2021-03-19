@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 // 样式
 import HeaderMoudleCss from '../css/header.module.css';
 import Logo from '../assets/icon/logo.png';
@@ -33,25 +34,27 @@ class Herder extends React.Component {
                     <small className="text-999">18820854754@139.com</small>
                 </Menu.Item>
                 <div className="w100 bd-top"></div>
-                <Menu.Item className="hover-bg-f6f">
+                {/* <Menu.Item className="hover-bg-f6f">
                     <div className="menu-item">
                         <i className="iconfont icon-email mr-10 text-28a"></i>
                         <span className="text-333">消息</span>
                     </div>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item className="hover-bg-f6f">
-                    <div className="menu-item">
-                        <i className="iconfont icon-ContactUser mr-10 text-ffc"></i>
-                        <span className="text-333">个人中心</span>
-                    </div>
+                    <Link to="/usermsg">
+                        <div className="menu-item">
+                            <i className="iconfont icon-ContactUser mr-10 text-ffc"></i>
+                            <span className="text-333">个人中心</span>
+                        </div>
+                    </Link> 
                 </Menu.Item>
                 <Divider />
-                <Menu.Item className="hover-bg-f6f">
+                {/* <Menu.Item className="hover-bg-f6f">
                     <div className="menu-item">
                         <i className="iconfont icon-setting mr-10 text-17a"></i>
                         <span className="text-333">设置</span>
                     </div>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item className="hover-bg-f6f">
                     <div className="menu-item">
                         <i className="iconfont icon-unlock mr-10 text-dc3"></i>

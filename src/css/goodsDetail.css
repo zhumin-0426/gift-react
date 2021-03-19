@@ -34,6 +34,14 @@
   position: relative;
   top: -1px;
 }
+.wrapper .content-wrapper .content .detail-card .tab-obj .fromControlFile {
+  padding: 7px 20px;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .fromControlFile img {
+  width: 50px;
+}
 .wrapper .content-wrapper .content .detail-card .tab-obj ul {
   margin-bottom: 0;
 }

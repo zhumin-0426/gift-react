@@ -404,6 +404,9 @@
 .ant-input:-ms-input-placeholder {
   color: #626262;
 }
+.ant-input-color-fff {
+  color: #fff;
+}
 .ant-input.ant-input-bottom-line {
   background-color: transparent;
   border-bottom: solid 1px #e6e6e6;
@@ -562,6 +565,7 @@
   color: #84ba3f;
   border-radius: 3px;
   position: relative;
+  cursor: pointer;
 }
 .upload-file:hover {
   background-color: #84ba3f;
@@ -590,6 +594,7 @@
   background-image: url('../../assets/images/img-upload-bag.png');
   background-repeat: no-repeat;
   background-size: 94px 50px;
+  cursor: pointer;
 }
 .ant-form-item-label > label {
   height: 100%!important;

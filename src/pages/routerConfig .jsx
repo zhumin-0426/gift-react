@@ -1,7 +1,14 @@
 import System from './system/index';
 import ErrorPage from './error/404';
 import PageDesign from './pageDesign/index';
-import UserMsg from './user/userMsg';
+import UserMsg from './user/index';
+import Members from './members/index';
+// import AddMembers from './user/addUser';
+import Goods from './goods/index';
+import AddGoods from './goods/addGoods';
+import GoodsDetail from './goods/goodsDetail';
+import Order from './order/index';
+import OrderDetail from './order/orderDetail';
 import Demo from './demo';
 interface routerConfigModel {
     path: string,
@@ -22,8 +29,32 @@ export const routerConfig: routerConfigModel[] = [
         component: PageDesign,
         auth: true,
     },{
+        path: '/members',
+        component: Members,
+        auth: true,
+    },{
         path: '/usermsg',
         component: UserMsg,
+        auth: true,
+    },{
+        path: '/goods',
+        component: Goods,
+        auth: true,
+    },{
+        path: '/addgoods',
+        component: AddGoods,
+        auth: true,
+    },{
+        path: '/goodsdetail',
+        component: GoodsDetail,
+        auth: true,
+    },{
+        path: '/order',
+        component: Order,
+        auth: true,
+    },{
+        path: '/orderdetail',
+        component: OrderDetail,
         auth: true,
     },{
         path:'/404',
