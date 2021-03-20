@@ -1,125 +1,85 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 // 样式
 import '../../css/order.less';
 // antd 组件
-import { Row, Col, Breadcrumb, Table, Tag } from 'antd';
+import { Row, Col, Breadcrumb } from 'antd';
 class Order extends React.Component {
-    state = {
-        selectedRowKeys: [],
-    };
-
-    onSelectChange = selectedRowKeys => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
-        this.setState({ selectedRowKeys });
-    };
-
-    render() {
-        const columns = [
-            {
-                title: 'id',
-                dataIndex: 'id',
-            },
-            {
-                title: '订单状态',
-                dataIndex: 'status',
-            },
-            {
-                title: '付款方式',
-                dataIndex: 'payType',
-            },
-            {
-                title: '支付状态',
-                dataIndex: 'payStatus',
-                render: payStatus => (
-                    <>
-                        {payStatus.map(payStatus => {
-                            let color = payStatus.length > 5 ? 'geekblue' : 'green';
-                            if (payStatus === 'loser') {
-                                color = 'volcano';
-                            }
-                            return (
-                                <Tag color={color} key={payStatus}>
-                                    {payStatus.toUpperCase()}
-                                </Tag>
-                            );
-                        })}
-                    </>
-                ),
-            },
-            {
-                title: '订单日期',
-                dataIndex: 'orderDate',
-            },
-            {
-                title: '总金额',
-                dataIndex: 'totalMoney',
-            },
-            {
-                title: '操作',
-                dataIndex: 'action',
-                render: action => (
-                    <>
-                        <div>btn</div>
-                    </>
-                )
-            },
-        ];
-
-        const data = [];
-        for (let i = 0; i < 20; i++) {
-            data.push({
-                key: i,
-                id: i,
-                status: `未支付 ${i}`,
-                payStatus: ['nice' + i, 'developer' + i],
-                payType: "微信支付",
-                orderDate: `订单日期. ${i}`,
-                totalMoney: i,
-                action: "删除/编辑"
-            });
-        }
-        const { selectedRowKeys } = this.state;
-        const rowSelection = {
-            selectedRowKeys,
-            onChange: this.onSelectChange,
-            selections: [
-                Table.SELECTION_ALL,
-                Table.SELECTION_INVERT,
+    constructor(props) {
+        super(props);
+        this.state = {
+            checkList: [
                 {
-                    key: 'odd',
-                    text: 'Select Odd Row',
-                    onSelect: changableRowKeys => {
-                        let newSelectedRowKeys = [];
-                        newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-                            if (index % 2 !== 0) {
-                                return false;
-                            }
-                            return true;
-                        });
-                        this.setState({ selectedRowKeys: newSelectedRowKeys });
-                    },
+                    checked: false
                 },
                 {
-                    key: 'even',
-                    text: 'Select Even Row',
-                    onSelect: changableRowKeys => {
-                        let newSelectedRowKeys = [];
-                        newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-                            if (index % 2 !== 0) {
-                                return true;
-                            }
-                            return false;
-                        });
-                        this.setState({ selectedRowKeys: newSelectedRowKeys });
-                    },
+                    checked: false
                 },
+                {
+                    checked: false
+                }
             ],
-        };
+            isAllChecked: false
+        }
+        this.checkAll = this.checkAll.bind(this)
+        this.checkOptionItem = this.checkOptionItem.bind(this)
+    }
+    // 全选
+    checkAll(e) {
+        let isAllChecked = e.target.checked;
+        this.setState({ isAllChecked: isAllChecked });
+        if (isAllChecked) {
+            this.state.checkList.map((item) => {
+                return item.checked = true
+            })
+        } else {
+            this.state.checkList.map((item) => {
+                return item.checked = false
+            })
+        }
+    }
+    // 单选
+    checkOptionItem(e, index) {
+        let checked = e.target.checked;
+        let checkList = this.state.checkList;
+        checkList[index].checked = checked;
+        let bol = checkList.every((item) => {
+            return item.checked === true
+        })
+        if (bol) {
+            this.setState({ isAllChecked: true })
+        } else {
+            this.setState({ isAllChecked: false })
+        }
+        this.setState(checkList)
+    }
+    render() {
+        let checkList = this.state.checkList;
+        const orderNodesItem = checkList.map((item, index) => {
+            return (
+                <tr className="order-tr">
+                    <td className="order-td"><input type="checkbox" onChange={(e) => this.checkOptionItem(e, index)} checked={item.checked ? true : false} /></td>
+                    <td className="order-td">20210315531005310199</td>
+                    <td className="order-td">已发货</td>
+                    <td className="order-td">淘宝支付</td>
+                    <td className="order-td over-flow">
+                        <div className="pay-status bg-28a bor-rds-3 text-white pull-left fon-12"><strong>已支付</strong></div>
+                    </td>
+                    <td className="order-td">2021-03-15 08:43:49</td>
+                    <td className="order-td">$ 400.00</td>
+                    <td className="order-td dis-flx ">
+                    <Link to="/orderdetail"><div className="editor"><i className="iconfont icon-bianji"></i></div></Link>
+                        <div className="delete"><i className="iconfont icon-shanchudefuben"></i></div>
+                        <div className="delivery"><i className="iconfont icon-fahuo_"></i></div>
+                    </td>
+                </tr>
+            )
+        })
         return (
             <div className="main">
                 <Row>
                     <Col span={12}>
-                    <h3><strong>订单列表</strong></h3>
+                        <h3><strong>订单列表</strong></h3>
                     </Col>
                     <Col span={12} className="text-align-right">
                         <Breadcrumb>
@@ -130,8 +90,26 @@ class Order extends React.Component {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <div className="w100 table-list-card bg-fff box-sd">
-                            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+                        <div className="w100 table-list-card bg-fff box-sd pd-15">
+                            <table className="order-table w100">
+                                <thead className="order-thrad" align="left">
+                                    <tr className="order-tr">
+                                        <th className="order-th dis-flx align-items-center">
+                                            <input type="checkbox" onChange={this.checkAll} checked={this.state.isAllChecked ? true : false} /><div className="ml-5">全部</div>
+                                        </th>
+                                        <th className="order-th">订单编号</th>
+                                        <th className="order-th">订单状态</th>
+                                        <th className="order-th">支付方式</th>
+                                        <th className="order-th">支付状态</th>
+                                        <th className="order-th">日期</th>
+                                        <th className="order-th">实付款</th>
+                                        <th className="order-th">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="order-tbody" align="left">
+                                    {orderNodesItem}
+                                </tbody>
+                            </table>
                         </div>
                     </Col>
                 </Row>

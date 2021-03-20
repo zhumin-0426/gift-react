@@ -1,0 +1,61 @@
+.order-table .order-thrad .order-tr {
+  border-bottom: solid 2px #efefef;
+}
+.order-table .order-thrad .order-tr .order-th {
+  padding: 10px;
+}
+.order-table .order-tbody .order-tr {
+  border-bottom: solid 1px #efefef;
+}
+.order-table .order-tbody .order-tr:last-child {
+  border: none;
+}
+.order-table .order-tbody .order-tr .order-td {
+  padding: 20px 10px;
+}
+.order-table .order-tbody .order-tr .order-td .pay-status {
+  padding: 3px 10px;
+}
+.order-table .order-tbody .order-tr .order-td .editor {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 50%;
+  color: #84ba3f;
+  border: 2px solid #84ba3f;
+}
+.order-table .order-tbody .order-tr .order-td .editor:hover {
+  background-color: #84ba3f;
+  color: #fff;
+  transition: all 0.3s;
+}
+.order-table .order-tbody .order-tr .order-td .delete {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 50%;
+  color: #dc3545;
+  border: 2px solid #dc3545;
+  margin: 0 10px;
+}
+.order-table .order-tbody .order-tr .order-td .delete:hover {
+  background-color: #dc3545;
+  color: #fff;
+  transition: all 0.3s;
+}
+.order-table .order-tbody .order-tr .order-td .delivery {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 50%;
+  color: #28a745;
+  border: 2px solid #28a745;
+}
+.order-table .order-tbody .order-tr .order-td .delivery:hover {
+  background-color: #28a745;
+  color: #fff;
+  transition: all 0.3s;
+}
