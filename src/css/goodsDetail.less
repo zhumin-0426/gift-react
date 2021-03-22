@@ -43,31 +43,44 @@
                             width: 50px;
                         }
                     }
-                        ul{
-                            margin-bottom: 0;
-                            li{
-                                margin-bottom: 17px;
-                                .reviews-user-pic{
-                                    width: 10%;
-                                    img{
-                                        width: 100%;
-                                    }
-                                }
-                                .reviews{
-                                    width: 90%;
-                                    border: 1px solid #eee;
-                                    p{
-                                        margin-bottom: 0;
-                                    }
-                                    .ant-rate-star:not(:last-child){
-                                        margin-right: 0;
-                                    }
+                    .goods-spec{
+                        display: none;
+                        .spec-box{
+                            display: none;
+                        }
+                    }
+                    .goods-spec-active{
+                        display: block;
+                        border: solid 1px #efefef;
+                        .spec-box-active{
+                            display: block;
+                        }
+                    }
+                    ul{
+                        margin-bottom: 0;
+                        li{
+                            margin-bottom: 17px;
+                            .reviews-user-pic{
+                                width: 10%;
+                                img{
+                                    width: 100%;
                                 }
                             }
-                            .tab-obj-item:last-child{
-                                margin-bottom: 0;
+                            .reviews{
+                                width: 90%;
+                                border: 1px solid #eee;
+                                p{
+                                    margin-bottom: 0;
+                                }
+                                .ant-rate-star:not(:last-child){
+                                    margin-right: 0;
+                                }
                             }
                         }
+                        .tab-obj-item:last-child{
+                            margin-bottom: 0;
+                        }
+                    }
                 }
             }
         }
