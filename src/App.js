@@ -1,11 +1,12 @@
 import React from 'react';
-import { HashRouter as Router,Route,Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 // 样式
 import './App.less';
 // 页面公共组件
 import SideBar from './components/sidebar';
 import Header from './components/header';
 import Footer from './components/footer';
+import Chat from './components/chat';
 
 import Login from './pages/login/index';
 import Register from './pages/login/register'
@@ -29,10 +30,10 @@ class App extends React.Component {
   }
   render() {
     const isLogin = localStorage.getItem('userId');
-    let loginPage,registerPage
-    if(!isLogin){
-        loginPage = <Route path="/login" exact component={Login}></Route>;
-        registerPage = <Route path="/register" component={Register}></Route>
+    let loginPage, registerPage
+    if (!isLogin) {
+      loginPage = <Route path="/login" exact component={Login}></Route>;
+      registerPage = <Route path="/register" component={Register}></Route>
     }
     return (
       <div className="app">
@@ -52,6 +53,8 @@ class App extends React.Component {
                   {/* 底部 */}
                   <Footer ></Footer>
                 </div>
+                 {/* 消息按钮 */}
+                 {/* <Chat /> */}
               </div>
             </div>
           </Switch>
