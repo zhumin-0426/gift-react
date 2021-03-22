@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7698876",
+      "name": "消息中心",
+      "font_class": "xiaoxizhongxin",
+      "unicode": "e886",
+      "unicode_decimal": 59526
+    },
+    {
+      "icon_id": "348342",
+      "name": "check",
+      "font_class": "check2",
+      "unicode": "ea38",
+      "unicode_decimal": 59960
+    },
+    {
+      "icon_id": "578989",
+      "name": "编辑",
+      "font_class": "bianji-copy",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "1001285",
+      "name": "voice2",
+      "font_class": "voice2",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "1083073",
+      "name": "clip",
+      "font_class": "clip",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "1191697",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e718",
+      "unicode_decimal": 59160
+    },
+    {
+      "icon_id": "1445538",
+      "name": "video",
+      "font_class": "video",
+      "unicode": "e917",
+      "unicode_decimal": 59671
+    },
+    {
+      "icon_id": "1917171",
+      "name": "更多",
+      "font_class": "more",
+      "unicode": "e818",
+      "unicode_decimal": 59416
+    },
+    {
+      "icon_id": "18610855",
+      "name": "微笑",
+      "font_class": "weixiao",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
       "icon_id": "4397504",
       "name": "发货_1",
       "font_class": "fahuo_",

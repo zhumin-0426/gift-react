@@ -104,7 +104,7 @@ class Login extends React.Component {
                                         </div>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">密码</label>
-                                            <input className="w100 ant-input fon-w-500" type="adminPassword" placeholder="请输入您的密码" name="adminPassword" value={this.state.adminPassword} onChange={this.handleChange} />
+                                            <input className="w100 ant-input fon-w-500" type="password" placeholder="请输入您的密码" name="adminPassword" value={this.state.adminPassword} onChange={this.handleChange} />
                                         </div>
                                         <div className="remember-password mb-20">
                                             <Checkbox className="text-626" onChange={this.ckeckBoxChange}>记住密码</Checkbox>
