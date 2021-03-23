@@ -42,6 +42,19 @@
 .wrapper .content-wrapper .content .detail-card .tab-obj .fromControlFile img {
   width: 50px;
 }
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec {
+  display: none;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec .spec-box {
+  display: none;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active {
+  display: block;
+  border: solid 1px #efefef;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-box-active {
+  display: block;
+}
 .wrapper .content-wrapper .content .detail-card .tab-obj ul {
   margin-bottom: 0;
 }

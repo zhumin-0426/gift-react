@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // 样式
 import '../../css/goodsDetail.less';
 import GoodsImg from '../../assets/images/product-4.jpg';
@@ -25,12 +25,15 @@ class Describe extends React.Component {
             content: "",
             goodsState: "shelves",
             // 图片库
-            picLibraryStatus: false
+            picLibraryStatus: false,
+            // 规格
+            spec: false
         }
         this.setFileList = this.setFileList.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
         this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
+        this.addSpec = this.addSpec.bind(this);
     }
     // 图片上传回调
     setFileList = (value) => {
@@ -40,6 +43,10 @@ class Describe extends React.Component {
     radioHandle(name, e) {
         console.log('name', name);
         console.log('radio1 checked', e.target.value);
+        console.log('e', e);
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
     // 编辑器
     handleChange(content) {
@@ -76,6 +83,12 @@ class Describe extends React.Component {
     picLibraryStatusChange() {
         this.setState({ picLibraryStatus: true });
     }
+    addSpec() {
+        console.log("添加规格");
+        this.setState({
+            spec: true
+        })
+    }
     render() {
         // 表单提交成功
         const onFinish = (values) => {
@@ -95,24 +108,24 @@ class Describe extends React.Component {
         //     },
         // ]);
 
-        const onChange = ({ fileList: newFileList }) => {
-            this.setFileList(newFileList);
-        };
+        // const onChange = ({ fileList: newFileList }) => {
+        //     this.setFileList(newFileList);
+        // };
 
-        const onPreview = async file => {
-            let src = file.url;
-            if (!src) {
-                src = await new Promise(resolve => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file.originFileObj);
-                    reader.onload = () => resolve(reader.result);
-                });
-            }
-            const image = new Image();
-            image.src = src;
-            const imgWindow = window.open(src);
-            imgWindow.document.write(image.outerHTML);
-        };
+        // const onPreview = async file => {
+        //     let src = file.url;
+        //     if (!src) {
+        //         src = await new Promise(resolve => {
+        //             const reader = new FileReader();
+        //             reader.readAsDataURL(file.originFileObj);
+        //             reader.onload = () => resolve(reader.result);
+        //         });
+        //     }
+        //     const image = new Image();
+        //     image.src = src;
+        //     const imgWindow = window.open(src);
+        //     imgWindow.document.write(image.outerHTML);
+        // };
         // 商品规格
         const goodsStyleOptions = [
             { label: '单规格', value: 'single' },
@@ -179,8 +192,22 @@ class Describe extends React.Component {
                         <h3 className="page-set-title">规格/库存</h3>
                         <Divider />
                         <Form.Item label="商品规格" name="goodsStyle">
-                            <Radio.Group options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsStyle} />
+                            <Radio.Group name="goodsStyle" options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsStyle} />
                         </Form.Item>
+                        {/* 多规格 */}
+                        <div className={this.state.goodsStyle === 'double' ? 'goods-spec-active pd-20 mb-30' : "goods-spec pd-20 mb-30"}>
+                            <div className={this.state.goodsStyle === 'double' ? "spec-box-active" : "spec-box"}>
+                                <Form.Item label="规格名" name="specName" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
+                                    <Input style={{ width: "30%" }} />
+                                </Form.Item>
+                                <Form.Item label="规格值" name="specVal" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
+                                    <Input style={{ width: "30%" }} />
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button onClick={this.addSpec}>添加规格</Button>
+                                </Form.Item>
+                            </div>
+                        </div>
                         <div className="goodsStyleBox">
                             <Form.Item label="商品价格" name="goodsPrice">
                                 <Input />
