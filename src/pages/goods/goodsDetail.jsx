@@ -30,7 +30,9 @@ class Describe extends React.Component {
             spec: false,
             specName: "",
             specVal: "",
-            specAttrList: []
+            specAttrList: [],
+            newSpecVal: "",
+            newSpecValIndex: 0
         }
         this.setFileList = this.setFileList.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
@@ -40,6 +42,7 @@ class Describe extends React.Component {
         this.specConfirm = this.specConfirm.bind(this);
         this.specCancel = this.specCancel.bind(this);
         this.iptHandle = this.iptHandle.bind(this);
+        this.addSpecVal = this.addSpecVal.bind(this);
     }
     // 图片上传回调
     setFileList = (value) => {
@@ -55,11 +58,12 @@ class Describe extends React.Component {
         })
     }
     // 输入框
-    iptHandle(e) {
+    iptHandle(e, index) {
         let val = e.target.value;
         console.log("name", e.target.name)
         this.setState({
-            [e.target.name]: val
+            [e.target.name]: val,
+            newSpecValIndex: index
         })
     }
     // 编辑器
@@ -114,10 +118,11 @@ class Describe extends React.Component {
             ]
         }
         specAttrList.push(attrObj)
-        console.log('specAttrList', specAttrList)
         this.setState({
             spec: false,
-            specAttrList: specAttrList
+            specAttrList: specAttrList,
+            specName: "",
+            specVal: "",
         })
     }
     // 商品规格=> 取消
@@ -125,6 +130,16 @@ class Describe extends React.Component {
         this.setState({
             spec: false
         })
+    }
+    // 添加规格值
+    addSpecVal(index) {
+        if (this.state.newSpecVal != "" && this.state.newSpecValIndex === index) {
+            let specAttrList = this.state.specAttrList;
+            specAttrList[index].specAttr.push({ attr: this.state.newSpecVal })
+            this.setState({ specAttrList: specAttrList, newSpecVal: "" })
+        } else {
+            alert("您为空")
+        }
     }
     render() {
         // 表单提交成功
@@ -221,8 +236,8 @@ class Describe extends React.Component {
                                 )
                             })}
                             <div className="add-val-box">
-                                <input />
-                                <div className="btn">添加</div>
+                                <input name="newSpecVal" onChange={(e) => this.iptHandle(e, index)} />
+                                <div className="btn" onClick={() => this.addSpecVal(index)}>添加</div>
                             </div>
                         </div>
                     </div>
@@ -294,8 +309,47 @@ class Describe extends React.Component {
                                     <Input style={{ width: "30%" }} name="specVal" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                             </div>
-                            {/* 规格按钮 */}
+                            {/* 多规格按钮 */}
                             {specBtn}
+                            {/* 多规格表格 */}
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>规格图片</th>
+                                        <th>商品价格</th>
+                                        <th>划线价格</th>
+                                        <th>库存</th>
+                                        <th>销量</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style={{padding:"10px"}}>
+                                            <input type="text"/>
+                                        </td>
+                                        <td>
+                                            <Form.Item name="specGoodsPrice">
+                                                <Input />
+                                            </Form.Item>
+                                        </td>
+                                        <td>
+                                            <Form.Item name="specGoodsLinePrice">
+                                                <Input />
+                                            </Form.Item>
+                                        </td>
+                                        <td>
+                                            <Form.Item name="specGoodsInventory">
+                                                <Input />
+                                            </Form.Item>
+                                        </td>
+                                        <td>
+                                            <Form.Item name="specGoodsSales">
+                                                <Input />
+                                            </Form.Item>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div className="goodsStyleBox">
                             <Form.Item label="商品价格" name="goodsPrice">
