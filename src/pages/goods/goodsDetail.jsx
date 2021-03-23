@@ -27,13 +27,19 @@ class Describe extends React.Component {
             // 图片库
             picLibraryStatus: false,
             // 规格
-            spec: false
+            spec: false,
+            specName: "",
+            specVal: "",
+            specAttrList: []
         }
         this.setFileList = this.setFileList.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
         this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
         this.addSpec = this.addSpec.bind(this);
+        this.specConfirm = this.specConfirm.bind(this);
+        this.specCancel = this.specCancel.bind(this);
+        this.iptHandle = this.iptHandle.bind(this);
     }
     // 图片上传回调
     setFileList = (value) => {
@@ -46,6 +52,14 @@ class Describe extends React.Component {
         console.log('e', e);
         this.setState({
             [e.target.name]: e.target.value
+        })
+    }
+    // 输入框
+    iptHandle(e) {
+        let val = e.target.value;
+        console.log("name", e.target.name)
+        this.setState({
+            [e.target.name]: val
         })
     }
     // 编辑器
@@ -83,10 +97,33 @@ class Describe extends React.Component {
     picLibraryStatusChange() {
         this.setState({ picLibraryStatus: true });
     }
+    // 商品规格=>添加
     addSpec() {
-        console.log("添加规格");
         this.setState({
             spec: true
+        })
+    }
+    // 商品规格=> 确认
+    specConfirm() {
+        let specAttrList = this.state.specAttrList;
+        console.log('specVal', this.state.specVal)
+        let attrObj = {
+            specName: this.state.specName,
+            specAttr: [
+                { attr: this.state.specVal }
+            ]
+        }
+        specAttrList.push(attrObj)
+        console.log('specAttrList', specAttrList)
+        this.setState({
+            spec: false,
+            specAttrList: specAttrList
+        })
+    }
+    // 商品规格=> 取消
+    specCancel() {
+        this.setState({
+            spec: false
         })
     }
     render() {
@@ -142,6 +179,57 @@ class Describe extends React.Component {
         // 编辑器
         var icons = this.getIcons();
         var plugins = this.getPlugins();
+        // 规格按钮
+        let specBtn
+        if (this.state.spec) {
+            specBtn = <div className="spec-btn-box dis-flx">
+                <Form.Item>
+                    <Button size="small" block onClick={this.specCancel}>取消</Button>
+                </Form.Item>
+                <Form.Item>
+                    <Button size="small" type="primary" onClick={this.specConfirm} style={{ marginLeft: "15px" }}>确定</Button>
+                </Form.Item>
+            </div>
+        } else {
+            specBtn = <div className="spec-btn-box">
+                <Form.Item>
+                    <Button onClick={this.addSpec}>添加规格</Button>
+                </Form.Item>
+            </div>
+        }
+        // 规格属性
+        let specAttrList = this.state.specAttrList;
+        let specAttrNodesItem = specAttrList.map((item, index) => {
+            return (
+                <React.Fragment key={index}>
+                    <div className="spec-attr-box">
+                        <div className="name">
+                            {item.specName}
+                            <div className="delete-cover"></div>
+                        </div>
+                        <div className="val-box">
+                            {item.specAttr.map((attrValItem, attrIndexItem) => {
+                                return (
+                                    <React.Fragment key={attrIndexItem}>
+                                        <ul>
+                                            <li className="val">
+                                                {attrValItem.attr}
+                                                <div className="delete-cover"></div>
+                                            </li>
+                                        </ul>
+                                    </React.Fragment>
+                                )
+                            })}
+                            <div className="add-val-box">
+                                <input />
+                                <div className="btn">添加</div>
+                            </div>
+                        </div>
+                    </div>
+                </React.Fragment>
+            )
+        })
+
         return (
             <>
                 {/* 图片库组件 */}
@@ -194,19 +282,20 @@ class Describe extends React.Component {
                         <Form.Item label="商品规格" name="goodsStyle">
                             <Radio.Group name="goodsStyle" options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsStyle} />
                         </Form.Item>
-                        {/* 多规格 */}
                         <div className={this.state.goodsStyle === 'double' ? 'goods-spec-active pd-20 mb-30' : "goods-spec pd-20 mb-30"}>
-                            <div className={this.state.goodsStyle === 'double' ? "spec-box-active" : "spec-box"}>
+                            {/* 多规格属性 */}
+                            {specAttrNodesItem}
+                            {/* 多规格输入框 */}
+                            <div className={this.state.spec ? "spec-box-active" : "spec-box"}>
                                 <Form.Item label="规格名" name="specName" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
-                                    <Input style={{ width: "30%" }} />
+                                    <Input style={{ width: "30%" }} name="specName" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                                 <Form.Item label="规格值" name="specVal" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
-                                    <Input style={{ width: "30%" }} />
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button onClick={this.addSpec}>添加规格</Button>
+                                    <Input style={{ width: "30%" }} name="specVal" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                             </div>
+                            {/* 规格按钮 */}
+                            {specBtn}
                         </div>
                         <div className="goodsStyleBox">
                             <Form.Item label="商品价格" name="goodsPrice">

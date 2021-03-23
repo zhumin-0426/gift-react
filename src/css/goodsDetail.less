@@ -45,15 +45,90 @@
                     }
                     .goods-spec{
                         display: none;
-                        .spec-box{
-                            display: none;
-                        }
                     }
                     .goods-spec-active{
                         display: block;
                         border: solid 1px #efefef;
+                        .spec-box{
+                            display: none;
+                        }
                         .spec-box-active{
                             display: block;
+                        }
+                        .spec-attr-box{
+                            padding: 10px 0;
+                            .name{
+                                display: inline-block;
+                                padding: 0 12px;
+                                position: relative;
+                                .delete-cover{
+                                    position: absolute;
+                                    top: -10px;
+                                    right: -10px;
+                                    width: 17px;
+                                    height: 17px;
+                                    background-image: url('../assets/images/delete.png');
+                                    background-position: 0;
+                                    background-size: 100%;
+                                    background-repeat: no-repeat;
+                                    &:hover{
+                                        background-image: url('../assets/images/delete-active.png');
+                                    }
+                                }
+                            }
+                            .val-box{
+                                display: flex;
+                                align-items: center;
+                                ul{
+                                    margin: 10px 5px;
+                                    display: flex;
+                                    margin-bottom: 0;
+                                    .val{
+                                        padding: 5px 20px;
+                                        position: relative;
+                                        border: solid 1px #efefef;
+                                        border-radius: 4px;
+                                        position: relative;
+                                        .delete-cover{
+                                            display: none;
+                                            position: absolute;
+                                            top: -10px;
+                                            right: -10px;
+                                            width: 17px;
+                                            height: 17px;
+                                            background-image: url('../assets/images/delete.png');
+                                            background-position: 0;
+                                            background-size: 100%;
+                                            background-repeat: no-repeat;
+                                            &:hover{
+                                                background-image: url('../assets/images/delete-active.png');
+                                            }
+                                        }
+                                        &:hover{
+                                            .delete-cover{
+                                                display: block;
+                                            }
+                                        }
+                                    }
+                                }
+                                .add-val-box{
+                                    margin-bottom: 10px;
+                                    display: flex;
+                                    border: solid 1px #efefef;
+                                    input{
+                                        box-sizing: border-box;
+                                        border:none;
+                                        outline: none;
+                                        padding-left: 5px;
+                                    }
+                                    .btn{
+                                        padding: 5px 20px;
+                                        background-color: #efefef;
+                                        color: #6c757d;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
                         }
                     }
                     ul{

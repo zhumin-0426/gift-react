@@ -45,15 +45,87 @@
 .wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec {
   display: none;
 }
-.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec .spec-box {
-  display: none;
-}
 .wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active {
   display: block;
   border: solid 1px #efefef;
 }
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-box {
+  display: none;
+}
 .wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-box-active {
   display: block;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box {
+  padding: 10px 0;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .name {
+  display: inline-block;
+  padding: 0 12px;
+  position: relative;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .name .delete-cover {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 17px;
+  height: 17px;
+  background-image: url('../assets/images/delete.png');
+  background-position: 0;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .name .delete-cover:hover {
+  background-image: url('../assets/images/delete-active.png');
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box {
+  display: flex;
+  align-items: center;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box ul {
+  margin: 10px 5px;
+  display: flex;
+  margin-bottom: 0;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box ul .val {
+  padding: 5px 20px;
+  border: solid 1px #efefef;
+  border-radius: 4px;
+  position: relative;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box ul .val .delete-cover {
+  display: none;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 17px;
+  height: 17px;
+  background-image: url('../assets/images/delete.png');
+  background-position: 0;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box ul .val .delete-cover:hover {
+  background-image: url('../assets/images/delete-active.png');
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box ul .val:hover .delete-cover {
+  display: block;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box .add-val-box {
+  margin-bottom: 10px;
+  display: flex;
+  border: solid 1px #efefef;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box .add-val-box input {
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding-left: 5px;
+}
+.wrapper .content-wrapper .content .detail-card .tab-obj .goods-spec-active .spec-attr-box .val-box .add-val-box .btn {
+  padding: 5px 20px;
+  background-color: #efefef;
+  color: #6c757d;
+  cursor: pointer;
 }
 .wrapper .content-wrapper .content .detail-card .tab-obj ul {
   margin-bottom: 0;
