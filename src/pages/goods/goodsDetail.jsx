@@ -43,6 +43,9 @@ class Describe extends React.Component {
         this.specCancel = this.specCancel.bind(this);
         this.iptHandle = this.iptHandle.bind(this);
         this.addSpecVal = this.addSpecVal.bind(this);
+        this.countSum = this.countSum.bind(this);
+        this.getSpecAttr = this.getSpecAttr.bind(this);
+        this.showTd = this.showTd.bind(this);
     }
     // 图片上传回调
     setFileList = (value) => {
@@ -141,50 +144,51 @@ class Describe extends React.Component {
             alert("您为空")
         }
     }
-    render() {
-        // 笛卡尔积运算
-        const operation = (arr) => {
-            //编辑原数组格式
-            if (arr[0].children) {
-                arr = arr.map((item) => {
-                    return item = item.children
-                })
+    // 计算属性的乘积(获取配对的可能性)
+    countSum(specIndex) {
+        console.log("specList", this.state.specAttrList);
+        let num = 1;
+        this.state.specAttrList.forEach((item, index) => {
+            if (index >= specIndex && item.children.length) {
+                num *= item.children.length;
             }
-            if (arr.length === 1) {
-                //最终合并成一个
-                return arr[0];
-            } else {    //有两个子数组就合并
-                let arrySon = [];
-                //将组合放到新数组中
-                arr[0].forEach((_, index) => {
-                    arr[1].forEach((_, index1) => {
-                        arrySon.push([].concat(arr[0][index], arr[1][index1]));
-                    })
-                })
-                // 新数组并入原数组,去除合并的前两个数组
-                arr[0] = arrySon;
-                arr.splice(1, 1);
-                // 递归
-                return operation(arr);
-            }
+        });
+        return num;
+    }
+    /**
+     * 根据传入的属性值，拿到相应规格的属性
+     * @param specIndex
+     * @param index 所有属性在遍历时的序号
+     * @returns {string}
+     */
+    getSpecAttr(specIndex, index) {
+        // 获取当前规格项目下的属性值
+        let specAttrList = this.state.specAttrList;
+        const currentValues = specAttrList[specIndex].children;
+        // 判断是否是最后一个规格项目
+        let indexCopy = (specAttrList[specIndex + 1] && specAttrList[specIndex + 1].children.length)
+            ? index / this.countSum(specIndex + 1)
+            : index;
+        const i = Math.floor(indexCopy % currentValues.length);
+        return (i.toString() !== 'NaN') ? currentValues[i] : '';
+    }
+    /**
+      * 根据传入的条件，来判断是否显示该td
+      * [如果当前项目下没有属性，则不显示]
+      * @param specIndex
+      * @param index
+      * @returns {boolean}
+      */
+    showTd(specIndex, index) {
+        if (!this.state.specAttrList[specIndex]) {
+            return false;
+        } else if (index % this.countSum(specIndex + 1) === 0) {
+            return true;
+        } else {
+            return false;
         }
-        // 计算rowSpan
-        // const opatRowSpan = () => {
-        //     let arr = this.state.specificationList
-        //     // 对数据进行过滤，规格名称不为空，且规格值列表大于0
-        //     arr = arr.filter(ls => ls.name && ls.children.length > 0)
-        //     if (arr.length <= 0) { return }
-        //     // 对数据进行转换
-        //     let res = this.arrp(arr)
-        //     // 合并单元格
-        //     let row = [];
-        //     let rowspan = res.length;
-        //     // 通过循环，我们获得td所占的rowSpan 所需要的合并的单元格数
-        //     for (let n = 0; n < arr.length; n++) {
-        //         row[n] = parseInt(rowspan / arr[n].children.length)
-        //         rowspan = row[n]
-        //     }
-        // }
+    }
+    render() {
         // 表单提交成功
         const onFinish = (values) => {
             console.log('Success:', values);
@@ -260,74 +264,26 @@ class Describe extends React.Component {
             )
         })
         // 规格表格
-        let specTable
-        // 对表格数据进行渲染
-        if (this.state.specAttrList.length > 0) {
-            let newArr = operation(this.state.specAttrList);
-            console.log('newArr', newArr)
-            // const tdRow = i => newArr.map((_, j) => {
-            //     let td;
-            //     if (i % row[j] === 0 && row[j] > 1) {
-            //         td = <td rowSpan={row[j]} key={j}>{res[i][j].name}</td>
-            //     } else if (row[j] === 1) {
-            //         res[i] instanceof Array ? td = <td key={j}>{res[i][j].name}</td> : td = <td key={j}>{res[i].name}</td>
-            //     }
-            //     return td
-            // })
-            specTable = <table className="spec-table">
-                <thead align="center">
-                    <tr className="spec-table-thead-tr">
-                        {newArr.map((item, index) => {
-                            return (
-                                <React.Fragment key={index}>
-                                    <th className="spec-table-thead-th">{item.specName}</th>
-                                </React.Fragment>
-                            )
-                        })}
-                        <th className="spec-table-thead-th">规格图片</th>
-                        <th className="spec-table-thead-th">商品价格</th>
-                        <th className="spec-table-thead-th">划线价格</th>
-                        <th className="spec-table-thead-th">库存</th>
-                        <th className="spec-table-thead-th">销量</th>
-                    </tr>
-                </thead>
-                <tbody align="center">
-                    {
-                        specAttrList.map((item, index) => {
-                            return (
-                                <React.Fragment key={index}>
-                                    {
-                                        item.children.map((attrItem, attrIndex) => {
-                                            return (
-                                                <React.Fragment key={attrIndex}>
-                                                    <tr className="spec-table-tbody-tr">
-                                                        <td className="spec-table-tbody-td">{attrItem.attr}</td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <div className="img" onClick={this.picLibraryStatusChange}>+</div>
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                    </tr>
-                                                </React.Fragment>
-                                            )
-                                        })
-                                    }
-                                </React.Fragment>
-                            )
-                        })
+        let renderSpec = []
+        // 表格合并
+        for (let i = 0; i < this.countSum(0); i++) {
+            renderSpec.push(<tr>
+                {this.state.specAttrList.length > 0 && this.state.specAttrList.map((item, index) => {
+                    if (this.showTd(index, i)) {
+                        let tagName = this.getSpecAttr(index, i);
+                        let n = index + 1;
+                        return (
+                            <td rowSpan={this.countSum(n)} key={index}>{tagName}</td>
+                        )
                     }
-                </tbody>
-            </table>
+                })}
+                <td>
+                    <Input placeholder="请输入商品条形码" />
+                </td>
+                <td>
+                    <Input placeholder="请输入销售价" />
+                </td>
+            </tr>)
         }
         return (
             <>
@@ -396,7 +352,61 @@ class Describe extends React.Component {
                             {/* 多规格按钮 */}
                             {specBtn}
                             {/* 多规格表格 */}
-                            {this.state.specAttrList.length > 0 ? specTable : ''}
+                            <table className="spec-table">
+                                <thead align="center">
+                                    <tr className="spec-table-thead-tr">
+                                        {specAttrList.map((item, index) => {
+                                            return (
+                                                <React.Fragment key={index}>
+                                                    <th className="spec-table-thead-th">{item.specName}</th>
+                                                </React.Fragment>
+                                            )
+                                        })}
+                                        <th className="spec-table-thead-th">规格图片</th>
+                                        <th className="spec-table-thead-th">商品价格</th>
+                                        <th className="spec-table-thead-th">划线价格</th>
+                                        <th className="spec-table-thead-th">库存</th>
+                                        <th className="spec-table-thead-th">销量</th>
+                                    </tr>
+                                </thead>
+                                <tbody align="center">
+                                    {renderSpec}
+                                    {/* {
+                        specAttrList.map((item, index) => {
+                            return (
+                                <React.Fragment key={index}>
+                                    {
+                                        item.children.map((attrItem, attrIndex) => {
+                                            return (
+                                                <React.Fragment key={attrIndex}>
+                                                    <tr className="spec-table-tbody-tr">
+                                                        <td className="spec-table-tbody-td">{attrItem.attr}</td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <div className="img" onClick={this.picLibraryStatusChange}>+</div>
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                    </tr>
+                                                </React.Fragment>
+                                            )
+                                        })
+                                    }
+                                </React.Fragment>
+                            )
+                        })
+                    } */}
+                                </tbody>
+                            </table>
                         </div>
                         <div className="goodsStyleBox">
                             <Form.Item label="商品价格" name="goodsPrice">

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input} from 'antd';
+import { Input } from 'antd';
 class Demo extends React.Component {
     constructor(props) {
         super(props)
@@ -7,52 +7,11 @@ class Demo extends React.Component {
             specList: [
                 {
                     name: "颜色",
-                    value: ["黑色","白色"]
+                    value: ["黑色", "白色"]
                 },
                 {
                     name: "尺寸",
                     value: ["10", "20"]
-                }
-            ],
-            specAttrList: [
-                {
-                    attr_list: { 颜色: "黑色" },
-                    bar_code: "",
-                    price: 0
-                },
-                {
-                    attr_list: { 颜色: "黄色" },
-                    bar_code: "",
-                    price: 5,
-                },
-                {
-                    attr_list: { 颜色: "白色" },
-                    bar_code: "",
-                    price: 6
-                },
-                {
-                    attr_list: { 颜色: "黑色", 尺寸: "10" },
-                    bar_code: "",
-                    id: 0,
-                    price: 0
-                },
-                {
-                    attr_list: { 颜色: "黑色", 尺寸: "20" },
-                    bar_code: "",
-                    id: 1,
-                    price: 0
-                },
-                {
-                    attr_list: { 颜色: "白色", 尺寸: "10" },
-                    bar_code: "",
-                    id: 2,
-                    price: 0
-                },
-                {
-                    attr_list: { 颜色: "白色", 尺寸: "20" },
-                    bar_code: "",
-                    id: 3,
-                    price: 0
                 }
             ]
         }
@@ -60,8 +19,9 @@ class Demo extends React.Component {
         this.getSpecAttr = this.getSpecAttr.bind(this);
         this.showTd = this.showTd.bind(this);
     }
-    // 计算属性的乘积
+    // 计算属性的乘积(获取配对的可能性)
     countSum(specIndex) {
+        console.log("specList", this.state.specList);
         let num = 1;
         this.state.specList.forEach((item, index) => {
             if (index >= specIndex && item.value.length) {
@@ -104,8 +64,7 @@ class Demo extends React.Component {
         }
     }
     render() {
-        // const init = this.field.init;
-        const { specList, specAttrList } = this.state;
+        const {specList} = this.state;
         const renderSpec = [];
         // 表格合并
         for (let i = 0; i < this.countSum(0); i++) {
@@ -120,10 +79,10 @@ class Demo extends React.Component {
                     }
                 })}
                 <td>
-                    <Input value={specAttrList[i].bar_code} placeholder="请输入商品条形码" />
+                    <Input placeholder="请输入商品条形码" />
                 </td>
                 <td>
-                    <Input value={specAttrList[i].price} placeholder="请输入销售价" />
+                    <Input placeholder="请输入销售价" />
                 </td>
             </tr>);
         }
