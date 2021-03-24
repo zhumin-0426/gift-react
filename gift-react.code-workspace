@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "..\\react-sku"
+		},
+		{
+			"path": "C:\\Users\\Administrator\\Desktop\\vertexer-react-sku-master"
 		}
 	]
 }

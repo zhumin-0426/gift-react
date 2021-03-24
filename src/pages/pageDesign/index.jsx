@@ -361,11 +361,11 @@ class PageDesign extends React.Component {
             { label: '价格', value: 'price' },
         ]
         // 表单提交成功
-        const onFinish = (values: any) => {
+        const onFinish = (values) => {
             console.log('Success:', values);
         };
         // 表单提交失败
-        const onFinishFailed = (errorInfo: any) => {
+        const onFinishFailed = (errorInfo) => {
             console.log('Failed:', errorInfo);
         };
         // 轮播节点列表

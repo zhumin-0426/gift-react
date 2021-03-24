@@ -110,10 +110,9 @@ class Describe extends React.Component {
     // 商品规格=> 确认
     specConfirm() {
         let specAttrList = this.state.specAttrList;
-        console.log('specVal', this.state.specVal)
         let attrObj = {
             specName: this.state.specName,
-            specAttr: [
+            children: [
                 { attr: this.state.specVal }
             ]
         }
@@ -124,6 +123,7 @@ class Describe extends React.Component {
             specName: "",
             specVal: "",
         })
+        console.log('specAttrList', specAttrList)
     }
     // 商品规格=> 取消
     specCancel() {
@@ -135,13 +135,56 @@ class Describe extends React.Component {
     addSpecVal(index) {
         if (this.state.newSpecVal != "" && this.state.newSpecValIndex === index) {
             let specAttrList = this.state.specAttrList;
-            specAttrList[index].specAttr.push({ attr: this.state.newSpecVal })
+            specAttrList[index].children.push({ attr: this.state.newSpecVal })
             this.setState({ specAttrList: specAttrList, newSpecVal: "" })
         } else {
             alert("您为空")
         }
     }
     render() {
+        // 笛卡尔积运算
+        const operation = (arr) => {
+            //编辑原数组格式
+            if (arr[0].children) {
+                arr = arr.map((item) => {
+                    return item = item.children
+                })
+            }
+            if (arr.length === 1) {
+                //最终合并成一个
+                return arr[0];
+            } else {    //有两个子数组就合并
+                let arrySon = [];
+                //将组合放到新数组中
+                arr[0].forEach((_, index) => {
+                    arr[1].forEach((_, index1) => {
+                        arrySon.push([].concat(arr[0][index], arr[1][index1]));
+                    })
+                })
+                // 新数组并入原数组,去除合并的前两个数组
+                arr[0] = arrySon;
+                arr.splice(1, 1);
+                // 递归
+                return operation(arr);
+            }
+        }
+        // 计算rowSpan
+        // const opatRowSpan = () => {
+        //     let arr = this.state.specificationList
+        //     // 对数据进行过滤，规格名称不为空，且规格值列表大于0
+        //     arr = arr.filter(ls => ls.name && ls.children.length > 0)
+        //     if (arr.length <= 0) { return }
+        //     // 对数据进行转换
+        //     let res = this.arrp(arr)
+        //     // 合并单元格
+        //     let row = [];
+        //     let rowspan = res.length;
+        //     // 通过循环，我们获得td所占的rowSpan 所需要的合并的单元格数
+        //     for (let n = 0; n < arr.length; n++) {
+        //         row[n] = parseInt(rowspan / arr[n].children.length)
+        //         rowspan = row[n]
+        //     }
+        // }
         // 表单提交成功
         const onFinish = (values) => {
             console.log('Success:', values);
@@ -150,34 +193,6 @@ class Describe extends React.Component {
         const onFinishFailed = (errorInfo) => {
             console.log('Failed:', errorInfo);
         };
-        // 图片上传
-        // const [fileList, setFileList] = useState([
-        //     {
-        //         uid: '-1',
-        //         name: 'image.png',
-        //         status: 'done',
-        //         url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        //     },
-        // ]);
-
-        // const onChange = ({ fileList: newFileList }) => {
-        //     this.setFileList(newFileList);
-        // };
-
-        // const onPreview = async file => {
-        //     let src = file.url;
-        //     if (!src) {
-        //         src = await new Promise(resolve => {
-        //             const reader = new FileReader();
-        //             reader.readAsDataURL(file.originFileObj);
-        //             reader.onload = () => resolve(reader.result);
-        //         });
-        //     }
-        //     const image = new Image();
-        //     image.src = src;
-        //     const imgWindow = window.open(src);
-        //     imgWindow.document.write(image.outerHTML);
-        // };
         // 商品规格
         const goodsStyleOptions = [
             { label: '单规格', value: 'single' },
@@ -223,7 +238,7 @@ class Describe extends React.Component {
                             <div className="delete-cover"></div>
                         </div>
                         <div className="val-box">
-                            {item.specAttr.map((attrValItem, attrIndexItem) => {
+                            {item.children.map((attrValItem, attrIndexItem) => {
                                 return (
                                     <React.Fragment key={attrIndexItem}>
                                         <ul>
@@ -244,7 +259,76 @@ class Describe extends React.Component {
                 </React.Fragment>
             )
         })
-
+        // 规格表格
+        let specTable
+        // 对表格数据进行渲染
+        if (this.state.specAttrList.length > 0) {
+            let newArr = operation(this.state.specAttrList);
+            console.log('newArr', newArr)
+            // const tdRow = i => newArr.map((_, j) => {
+            //     let td;
+            //     if (i % row[j] === 0 && row[j] > 1) {
+            //         td = <td rowSpan={row[j]} key={j}>{res[i][j].name}</td>
+            //     } else if (row[j] === 1) {
+            //         res[i] instanceof Array ? td = <td key={j}>{res[i][j].name}</td> : td = <td key={j}>{res[i].name}</td>
+            //     }
+            //     return td
+            // })
+            specTable = <table className="spec-table">
+                <thead align="center">
+                    <tr className="spec-table-thead-tr">
+                        {newArr.map((item, index) => {
+                            return (
+                                <React.Fragment key={index}>
+                                    <th className="spec-table-thead-th">{item.specName}</th>
+                                </React.Fragment>
+                            )
+                        })}
+                        <th className="spec-table-thead-th">规格图片</th>
+                        <th className="spec-table-thead-th">商品价格</th>
+                        <th className="spec-table-thead-th">划线价格</th>
+                        <th className="spec-table-thead-th">库存</th>
+                        <th className="spec-table-thead-th">销量</th>
+                    </tr>
+                </thead>
+                <tbody align="center">
+                    {
+                        specAttrList.map((item, index) => {
+                            return (
+                                <React.Fragment key={index}>
+                                    {
+                                        item.children.map((attrItem, attrIndex) => {
+                                            return (
+                                                <React.Fragment key={attrIndex}>
+                                                    <tr className="spec-table-tbody-tr">
+                                                        <td className="spec-table-tbody-td">{attrItem.attr}</td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <div className="img" onClick={this.picLibraryStatusChange}>+</div>
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                        <td className="spec-table-tbody-td">
+                                                            <input className="ipt" type="number" />
+                                                        </td>
+                                                    </tr>
+                                                </React.Fragment>
+                                            )
+                                        })
+                                    }
+                                </React.Fragment>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+        }
         return (
             <>
                 {/* 图片库组件 */}
@@ -306,50 +390,13 @@ class Describe extends React.Component {
                                     <Input style={{ width: "30%" }} name="specName" placeholder="请输入规格名称" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                                 <Form.Item label="规格值" name="specVal" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
-                                    <Input style={{ width: "30%" }} name="specVal"  placeholder="请输入规格值" onChange={(e) => this.iptHandle(e)} />
+                                    <Input style={{ width: "30%" }} name="specVal" placeholder="请输入规格值" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                             </div>
                             {/* 多规格按钮 */}
                             {specBtn}
                             {/* 多规格表格 */}
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>规格图片</th>
-                                        <th>商品价格</th>
-                                        <th>划线价格</th>
-                                        <th>库存</th>
-                                        <th>销量</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style={{padding:"10px"}}>
-                                            <input type="text"/>
-                                        </td>
-                                        <td>
-                                            <Form.Item name="specGoodsPrice">
-                                                <Input />
-                                            </Form.Item>
-                                        </td>
-                                        <td>
-                                            <Form.Item name="specGoodsLinePrice">
-                                                <Input />
-                                            </Form.Item>
-                                        </td>
-                                        <td>
-                                            <Form.Item name="specGoodsInventory">
-                                                <Input />
-                                            </Form.Item>
-                                        </td>
-                                        <td>
-                                            <Form.Item name="specGoodsSales">
-                                                <Input />
-                                            </Form.Item>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            {this.state.specAttrList.length > 0 ? specTable : ''}
                         </div>
                         <div className="goodsStyleBox">
                             <Form.Item label="商品价格" name="goodsPrice">
