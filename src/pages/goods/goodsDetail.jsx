@@ -288,10 +288,10 @@ class Describe extends React.Component {
                             {/* 多规格输入框 */}
                             <div className={this.state.spec ? "spec-box-active" : "spec-box"}>
                                 <Form.Item label="规格名" name="specName" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
-                                    <Input style={{ width: "30%" }} name="specName" onChange={(e) => this.iptHandle(e)} />
+                                    <Input style={{ width: "30%" }} name="specName" placeholder="请输入规格名称" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                                 <Form.Item label="规格值" name="specVal" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
-                                    <Input style={{ width: "30%" }} name="specVal" onChange={(e) => this.iptHandle(e)} />
+                                    <Input style={{ width: "30%" }} name="specVal"  placeholder="请输入规格值" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                             </div>
                             {/* 规格按钮 */}
