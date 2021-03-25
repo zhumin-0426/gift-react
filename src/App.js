@@ -54,7 +54,7 @@ class App extends React.Component {
                   <Footer ></Footer>
                 </div>
                  {/* 消息按钮 */}
-                 {/* <Chat /> */}
+                 <Chat />
               </div>
             </div>
           </Switch>

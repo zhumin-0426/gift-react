@@ -7,10 +7,21 @@ import UserPic from '../assets/images/userPic.jpg'
 class Chat extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            show :false
+        }
+        this.showChat = this.showChat.bind(this);
+    }
+    showChat(){
+        let show  = this.state.show;
+        this.setState({
+            show:!show
+        })
+        console.log("a")
     }
     render() {
         return (
-            <div className="chat-box bg-fff box-sd pd-15">
+            <div className={this.state.show?"chat-box active bg-fff box-sd pd-15":"chat-box bg-fff box-sd pd-15"}>
                 <Row>
                     <Col span={8}>
                         <div className="user-list">
@@ -78,8 +89,8 @@ class Chat extends React.Component {
                         </div>
                     </Col>
                 </Row>
-                <div className="btn-box pd-10 bg-fff">
-                     <div className="btn bg-84b text-align"><i className="iconfont icon-xiaoxizhongxin fon-22 text-white"></i></div>
+                <div className="btn-box pd-10 bg-fff" onClick={this.showChat}>
+                     <div className="btn bg-84b text-align"><i className={this.state.show?"iconfont icon-shanchu1 fon-22 text-white":"iconfont icon-xiaoxizhongxin fon-22 text-white"}></i></div>
                  </div>
             </div>
         )

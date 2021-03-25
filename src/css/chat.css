@@ -1,9 +1,10 @@
 .chat-box {
-  width: 80%;
   position: fixed;
   right: 0;
   top: 67px;
   z-index: 999;
+  transform: translateX(1252px);
+  transition: all 1s;
 }
 .chat-box .btn-box {
   position: absolute;
@@ -165,4 +166,8 @@
   color: #FFFFFF;
   background-color: #84ba3f;
   cursor: pointer;
+}
+.active {
+  transform: translateX(0);
+  transition: all 1s;
 }
