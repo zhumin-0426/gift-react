@@ -3,7 +3,7 @@ import React from 'react';
 import AddGoodsCssMoudle from '../../css/addGoods.module.css';
 import UploadIcon from '../../assets/icon/upload.png';
 // antd 组件
-import { Row, Col, Breadcrumb, Form, Input, Radio } from 'antd';
+import { Row, Col, Breadcrumb, Form, Input, Radio,Button} from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import Editor from 'react-umeditor';
 // 图片库组件
@@ -17,13 +17,29 @@ class FromList extends React.Component {
             // 编辑器
             content: "",
             // 图片库
-            picLibraryStatus: false
+            picLibraryStatus: false,
+            // 商品规格
+            goodsStyle: 'single',
+             spec: false,
+             specName: "",
+             specVal: "",
+             specAttrList: [],
+             newSpecVal: "",
+             newSpecValIndex: 0
         }
         this.prevStepEvent = this.prevStepEvent.bind(this);
         this.nextStepEvent = this.nextStepEvent.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
         this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
+        this.addSpec = this.addSpec.bind(this);
+        this.specConfirm = this.specConfirm.bind(this);
+        this.specCancel = this.specCancel.bind(this);
+        this.iptHandle = this.iptHandle.bind(this);
+        this.addSpecVal = this.addSpecVal.bind(this);
+        this.countSum = this.countSum.bind(this);
+        this.getSpecAttr = this.getSpecAttr.bind(this);
+        this.showTd = this.showTd.bind(this);
     }
     // 上一步
     prevStepEvent() {
@@ -35,10 +51,22 @@ class FromList extends React.Component {
         var tabid = (Number(this.props.tabid) + 1) + '';
         this.props.childPassData(tabid)
     }
+    // 输入框
+    iptHandle(e, index) {
+        let val = e.target.value;
+        console.log("name", e.target.name)
+        this.setState({
+            [e.target.name]: val,
+            newSpecValIndex: index
+        })
+    }
     // 单选按钮
     radioHandle(name, e) {
         console.log('name', name);
         console.log('radio1 checked', e.target.value);
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
     // 编辑器
     handleChange(content) {
@@ -75,6 +103,90 @@ class FromList extends React.Component {
     picLibraryStatusChange() {
         this.setState({ picLibraryStatus: true });
     }
+     // 商品规格=>添加
+     addSpec() {
+        this.setState({
+            spec: true
+        })
+    }
+    // 商品规格=> 确认
+    specConfirm() {
+        let specAttrList = this.state.specAttrList;
+        let attrObj = {
+            specName: this.state.specName,
+            children: [
+                { attr: this.state.specVal }
+            ]
+        }
+        specAttrList.push(attrObj)
+        this.setState({
+            spec: false,
+            specAttrList: specAttrList,
+            specName: "",
+            specVal: "",
+        })
+        console.log('specAttrList', specAttrList)
+    }
+    // 商品规格=> 取消
+    specCancel() {
+        this.setState({
+            spec: false
+        })
+    }
+    // 添加规格值
+    addSpecVal(index) {
+        if (this.state.newSpecVal != "" && this.state.newSpecValIndex === index) {
+            let specAttrList = this.state.specAttrList;
+            specAttrList[index].children.push({ attr: this.state.newSpecVal })
+            this.setState({ specAttrList: specAttrList, newSpecVal: "" })
+        } else {
+            alert("您为空")
+        }
+    }
+    // 计算属性的乘积(获取配对的可能性)
+    countSum(specIndex) {
+        console.log("specList", this.state.specAttrList);
+        let num = 1;
+        this.state.specAttrList.forEach((item, index) => {
+            if (index >= specIndex && item.children.length) {
+                num *= item.children.length;
+            }
+        });
+        return num;
+    }
+    /**
+     * 根据传入的属性值，拿到相应规格的属性
+     * @param specIndex
+     * @param index 所有属性在遍历时的序号
+     * @returns {string}
+     */
+    getSpecAttr(specIndex, index) {
+        // 获取当前规格项目下的属性值
+        let specAttrList = this.state.specAttrList;
+        const currentValues = specAttrList[specIndex].children;
+        // 判断是否是最后一个规格项目
+        let indexCopy = (specAttrList[specIndex + 1] && specAttrList[specIndex + 1].children.length)
+            ? index / this.countSum(specIndex + 1)
+            : index;
+        const i = Math.floor(indexCopy % currentValues.length);
+        return (i.toString() !== 'NaN') ? currentValues[i] : '';
+    }
+    /**
+      * 根据传入的条件，来判断是否显示该td
+      * [如果当前项目下没有属性，则不显示]
+      * @param specIndex
+      * @param index
+      * @returns {boolean}
+      */
+    showTd(specIndex, index) {
+        if (!this.state.specAttrList[specIndex]) {
+            return false;
+        } else if (index % this.countSum(specIndex + 1) === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     render() {
         let tabid = this.props.tabid;
         // 商品规格
@@ -93,6 +205,88 @@ class FromList extends React.Component {
         // 编辑器
         var icons = this.getIcons();
         var plugins = this.getPlugins();
+        // 规格按钮
+        let specBtn
+        if (this.state.spec) {
+            specBtn = <div className="spec-btn-box dis-flx">
+                <Form.Item>
+                    <Button size="small" block onClick={this.specCancel}>取消</Button>
+                </Form.Item>
+                <Form.Item>
+                    <Button size="small" type="primary" onClick={this.specConfirm} style={{ marginLeft: "15px" }}>确定</Button>
+                </Form.Item>
+            </div>
+        } else {
+            specBtn = <div className="spec-btn-box">
+                <Form.Item>
+                    <Button onClick={this.addSpec}>添加规格</Button>
+                </Form.Item>
+            </div>
+        }
+        // 规格属性
+        let specAttrList = this.state.specAttrList;
+        let specAttrNodesItem = specAttrList.map((item, index) => {
+            return (
+                <React.Fragment key={index}>
+                    <div className="spec-attr-box">
+                        <div className="name">
+                            {item.specName}
+                            <div className="delete-cover"></div>
+                        </div>
+                        <div className="val-box">
+                            {item.children.map((attrValItem, attrIndexItem) => {
+                                return (
+                                    <React.Fragment key={attrIndexItem}>
+                                        <ul>
+                                            <li className="val">
+                                                {attrValItem.attr}
+                                                <div className="delete-cover"></div>
+                                            </li>
+                                        </ul>
+                                    </React.Fragment>
+                                )
+                            })}
+                            <div className="add-val-box">
+                                <input name="newSpecVal" onChange={(e) => this.iptHandle(e, index)} />
+                                <div className="btn" onClick={() => this.addSpecVal(index)}>添加</div>
+                            </div>
+                        </div>
+                    </div>
+                </React.Fragment>
+            )
+        })
+        // 规格表格
+        let renderSpec = []
+        // 表格合并
+        for (let i = 0; i < this.countSum(0); i++) {
+            renderSpec.push(
+                <tr className="spec-table-tbody-tr" key={i}>
+                    {this.state.specAttrList.length > 0 && this.state.specAttrList.map((item, index) => {
+                        if (this.showTd(index, i)) {
+                            let tagName = this.getSpecAttr(index, i);
+                            let n = index + 1;
+                            let rowSpan = this.countSum(n);
+                            return <td className="spec-table-tbody-td" rowSpan={rowSpan} key={index}>{tagName.attr}</td>
+                        }
+                    })}
+                    <td className="spec-table-tbody-td">
+                        <div className="img" onClick={this.picLibraryStatusChange}>+</div>
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                </tr>
+            )
+        }
         return (
             <>
                 {/* 图片库组件 */}
@@ -144,8 +338,45 @@ class FromList extends React.Component {
                             <Input />
                         </Form.Item>
                         <Form.Item label="商品规格" name="goodsStyle">
-                            <Radio.Group options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} />
+                            <Radio.Group name="goodsStyle" options={goodsStyleOptions} onChange={(e) => this.radioHandle("goodsStyle", e)} defaultValue={this.state.goodsStyle} />
                         </Form.Item>
+                        <div className={this.state.goodsStyle === 'double' ? 'goods-spec-active pd-20 mb-30' : "goods-spec pd-20 mb-30"}>
+                            {/* 多规格属性 */}
+                            {specAttrNodesItem}
+                            {/* 多规格输入框 */}
+                            <div className={this.state.spec ? "spec-box-active" : "spec-box"}>
+                                <Form.Item label="规格名" name="specName" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
+                                    <Input style={{ width: "30%" }} name="specName" placeholder="请输入规格名称" onChange={(e) => this.iptHandle(e)} />
+                                </Form.Item>
+                                <Form.Item label="规格值" name="specVal" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
+                                    <Input style={{ width: "30%" }} name="specVal" placeholder="请输入规格值" onChange={(e) => this.iptHandle(e)} />
+                                </Form.Item>
+                            </div>
+                            {/* 多规格按钮 */}
+                            {specBtn}
+                            {/* 多规格表格 */}
+                            <table className="spec-table">
+                                <thead align="center">
+                                    <tr className="spec-table-thead-tr">
+                                        {specAttrList.map((item, index) => {
+                                            return (
+                                                <React.Fragment key={index}>
+                                                    <th className="spec-table-thead-th">{item.specName}</th>
+                                                </React.Fragment>
+                                            )
+                                        })}
+                                        <th className="spec-table-thead-th">规格图片</th>
+                                        <th className="spec-table-thead-th">商品价格</th>
+                                        <th className="spec-table-thead-th">划线价格</th>
+                                        <th className="spec-table-thead-th">库存</th>
+                                        <th className="spec-table-thead-th">销量</th>
+                                    </tr>
+                                </thead>
+                                <tbody align="center">
+                                    {renderSpec}
+                                </tbody>
+                            </table>
+                        </div>
                         <FormItem>
                             <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
                         </FormItem>

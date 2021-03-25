@@ -34,7 +34,6 @@ class Describe extends React.Component {
             newSpecVal: "",
             newSpecValIndex: 0
         }
-        this.setFileList = this.setFileList.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
         this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
@@ -46,10 +45,6 @@ class Describe extends React.Component {
         this.countSum = this.countSum.bind(this);
         this.getSpecAttr = this.getSpecAttr.bind(this);
         this.showTd = this.showTd.bind(this);
-    }
-    // 图片上传回调
-    setFileList = (value) => {
-        console.log('value', value)
     }
     // 单选按钮
     radioHandle(name, e) {
@@ -318,20 +313,6 @@ class Describe extends React.Component {
                             </select>
                         </Form.Item>
                         <Form.Item label="商品图片" name="goodsPic">
-                            {/* <ImgCrop rotate>
-                                <Upload
-                                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                                    listType="picture-card"
-                                    fileList={this.state.fileList}
-                                    onChange={onChange}
-                                    onPreview={onPreview}
-                                >
-                                    {this.state.fileList.length < 5 && '+ Upload'}
-                                </Upload>
-                                <div className="fromControlFile">
-                                    <img src={UploadIcon} alt="" />
-                                </div>
-                            </ImgCrop> */}
                             <div className="fromControlFile" onClick={this.picLibraryStatusChange}>
                                 <img src={UploadIcon} alt="" />
                                 <p className="fon-13 text-626"> 添加图片</p>
