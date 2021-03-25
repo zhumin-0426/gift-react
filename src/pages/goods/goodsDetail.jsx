@@ -267,23 +267,33 @@ class Describe extends React.Component {
         let renderSpec = []
         // 表格合并
         for (let i = 0; i < this.countSum(0); i++) {
-            renderSpec.push(<tr>
-                {this.state.specAttrList.length > 0 && this.state.specAttrList.map((item, index) => {
-                    if (this.showTd(index, i)) {
-                        let tagName = this.getSpecAttr(index, i);
-                        let n = index + 1;
-                        return (
-                            <td rowSpan={this.countSum(n)} key={index}>{tagName}</td>
-                        )
-                    }
-                })}
-                <td>
-                    <Input placeholder="请输入商品条形码" />
-                </td>
-                <td>
-                    <Input placeholder="请输入销售价" />
-                </td>
-            </tr>)
+            renderSpec.push(
+                <tr className="spec-table-tbody-tr" key={i}>
+                    {this.state.specAttrList.length > 0 && this.state.specAttrList.map((item, index) => {
+                        if (this.showTd(index, i)) {
+                            let tagName = this.getSpecAttr(index, i);
+                            let n = index + 1;
+                            let rowSpan = this.countSum(n);
+                            return <td className="spec-table-tbody-td" rowSpan={rowSpan} key={index}>{tagName.attr}</td>
+                        }
+                    })}
+                    <td className="spec-table-tbody-td">
+                        <div className="img" onClick={this.picLibraryStatusChange}>+</div>
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                    <td className="spec-table-tbody-td">
+                        <input className="ipt" type="number" />
+                    </td>
+                </tr>
+            )
         }
         return (
             <>
@@ -371,40 +381,6 @@ class Describe extends React.Component {
                                 </thead>
                                 <tbody align="center">
                                     {renderSpec}
-                                    {/* {
-                        specAttrList.map((item, index) => {
-                            return (
-                                <React.Fragment key={index}>
-                                    {
-                                        item.children.map((attrItem, attrIndex) => {
-                                            return (
-                                                <React.Fragment key={attrIndex}>
-                                                    <tr className="spec-table-tbody-tr">
-                                                        <td className="spec-table-tbody-td">{attrItem.attr}</td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <div className="img" onClick={this.picLibraryStatusChange}>+</div>
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                        <td className="spec-table-tbody-td">
-                                                            <input className="ipt" type="number" />
-                                                        </td>
-                                                    </tr>
-                                                </React.Fragment>
-                                            )
-                                        })
-                                    }
-                                </React.Fragment>
-                            )
-                        })
-                    } */}
                                 </tbody>
                             </table>
                         </div>
