@@ -52,6 +52,7 @@
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   padding: 17px;
+  position: relative;
 }
 .goodsCard .goodsName {
   overflow: hidden;
@@ -66,5 +67,46 @@
 }
 .goodsCard .goodsName:hover {
   color: #84ba3f;
+  transition: all 0.5s;
+}
+.goodsCard :global .cover {
+  top: 34px;
+  right: 17px;
+  opacity: 0;
+  transform: translateX(0);
+  transition: all 0.5s;
+}
+.goodsCard :global .cover .editor {
+  width: 36px;
+  height: 36px;
+  line-height: 35px;
+  border-radius: 50%;
+  color: #84ba3f;
+  text-align: center;
+  border: solid 2px #84ba3f;
+  margin-bottom: 10px;
+}
+.goodsCard :global .cover .editor:hover {
+  background-color: #84ba3f;
+  color: #fff;
+  transition: all 0.3s;
+}
+.goodsCard :global .cover .delete {
+  width: 36px;
+  height: 36px;
+  line-height: 35px;
+  border-radius: 50%;
+  color: #dc3545;
+  text-align: center;
+  border: solid 2px #dc3545;
+}
+.goodsCard :global .cover .delete:hover {
+  background-color: #dc3545;
+  color: #fff;
+  transition: all 0.3s;
+}
+.goodsCard:hover :global .cover {
+  transform: translateX(-17px);
+  opacity: 1;
   transition: all 0.5s;
 }

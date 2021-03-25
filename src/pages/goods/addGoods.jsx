@@ -307,7 +307,7 @@ class FromList extends React.Component {
                                 },
                             ]}
                         >
-                            <Input placeholder="商品名称" />
+                            <Input/>
                         </Form.Item>
                         <Form.Item
                             label="商品描述"

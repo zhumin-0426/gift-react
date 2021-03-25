@@ -37,7 +37,7 @@ const Users = () => {
             </Row>
             {/* 商品列表 */}
             <Row gutter={[30, 30]}>
-                <Col span={6}>
+                <Col span={8}>
                     <div className={GoodsCssModule.goodsCard}>
                         <div className="goods-img">
                             <img className="w100 dis-block" src={GoodsImg} alt="" />
@@ -58,6 +58,10 @@ const Users = () => {
                                 <span className="attr-name text-626">上架</span>
                             </li>
                         </ul>
+                        <div className="cover pos-a">
+                            <div className="editor"><i className="iconfont icon-bianji fon-20"></i></div>
+                            <div className="delete"><i className="iconfont icon-shanchudefuben fon-20"></i></div>
+                        </div>
                     </div>
                 </Col>
             </Row>
