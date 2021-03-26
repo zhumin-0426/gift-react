@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from '../../common/js/axios';
 // 样式
 import '../../css/user.less';
 import userPic from '../../assets/images/upload-user-pic.png';
@@ -6,17 +7,18 @@ import Icon from '../../assets/icon/02.png';
 import Editor from 'react-umeditor';
 
 // antd 组件
-import { Row, Col, Breadcrumb, Input } from 'antd';
+import { Row, Col, Breadcrumb } from 'antd';
 // 图片库组件
 import PicLibrary from '../../components/picLibrary';
-const { TextArea } = Input;
 class Users extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             editorStatus: false,
+            adminAccount: "",
+            adminPassword: "",
             userName: "",
-            password: "",
+            describe: "",
             phone: "",
             qq: "",
             wx: "",
@@ -29,15 +31,56 @@ class Users extends React.Component {
         this.submit = this.submit.bind(this);
         this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
+        this.initUsersData = this.initUsersData.bind(this);
+    }
+    componentDidMount() {
+        this.initUsersData()
+    }
+    // 数据初始化
+    initUsersData() {
+        let params = {
+            userId: localStorage.getItem("userId")
+        }
+        axios.getAxios('/users', params).then(res => {
+            console.log("res", res);
+            if (res.status === 200) {
+                this.setState({
+                    adminAccount: res.data.adminAccount,
+                    adminPassword: res.data.adminPassword,
+                    userName: res.data.userName,
+                    describe: res.data.describe,
+                    phone: res.data.phone,
+                    qq: res.data.qq,
+                    wx: res.data.wx,
+                })
+            }
+        })
     }
     // 编辑
     editor() {
         this.setState({ editorStatus: true })
     }
     // 提交
-    submit() {
-        console.log("提交")
-        this.setState({ editorStatus: false, userName: "", password: "", phone: "", qq: "", wx: "" })
+    submit(event) {
+        let data = {
+            userId: localStorage.getItem("userId"),
+            userName: this.state.userName,
+            describe: this.state.describe,
+            adminAccount: this.state.adminAccount,
+            adminPassword: this.state.adminPassword,
+            phone: this.state.phone,
+            qq: this.state.qq,
+            wx: this.state.wx,
+        }
+        console.log("data",data);
+        axios.postAxios('/users/editor', data).then(res => {
+            console.log('res', res);
+            if (res.data.status === "success") {
+                this.initUsersData()
+            }
+        });
+        this.setState({ editorStatus: false })
+        event.preventDefault()
     }
     // input监听
     inputChange(e) {
@@ -102,89 +145,108 @@ class Users extends React.Component {
                         </Breadcrumb>
                     </Col>
                 </Row>
-                <Row>
-                    <Col span={24}>
-                        <div className="user-msg-card w100 box-sd pd-17 bg-fff mb-30">
-                            <div className="card-bg w100 box-siz">
-                                <div className="user-info pos-a">
-                                    <Row>
-                                        <Col span={12}>
-                                            <div className="dis-flx align-items-center">
-                                                <div className="user-pic">
-                                                    {/* <img src={userPic} alt="" /> */}
-                                                    <div className="cover" onClick={this.picLibraryStatusChange}><img src={userPic} alt="" /></div>
+                <form>
+                    <Row>
+                        <Col span={24}>
+                            <div className="user-msg-card w100 box-sd pd-17 bg-fff mb-30">
+                                <div className="card-bg w100 box-siz">
+                                    <div className="user-info pos-a">
+                                        <Row>
+                                            <Col span={12}>
+                                                <div className="dis-flx align-items-center">
+                                                    <div className="user-pic">
+                                                        <div className="cover" onClick={this.picLibraryStatusChange}><img src={userPic} alt="" /></div>
+                                                    </div>
+                                                    <div>
+                                                        {this.state.userName === "" ? <h2 className="name text-white fon-30 fon-w-700 mb-0">未填写</h2> : <h2 className="name text-white fon-30 fon-w-700 mb-0">{this.state.userName}</h2>}
+                                                        &nbsp;&nbsp;{editorStatus ? <input value={this.state.userName} name="userName" className="input-bottom-line pl-11 ant-input-color-fff" placeholder="昵称" onChange={(e) => this.inputChange(e)} /> : ''}
+                                                        <p className="lavel text-white">- Admin</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <h2 className="name text-white fon-30 fon-w-700 mb-0">Michael Bean</h2> &nbsp;&nbsp;{editorStatus ? <Input name="userName" className="ant-input-bottom-line pl-11 ant-input-color-fff" placeholder="昵称" onChange={(e) => this.inputChange(e)} /> : ''}
-                                                    <p className="lavel text-white">- Admin</p>
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col span={12} className="text-align-right align-self">
-                                            {editorStatus ? <button type="button" className="editor-btn bg-218 text-white fon-14 " onClick={this.submit}><i className="mr-5 iconfont icon-tijiaochenggong"></i>提交</button> : <button type="button" className="editor-btn bg-218 text-white fon-14 " onClick={this.editor}><i className="mr-5 iconfont icon-icon-"></i>编辑</button>}
-                                        </Col>
-                                    </Row>
+                                            </Col>
+                                            <Col span={12} className="text-align-right align-self">
+                                                {editorStatus ?
+                                                    <button type="submit" className="editor-btn bg-218 text-white fon-14 " onClick={this.submit}><i className="mr-5 iconfont icon-tijiaochenggong"></i>提交</button>
+                                                    : <button type="button" className="editor-btn bg-218 text-white fon-14 " onClick={this.editor}><i className="mr-5 iconfont icon-icon-"></i>编辑</button>}
+                                            </Col>
+                                        </Row>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Col>
-                </Row>
-                <Row gutter={30, 30}>
-                    <Col span={8}>
-                        <div className="about-me-card box-sd bg-fff pd-17">
-                            <div className="title fon-w-500 pb-14 bd-bottom mb-15"><strong>关于我</strong></div>
-                            {editorStatus ? <TextArea rows={4} placeholder="描述：" /> : <div className="describe text-626 fon-w-500">
-                                I have more than 9 years of experience in the field of Graphic/ E-Learning/Web Designing.
-                                Specialized in Adobe web & graphic designing tools and also in other tools. Professional in Corporate branding, Graphic designing, Web Designing, visualization, GUI, graphics & animations for e-learning, illustrations, web icons, logos, brochures, posters etc.
-                            </div>}
-                            <ul className="mt-20">
-                                <li className="dis-flx align-items-center">
-                                    <i className="iconfont icon-zhanghao text-84b mr-10 fon-20"></i>
-                                    <span className="fon-13 text-626 fon-w-500">admin</span>
-                                </li>
-                                <li className="dis-flx align-items-center">
-                                    <i className="iconfont icon-mima text-17a mr-10 fon-20"></i>
-                                    &nbsp;&nbsp;{editorStatus ? <Input name="password" className="ant-input-bottom-line pl-11" placeholder="新密码" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">123456</span>}
-                                </li>
-                                <li className="dis-flx align-items-center">
-                                    <i className="iconfont icon-weibiaoti- text-ffc mr-10 fon-20"></i>
-                                    &nbsp;&nbsp;{editorStatus ? <Input name="phone" className="ant-input-bottom-line pl-11" placeholder="电话" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">18820854754</span>}
-                                </li>
-                                <li className="dis-flx align-items-center">
-                                    <i className="iconfont icon-qq text-dc3 mr-10 fon-20"></i>
-                                    &nbsp;&nbsp;{editorStatus ? <Input name="qq" className="ant-input-bottom-line pl-11" placeholder="qq" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">1693638322</span>}
-                                </li>
-                                <li className="dis-flx align-items-center">
-                                    <i className="iconfont icon-weixin text-28a mr-10 fon-20"></i>
-                                    &nbsp;&nbsp;{editorStatus ? <Input name="wx" className="ant-input-bottom-line pl-11" placeholder="微信" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">1693638322</span>}
-                                </li>
-                            </ul>
-                        </div>
-                    </Col>
-                    <Col span={16}>
-                        <div className="send-notice-card w100 box-sd pd-17 bg-fff">
-                            <div className="title fon-w-500 pb-14 bd-bottom mb-15"><strong>发布通知</strong></div>
-                            <Editor ref="editor"
-                                icons={icons}
-                                value={this.state.content} defaultValue="<p>React Umeditor</p>"
-                                onChange={this.handleChange.bind(this)}
-                                plugins={plugins} />
-                            <button className="send out-line-none mt-30">发布</button>
-                        </div>
-                        <div className="notice-card w100 box-sd pd-17 bg-fff">
-                            <div className="title fon-w-500 pb-14 bd-bottom mb-15"><strong>系统通知</strong></div>
-                            <ul>
-                                <li className="dis-flx align-items-center bd-bottom">
-                                    <img className="" src={Icon} alt="" />
-                                    <div>
-                                        <h2 className="mb-0">Martin smith </h2>
-                                        <p className="fon-13 text-626 line-clamp2">Create tailor-cut websites with the exclusive </p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
+                    <Row gutter={30, 30}>
+                        <Col span={8}>
+                            <div className="about-me-card box-sd bg-fff pd-17">
+                                <div className="title fon-w-500 pb-14 bd-bottom mb-15"><strong>关于我</strong></div>
+                                {editorStatus ? <textarea name="describe" value={this.state.describe} className="ant-textarea w100" placeholder="描述：" onChange={(e) => this.inputChange(e)} /> : <div className="describe text-626 fon-w-500">
+                                    描述：{this.state.describe === "" ? "未填写" : this.state.describe}
+                                </div>}
+                                <ul className="mt-20">
+                                    <li className="dis-flx align-items-center">
+                                        <i className="iconfont icon-zhanghao text-84b mr-10 fon-20"></i>
+                                        <span className="fon-13 text-626 fon-w-500">{this.state.adminAccount}</span>
+                                    </li>
+                                    <li className="dis-flx align-items-center">
+                                        <i className="iconfont icon-mima text-17a mr-10 fon-20"></i>
+                                  {editorStatus ? <input name="adminPassword" value={this.state.adminPassword} className="input-bottom-line pl-11" placeholder="密码" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                            {
+                                                this.state.adminPassword
+                                            }
+                                        </span>}
+                                    </li>
+                                    <li className="dis-flx align-items-center">
+                                        <i className="iconfont icon-weibiaoti- text-ffc mr-10 fon-20"></i>
+                                    {editorStatus ? <input value={this.state.phone} name="phone" className="input-bottom-line pl-11" placeholder="电话" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                            {
+                                                this.state.phone === "" ? "未填写" : this.state.phone
+                                            }
+                                        </span>}
+                                    </li>
+                                    <li className="dis-flx align-items-center">
+                                        <i className="iconfont icon-qq text-dc3 mr-10 fon-20"></i>
+                                    {editorStatus ? <input value={this.state.qq} name="qq" className="input-bottom-line pl-11" placeholder="qq" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                            {
+                                                this.state.qq === "" ? "未填写" : this.state.qq
+                                            }
+                                        </span>}
+                                    </li>
+                                    <li className="dis-flx align-items-center">
+                                        <i className="iconfont icon-weixin text-28a mr-10 fon-20"></i>
+                                    {editorStatus ? <input value={this.state.wx} name="wx" className="input-bottom-line pl-11" placeholder="微信" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                            {
+                                                this.state.wx === "" ? "未填写" : this.state.wx
+                                            }
+                                        </span>}
+                                    </li>
+                                </ul>
+                            </div>
+                        </Col>
+                        <Col span={16}>
+                            <div className="send-notice-card w100 box-sd pd-17 bg-fff">
+                                <div className="title fon-w-500 pb-14 bd-bottom mb-15"><strong>发布通知</strong></div>
+                                <Editor ref="editor"
+                                    icons={icons}
+                                    value={this.state.content} defaultValue="<p>React Umeditor</p>"
+                                    onChange={this.handleChange.bind(this)}
+                                    plugins={plugins} />
+                                <button className="send out-line-none mt-30">发布</button>
+                            </div>
+                            <div className="notice-card w100 box-sd pd-17 bg-fff">
+                                <div className="title fon-w-500 pb-14 bd-bottom mb-15"><strong>系统通知</strong></div>
+                                <ul>
+                                    <li className="dis-flx align-items-center bd-bottom">
+                                        <img className="" src={Icon} alt="" />
+                                        <div>
+                                            <h2 className="mb-0">Martin smith </h2>
+                                            <p className="fon-13 text-626 line-clamp2">Create tailor-cut websites with the exclusive </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </Col>
+                    </Row>
+                </form>
             </div>
         )
     }

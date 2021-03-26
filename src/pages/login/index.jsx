@@ -15,7 +15,7 @@ class Login extends React.Component {
             adminPassword: "",
             checked: false
         }
-        this.handleChange = this.handleChange.bind(this);
+        this.iptChange = this.iptChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.ckeckBoxChange = this.ckeckBoxChange.bind(this);
     }
@@ -41,7 +41,7 @@ class Login extends React.Component {
         })
     }
     // 表单数据监听
-    handleChange(event) {
+    iptChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -56,12 +56,14 @@ class Login extends React.Component {
             console.log("res=>", res);
             if (res.status === 200) {
                 // 存储用户信息
-                const userId = res.data.userId;
+                const userId = res.data.id;
                 localStorage.setItem("userId", userId);
                 if (this.state.checked) {
                     document.cookie = 'adminAccount=' + res.data.adminAccount;
                     document.cookie = 'adminPassword=' + res.data.adminPassword;
                 }
+                message.success("登入成功！")
+                this.props.history.push("/")
             }else{
                 message.error("登入失败哦!亲");
             }
@@ -100,11 +102,11 @@ class Login extends React.Component {
                                     <form onSubmit={this.handleSubmit}>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">账号</label>
-                                            <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入您的账号" name="adminAccount" value={this.state.adminAccount} onChange={this.handleChange} />
+                                            <input className="w100 ant-input fon-w-500" type="text" placeholder="请输入您的账号" name="adminAccount" value={this.state.adminAccount} onChange={this.iptChange} />
                                         </div>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">密码</label>
-                                            <input className="w100 ant-input fon-w-500" type="password" placeholder="请输入您的密码" name="adminPassword" value={this.state.adminPassword} onChange={this.handleChange} />
+                                            <input className="w100 ant-input fon-w-500" type="password" placeholder="请输入您的密码" name="adminPassword" value={this.state.adminPassword} onChange={this.iptChange} />
                                         </div>
                                         <div className="remember-password mb-20">
                                             <Checkbox className="text-626" onChange={this.ckeckBoxChange}>记住密码</Checkbox>

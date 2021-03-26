@@ -520,6 +520,12 @@
 .ipt-plh:-ms-input-placeholder {
   color: #323a40;
 }
+.input-bottom-line {
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 1px #e6e6e6;
+  outline: none;
+}
 .prev-step-btn {
   padding: 8px 14px;
   font-size: 14px;

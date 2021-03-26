@@ -5,14 +5,15 @@ import '../../css/login.less';
 import registerBag from '../../assets/images/register-bg.jpg';
 import registerInnerBg from '../../assets/images/register-inner-bg.jpg';
 // antd组件
-import { Row, Col,message } from 'antd';
+import { Row, Col, message } from 'antd';
 import { Link } from 'react-router-dom';
 class Registered extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             adminAccount: "",
-            adminPassword: ""
+            adminPassword: "",
+            spinBol: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,23 +21,31 @@ class Registered extends React.Component {
     // 表单数据监听
     handleChange(event) {
         this.setState({
-            [event.target.name] : event.target.value
+            [event.target.name]: event.target.value
         })
     }
     // 表单提交
     handleSubmit(event) {
-        let data = {
-            'adminAccount':this.state.adminAccount,
-            'adminPassword':this.state.adminPassword
-        }
-        axios.postAxios('/login/register',data).then(res=>{
-            console.log("res=>",res);
-            if(res.data.registerStatus==="该账号已注册哦!"){
-                message.error(res.data.registerStatus+'亲');
-            }else{
-                message.success(res.data.registerStatus+'亲');
+        let adminAccount = this.state.adminAccount;
+        let adminPassword = this.state.adminPassword;
+        if (adminAccount != "" && adminPassword != "") {
+            let data = {
+                'adminAccount': this.state.adminAccount,
+                'adminPassword': this.state.adminPassword
             }
-        });
+            axios.postAxios('/login/register', data).then(res => {
+                this.setState({
+                    spinBol: true
+                })
+                if (res.data.registerStatus === "该账号已注册哦!") {
+                    message.error(res.data.registerStatus + '亲');
+                } else {
+                    message.success(res.data.registerStatus + '亲');
+                }
+            });
+        }else{
+            message.error("注册失败，请检查账号或密码哦！亲")
+        }
         event.preventDefault()
     }
     render() {
@@ -75,7 +84,7 @@ class Registered extends React.Component {
                                         </div>
                                         <div className="form-item username mb-20">
                                             <label className="w100 dis-block mb-10 fon-13 text-626 fon-w-500">密码</label>
-                                            <input className="w100 ant-input fon-w-500" type="adminPassword" placeholder="请输入您的密码" name="adminPassword" value={this.state.adminPassword} onChange={this.handleChange} />
+                                            <input className="w100 ant-input fon-w-500" type="password" placeholder="请输入您的密码" name="adminPassword" value={this.state.adminPassword} onChange={this.handleChange} />
                                         </div>
                                         <div className="form-item">
                                             <button type="submit" className="login-btn">立即创建 <i className="iconfont icon-check fon-14" style={loginBtn}></i></button>

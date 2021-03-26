@@ -67,7 +67,7 @@ class AddGroup extends React.Component {
 class PicLibrary extends React.Component {
     constructor(props) {
         super(props)
-        console.log("props",props)
+        console.log("props", props)
         this.state = {
             // 显示/隐藏
             visible: this.props.picLibraryStatus,
@@ -104,6 +104,7 @@ class PicLibrary extends React.Component {
         this.deleteGroup = this.deleteGroup.bind(this)
         this.ckeckPic = this.ckeckPic.bind(this)
         this.pageChange = this.pageChange.bind(this)
+        this.upLoadFile = this.upLoadFile.bind(this)
     }
     // 对话框显示
     showModal = () => {
@@ -194,6 +195,18 @@ class PicLibrary extends React.Component {
         });
     };
     draggleRef = React.createRef();
+    // 图片上传
+    upLoadFile(e) {
+        console.log("e", e);
+        console.log('files', e.target.files);
+        e.preventDefault();
+        let file = e.target.files[0];
+        const formdata = new FormData();
+        formdata.append('file', file);
+        axios.postAxios('/picUpload/index', formdata).then(res => {
+            console.log('res', res)
+        })
+    }
     render() {
         const { bounds, disabled, visible } = this.state;
         let sideList = this.state.sideList;
@@ -294,7 +307,7 @@ class PicLibrary extends React.Component {
                                                 marginRight: 4
                                             }}></i>
                                               上传图片
-                                              <input type="file" />
+                                              <input type="file" onChange={this.upLoadFile} />
                                         </button>
                                     </div>
                                 </div>
