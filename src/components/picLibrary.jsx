@@ -32,24 +32,39 @@ class AddGroup extends React.Component {
         console.log('props', props)
         super(props)
         this.state = {
-            isModalVisible: this.props.isModalVisible
+            isModalVisible: this.props.isModalVisible,
+            picGroupName: "",
         }
         this.handleOk = this.handleOk.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
+        this.iptHandle = this.iptHandle.bind(this)
     }
+    // 确认按钮
     handleOk() {
         this.setState({
             isModalVisible: false
         })
+        console.log(this.state.picGroupName);
+        const data = { picGroupName: this.state.picGroupName }
+        axios.postAxios('/picUpload/addPicSideBar', data).then(res => {
+            console.log("res", res);
+        })
         this.props.changeAddGroupStatus(this.state.isModalVisible)
     };
-
+    // 取消按钮
     handleCancel() {
         this.setState({
             isModalVisible: false
         })
         this.props.changeAddGroupStatus(this.state.isModalVisible)
     };
+    // input监听
+    iptHandle(e) {
+        console.log('e', e.target.name)
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
     render() {
         return (
             <>
@@ -57,7 +72,7 @@ class AddGroup extends React.Component {
                     okText="确定"
                     width="320px"
                     centered>
-                    <Input placeholder="分组名称" />
+                    <Input name="picGroupName" onChange={this.iptHandle} placeholder="分组名称" />
                 </Modal>
             </>
         );
@@ -81,6 +96,7 @@ class PicLibrary extends React.Component {
             currentSideItemId: 0,
             // 添加分组
             isModalVisible: false,
+            picGroupName: "",
             // 图片列表
             picList: [
                 { id: 0, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false, },
@@ -105,6 +121,18 @@ class PicLibrary extends React.Component {
         this.ckeckPic = this.ckeckPic.bind(this)
         this.pageChange = this.pageChange.bind(this)
         this.upLoadFile = this.upLoadFile.bind(this)
+        this.initpicLibrary = this.initpicLibrary.bind(this)
+    }
+    componentDidMount() {
+        this.initpicLibrary()
+    }
+    /*
+     初始化侧边栏数据
+    */
+    initpicLibrary() {
+        axios.getAxios('/picUpload/index', {}, (res) => {
+            console.log("res", res)
+        })
     }
     // 对话框显示
     showModal = () => {
@@ -197,13 +225,12 @@ class PicLibrary extends React.Component {
     draggleRef = React.createRef();
     // 图片上传
     upLoadFile(e) {
-        console.log("e", e);
         console.log('files', e.target.files);
         e.preventDefault();
         let file = e.target.files[0];
         const formdata = new FormData();
         formdata.append('file', file);
-        axios.postAxios('/picUpload/index', formdata).then(res => {
+        axios.postAxios('/picUpload/upload', formdata).then(res => {
             console.log('res', res)
         })
     }
