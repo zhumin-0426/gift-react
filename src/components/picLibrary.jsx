@@ -10,7 +10,7 @@ import styles from '../css/picLibrary.module.css';
 const { Option } = Select;
 const { confirm } = Modal;
 // 对话框=>确认
-function showConfirm() {
+function showConfirm(groupId, picCollection) {
     confirm({
         centered: true,
         title: '确定移动该图片吗?',
@@ -20,6 +20,13 @@ function showConfirm() {
         content: '移动后将不在该分组内',
         onOk() {
             console.log('OK');
+            let data = {
+                groupId: groupId,
+                picCollection: picCollection
+            }
+            axios.postAxios('/picUpload/picMove', data).then(res => {
+                console.log('res', res)
+            })
         },
         onCancel() {
             console.log('Cancel');
@@ -41,15 +48,24 @@ class AddGroup extends React.Component {
     }
     // 确认按钮
     handleOk() {
+        console.log(this.state.picGroupName);
+        const sideBarJudgeTxt = this.state.sideBarJudgeTxt;
+        if (sideBarJudgeTxt === 'add') {
+            const data = { picGroupName: this.state.picGroupName }
+            axios.postAxios('/picUpload/addPicSideBar', data).then(res => {
+                console.log("res", res);
+            })
+        } else {
+            console.log("分组编辑")
+            const data = { id: this.props.picGroupId, picGroupName: this.state.picGroupName }
+            axios.postAxios('/picUpload/editorPicSideBar', data).then(res => {
+                console.log("res", res);
+            })
+        }
+        this.props.changeAddGroupStatus(this.state.isModalVisible)
         this.setState({
             isModalVisible: false
         })
-        console.log(this.state.picGroupName);
-        const data = { picGroupName: this.state.picGroupName }
-        axios.postAxios('/picUpload/addPicSideBar', data).then(res => {
-            console.log("res", res);
-        })
-        this.props.changeAddGroupStatus(this.state.isModalVisible)
     };
     // 取消按钮
     handleCancel() {
@@ -72,7 +88,7 @@ class AddGroup extends React.Component {
                     okText="确定"
                     width="320px"
                     centered>
-                    <Input name="picGroupName" onChange={this.iptHandle} placeholder="分组名称" />
+                    <Input defaultValue={this.props.sideBarJudgeTxt === 'add' ? '' : this.props.sideBarJudgeTxt} name="picGroupName" onChange={this.iptHandle} placeholder="分组名称" />
                 </Modal>
             </>
         );
@@ -90,25 +106,18 @@ class PicLibrary extends React.Component {
             disabled: true,
             bounds: { left: 0, top: 0, bottom: 0, right: 0 },
             // 侧边栏列表
-            sideList: [
-                { id: 1, txt: "1" }
-            ],
+            sideList: [],
             currentSideItemId: 0,
-            // 添加分组
+            // 侧边栏分组
             isModalVisible: false,
+            sideBarJudgeTxt: "",
             picGroupName: "",
+            // picGroupItemName: "全部",
+            picGroupId: 0,
             // 图片列表
-            picList: [
-                { id: 0, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false, },
-                { id: 1, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "2", coverBol: false },
-                { id: 2, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
-                { id: 3, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
-                { id: 4, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
-                { id: 5, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
-                { id: 6, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
-                { id: 7, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
-                { id: 8, imgUrl: "https://www.chaorenmall.com/uploads/1/202103151505592d64e7876.jpg", picName: "1", coverBol: false },
-            ],
+            page: 1,
+            pageSize: 5,
+            picList: [],
             picCollection: []
         }
         this.sideItemChange = this.sideItemChange.bind(this)
@@ -127,11 +136,21 @@ class PicLibrary extends React.Component {
         this.initpicLibrary()
     }
     /*
-     初始化侧边栏数据
+     图片库数据初始化
     */
     initpicLibrary() {
-        axios.getAxios('/picUpload/index', {}, (res) => {
+        console.log("图片数据初始化话")
+        const picGroupId = this.state.picGroupId;
+        const page = this.state.page;
+        let params = { picGroupId: picGroupId, page: page }
+        axios.getAxios('/picUpload/index', params).then(res => {
             console.log("res", res)
+            if (res.status === 200) {
+                this.setState({
+                    sideList: res.data.sideBarList,
+                    picList: res.data.picList
+                })
+            }
         })
     }
     // 对话框显示
@@ -156,25 +175,33 @@ class PicLibrary extends React.Component {
         this.props.picLibraryBackStatus(this.state.visible)
     };
     // 侧边栏点击事件
-    sideItemChange(e) {
+    sideItemChange(e, name) {
         console.log("b")
-        let groupId = Number(e.target.dataset.groupId);
+        const groupId = Number(e.target.dataset.groupId);
         this.setState({
-            currentSideItemId: groupId
+            currentSideItemId: groupId,
+            // picGroupItemName: name,
+            picGroupId: groupId
         })
     }
     // 添加分组
-    addGroupChange() {
+    addGroupChange(judge) {
+        this.setState({
+            sideBarJudgeTxt: judge
+        })
         this.setState({ isModalVisible: true })
     }
     // 编辑分组
-    editorGroup(e) {
+    editorGroup(e, id, judge) {
         e.stopPropagation();
-        this.setState({ isModalVisible: true })
+        this.setState({ isModalVisible: true, sideBarJudgeTxt: judge, picGroupId: id })
     }
     // 删除分组
-    deleteGroup(e) {
-        e.stopPropagation();
+    deleteGroup(id, name) {
+        console.log("name", name)
+        axios.postAxios('/picUpload/deletePicSideBar', { id: id, picGroupName: name }).then(res => {
+            // console.log("删除分组成功",res)
+        })
     }
     // 子组件传值
     changeAddGroupStatus(data) {
@@ -183,13 +210,20 @@ class PicLibrary extends React.Component {
         })
     }
     // 移动图片
-    movePic() {
-        console.log("a")
-        showConfirm()
+    movePic(groupId) {
+        console.log("groupId", groupId)
+        showConfirm(groupId, this.state.picCollection)
     }
     // 删除图片
     deletePic() {
-        console.log("a")
+        console.log("a");
+        let picCollection = this.state.picCollection;
+        let data = {
+            picCollection: picCollection
+        }
+        axios.postAxios('/picUpload/picRemove', data).then(res => {
+            console.log("res", res)
+        })
     }
     // 选取图片
     ckeckPic(index) {
@@ -198,9 +232,9 @@ class PicLibrary extends React.Component {
         picList[index].coverBol = !picList[index].coverBol;
         this.setState(picList);
         if (picList[index].coverBol) {
-            picCollection.push(picList[index].imgUrl)
+            picCollection.push(picList[index].picUrl)
         } else {
-            picCollection.splice(picCollection.indexOf(picList[index].imgUrl), 1)
+            picCollection.splice(picCollection.indexOf(picList[index].picUrl), 1)
         }
         this.setState(picCollection);
         console.log('picCollection', picCollection)
@@ -209,6 +243,9 @@ class PicLibrary extends React.Component {
     pageChange(page, pageSize) {
         console.log('page', page);
         console.log('pageSize', pageSize);
+        this.setState({ page: page, pageSize: pageSize })
+        this.initpicLibrary()
+
     }
     onStart = (event, uiData) => {
         const { clientWidth, clientHeight } = window?.document?.documentElement;
@@ -230,8 +267,9 @@ class PicLibrary extends React.Component {
         let file = e.target.files[0];
         const formdata = new FormData();
         formdata.append('file', file);
+        formdata.append('picGroupId', this.state.picGroupId)
         axios.postAxios('/picUpload/upload', formdata).then(res => {
-            console.log('res', res)
+            console.log('res', res);
         })
     }
     render() {
@@ -239,7 +277,7 @@ class PicLibrary extends React.Component {
         let sideList = this.state.sideList;
         return (
             <>
-                {this.state.isModalVisible ? <AddGroup isModalVisible={this.state.isModalVisible} changeAddGroupStatus={this.changeAddGroupStatus} /> : ''}
+                {this.state.isModalVisible ? <AddGroup isModalVisible={this.state.isModalVisible} sideBarJudgeTxt={this.state.sideBarJudgeTxt} picGroupId={this.state.picGroupId} changeAddGroupStatus={this.changeAddGroupStatus} /> : ''}
                 <Modal
                     centered
                     title={
@@ -300,11 +338,11 @@ class PicLibrary extends React.Component {
                                             <li
                                                 className={this.state.currentSideItemId === index + 2 ? "new-side-item side-item side-item-active" : "  new-side-item side-item"}
                                                 data-group-id={index + 2}
-                                                onClick={this.sideItemChange}
+                                                onClick={(e) => this.sideItemChange(e, item.picGroupName)}
                                             >
-                                                <div className="editor" onClick={this.editorGroup}><img src={Editor} alt="" /></div>
-                                                {item.txt}
-                                                <Popconfirm cancelText="取消" okText="确定" title="确定删除该分组吗？" onConfirm={this.deleteGroup} icon={<QuestionCircleOutlined style={{ color: 'red' }} />}>
+                                                <div className="editor" onClick={(e) => this.editorGroup(e, item.id, item.picGroupName)}><img src={Editor} alt="" /></div>
+                                                {item.picGroupName}
+                                                <Popconfirm cancelText="取消" okText="确定" title="确定删除该分组吗？" onConfirm={(e) => this.deleteGroup(item.id, item.picGroupName)} icon={<QuestionCircleOutlined style={{ color: 'red' }} />}>
                                                     <div className="delete"><img src={Delete} alt="" /></div>
                                                 </Popconfirm>
                                             </li>
@@ -312,15 +350,22 @@ class PicLibrary extends React.Component {
                                     )
                                 })}
                             </ul>
-                            <div className={styles.addGroup} onClick={this.addGroupChange}>新增分组</div>
+                            <div className={styles.addGroup} onClick={() => this.addGroupChange('add')}>新增分组</div>
                         </Col>
                         <Col span={20}>
                             <div className={styles.sidebarChangeObj}>
                                 <div className="top dis-flx justify-space-between">
                                     <div className="left">
                                         <Select placeholder="移动图片" style={{ width: 120 }} onSelect={this.movePic}>
-                                            <Option value="jack">Jack</Option>
-                                            <Option value="lucy">Lucy</Option>
+                                            <Option value={0}>全部</Option>
+                                            <Option value={1}>未分组</Option>
+                                            {
+                                                sideList.map((item, index) => {
+                                                    return <React.Fragment key={index}>
+                                                        <Option value={item.id}>{item.picGroupName}</Option>
+                                                    </React.Fragment>
+                                                })
+                                            }
                                         </Select>
                                         <Popconfirm cancelText="取消" okText="确定" title="确定删除吗？" onConfirm={this.deletePic} icon={<QuestionCircleOutlined style={{ color: 'red' }} />}>
                                             <button type="button" className="delete-btn"><i className="iconfont icon-shanchu fon-14" style={{
@@ -341,10 +386,12 @@ class PicLibrary extends React.Component {
                                 <ul className="content">
                                     {this.state.picList.map((item, index) => {
                                         return (
-                                            <React.Fragment key={item.id}>
+                                            <React.Fragment key={index}>
                                                 <li onClick={() => this.ckeckPic(index)}>
                                                     <div className="img-box">
-                                                        <div className="img" style={{ backgroundImage: "url(" + `${item.imgUrl}` + ")" }}></div>
+                                                        <img src={item.picUrl} />
+                                                        {/* <div className="img" style={{ backgroundImage: "url(" + `${item.picUrl}` + ")" }}>
+                                                        </div> */}
                                                         <p className="line-clamp1">{item.picName}</p>
                                                         <div className={item.coverBol ? "cover cover-active" : "cover"}>
                                                             <img src={Checkout} alt="" />
@@ -355,7 +402,7 @@ class PicLibrary extends React.Component {
                                         )
                                     })}
                                 </ul>
-                                <Pagination className="pull-right" simple pageSize={12} total={50} onChange={this.pageChange} />
+                                <Pagination className="pull-right" simple pageSize={4} total={this.state.picList.length} onChange={this.pageChange} />
                             </div>
                         </Col>
                     </Row>
