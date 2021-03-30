@@ -100,6 +100,7 @@
   font-weight: bold;
   border-radius: 3px;
   font-size: 16px;
+  cursor: pointer;
 }
 .send-notice-card .send:hover {
   background-color: #84ba3f;

@@ -115,9 +115,8 @@ class PicLibrary extends React.Component {
             // picGroupItemName: "全部",
             picGroupId: 0,
             // 图片列表
-            page: 1,
-            pageSize: 5,
             picList: [],
+            picTotal: 0,
             picCollection: []
         }
         this.sideItemChange = this.sideItemChange.bind(this)
@@ -138,17 +137,17 @@ class PicLibrary extends React.Component {
     /*
      图片库数据初始化
     */
-    initpicLibrary() {
+    initpicLibrary(page = 1) {
         console.log("图片数据初始化话")
         const picGroupId = this.state.picGroupId;
-        const page = this.state.page;
         let params = { picGroupId: picGroupId, page: page }
         axios.getAxios('/picUpload/index', params).then(res => {
             console.log("res", res)
             if (res.status === 200) {
                 this.setState({
                     sideList: res.data.sideBarList,
-                    picList: res.data.picList
+                    picList: res.data.picList.picList,
+                    picTotal: res.data.picList.total
                 })
             }
         })
@@ -240,12 +239,8 @@ class PicLibrary extends React.Component {
         console.log('picCollection', picCollection)
     }
     // 分页
-    pageChange(page, pageSize) {
-        console.log('page', page);
-        console.log('pageSize', pageSize);
-        this.setState({ page: page, pageSize: pageSize })
-        this.initpicLibrary()
-
+    pageChange(page) {
+        this.initpicLibrary(page)
     }
     onStart = (event, uiData) => {
         const { clientWidth, clientHeight } = window?.document?.documentElement;
@@ -402,7 +397,9 @@ class PicLibrary extends React.Component {
                                         )
                                     })}
                                 </ul>
-                                <Pagination className="pull-right" simple pageSize={4} total={this.state.picList.length} onChange={this.pageChange} />
+                                {
+                                    this.state.picTotal > 0 ? <Pagination className="pull-right" simple defaultCurrent={1} defaultPageSize={16} total={this.state.picTotal} onChange={this.pageChange} /> : ''
+                                }
                             </div>
                         </Col>
                     </Row>

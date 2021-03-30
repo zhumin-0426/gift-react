@@ -72,7 +72,7 @@ class Users extends React.Component {
             qq: this.state.qq,
             wx: this.state.wx,
         }
-        console.log("data",data);
+        console.log("data", data);
         axios.postAxios('/users/editor', data).then(res => {
             console.log('res', res);
             if (res.data.status === "success") {
@@ -88,8 +88,9 @@ class Users extends React.Component {
             [e.target.name]: e.target.value
         })
     }
-    // 编辑器
+    // 富文本编辑器
     handleChange(content) {
+        console.log("content", content);
         this.setState({
             content: content
         })
@@ -104,14 +105,28 @@ class Users extends React.Component {
         ]
         return icons;
     }
-    getPlugins() {
+    getQiniuUploader() {
         return {
-            "image": {
-                "uploader": {
-                    "name": "file",
-                    "url": "/api/upload"
-                }
-            }
+            // 上传路径
+            url: 'api/users/sendNotice/uploadImg',
+            // 只要type部位qiniu 就可以自定义上传
+            type: 'local',
+            // 服务器需要的字段，即表单名称
+            name: "file",
+            // 请求返回字段名
+            request: "image_src",
+            // filter:"",
+            // qiniu: {
+            //     app: {
+            //         Bucket: "liuhong1happy",
+            //         AK: "l9vEBNTqrz7H03S-SC0qxNWmf0K8amqP6MeYHNni",
+            //         SK: "eizTTxuA0Kq1YSe2SRdOexJ-tjwGpRnzztsSrLKj"
+            //     },
+            //     domain: "http://o9sa2vijj.bkt.clouddn.com",
+            //     genKey: function (options) {
+            //         return options.file.type + "-" + options.file.size + "-" + options.file.lastModifiedDate.valueOf() + "-" + new Date().valueOf() + "-" + options.file.name;
+            //     }
+            // }
         }
     }
     // 图片库=>数据返回
@@ -127,7 +142,12 @@ class Users extends React.Component {
         let editorStatus = this.state.editorStatus;
         // 编辑器
         var icons = this.getIcons();
-        var plugins = this.getPlugins();
+        var uploader = this.getQiniuUploader();
+        var plugins = {
+            image: {
+                uploader: uploader
+            }
+        };
         return (
             <div className="main">
                 {/* 图片库组件 */}
@@ -189,7 +209,7 @@ class Users extends React.Component {
                                     </li>
                                     <li className="dis-flx align-items-center">
                                         <i className="iconfont icon-mima text-17a mr-10 fon-20"></i>
-                                  {editorStatus ? <input name="adminPassword" value={this.state.adminPassword} className="input-bottom-line pl-11" placeholder="密码" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                        {editorStatus ? <input name="adminPassword" value={this.state.adminPassword} className="input-bottom-line pl-11" placeholder="密码" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
                                             {
                                                 this.state.adminPassword
                                             }
@@ -197,7 +217,7 @@ class Users extends React.Component {
                                     </li>
                                     <li className="dis-flx align-items-center">
                                         <i className="iconfont icon-weibiaoti- text-ffc mr-10 fon-20"></i>
-                                    {editorStatus ? <input value={this.state.phone} name="phone" className="input-bottom-line pl-11" placeholder="电话" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                        {editorStatus ? <input value={this.state.phone} name="phone" className="input-bottom-line pl-11" placeholder="电话" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
                                             {
                                                 this.state.phone === "" ? "未填写" : this.state.phone
                                             }
@@ -205,7 +225,7 @@ class Users extends React.Component {
                                     </li>
                                     <li className="dis-flx align-items-center">
                                         <i className="iconfont icon-qq text-dc3 mr-10 fon-20"></i>
-                                    {editorStatus ? <input value={this.state.qq} name="qq" className="input-bottom-line pl-11" placeholder="qq" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                        {editorStatus ? <input value={this.state.qq} name="qq" className="input-bottom-line pl-11" placeholder="qq" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
                                             {
                                                 this.state.qq === "" ? "未填写" : this.state.qq
                                             }
@@ -213,7 +233,7 @@ class Users extends React.Component {
                                     </li>
                                     <li className="dis-flx align-items-center">
                                         <i className="iconfont icon-weixin text-28a mr-10 fon-20"></i>
-                                    {editorStatus ? <input value={this.state.wx} name="wx" className="input-bottom-line pl-11" placeholder="微信" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
+                                        {editorStatus ? <input value={this.state.wx} name="wx" className="input-bottom-line pl-11" placeholder="微信" onChange={(e) => this.inputChange(e)} /> : <span className="fon-13 text-626 fon-w-500">
                                             {
                                                 this.state.wx === "" ? "未填写" : this.state.wx
                                             }
@@ -227,7 +247,8 @@ class Users extends React.Component {
                                 <div className="title fon-w-500 pb-14 bd-bottom mb-15"><strong>发布通知</strong></div>
                                 <Editor ref="editor"
                                     icons={icons}
-                                    value={this.state.content} defaultValue="<p>React Umeditor</p>"
+                                    value={this.state.content}
+                                    defaultValue="<p>React Umeditor</p>"
                                     onChange={this.handleChange.bind(this)}
                                     plugins={plugins} />
                                 <button className="send out-line-none mt-30">发布</button>
