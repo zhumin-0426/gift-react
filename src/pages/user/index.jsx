@@ -7,14 +7,17 @@ import Icon from '../../assets/icon/02.png';
 import Editor from 'react-umeditor';
 
 // antd 组件
-import { Row, Col, Breadcrumb } from 'antd';
+import { Row, Col, Breadcrumb, message } from 'antd';
 // 图片库组件
 import PicLibrary from '../../components/picLibrary';
 class Users extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            // 编辑状态
             editorStatus: false,
+            // 表单数据
+            userPhoto: "",
             adminAccount: "",
             adminPassword: "",
             userName: "",
@@ -29,7 +32,7 @@ class Users extends React.Component {
         }
         this.editor = this.editor.bind(this);
         this.submit = this.submit.bind(this);
-        this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
+        this.picLibraryBackData = this.picLibraryBackData.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
         this.initUsersData = this.initUsersData.bind(this);
     }
@@ -45,6 +48,7 @@ class Users extends React.Component {
             console.log("res", res);
             if (res.status === 200) {
                 this.setState({
+                    userPhoto:res.data.userPhoto,
                     adminAccount: res.data.adminAccount,
                     adminPassword: res.data.adminPassword,
                     userName: res.data.userName,
@@ -64,6 +68,7 @@ class Users extends React.Component {
     submit(event) {
         let data = {
             userId: localStorage.getItem("userId"),
+            userPhoto:this.state.userPhoto,
             userName: this.state.userName,
             describe: this.state.describe,
             adminAccount: this.state.adminAccount,
@@ -72,7 +77,6 @@ class Users extends React.Component {
             qq: this.state.qq,
             wx: this.state.wx,
         }
-        console.log("data", data);
         axios.postAxios('/users/editor', data).then(res => {
             console.log('res', res);
             if (res.data.status === "success") {
@@ -130,9 +134,30 @@ class Users extends React.Component {
         }
     }
     // 图片库=>数据返回
-    picLibraryBackStatus(data) {
+    picLibraryBackData(picLibraryStatus,userPhoto) {
         this.setState({
-            picLibraryStatus: !data
+            picLibraryStatus: !picLibraryStatus,
+            userPhoto:userPhoto[0]
+        },()=>{
+            console.log("userPhoto",this.state.userPhoto)
+            let data = {
+                userId: localStorage.getItem("userId"),
+                userPhoto:this.state.userPhoto,
+                userName: this.state.userName,
+                describe: this.state.describe,
+                adminAccount: this.state.adminAccount,
+                adminPassword: this.state.adminPassword,
+                phone: this.state.phone,
+                qq: this.state.qq,
+                wx: this.state.wx,
+            }
+            axios.postAxios('/users/editor', data).then(res => {
+                console.log('res', res);
+                if (res.data.status === "success") {
+                    message.success("头像上传成功哦！")
+                    this.initUsersData()
+                }
+            });
         })
     }
     picLibraryStatusChange() {
@@ -151,7 +176,7 @@ class Users extends React.Component {
         return (
             <div className="main">
                 {/* 图片库组件 */}
-                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
+                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackData={this.picLibraryBackData} /> : ''}
                 <Row>
                     <Col span={12}>
                         <h3><strong>用户信息</strong></h3>
@@ -175,6 +200,7 @@ class Users extends React.Component {
                                             <Col span={12}>
                                                 <div className="dis-flx align-items-center">
                                                     <div className="user-pic">
+                                                        <img src={this.state.userPhoto!=''?this.state.userPhoto:''} />
                                                         <div className="cover" onClick={this.picLibraryStatusChange}><img src={userPic} alt="" /></div>
                                                     </div>
                                                     <div>

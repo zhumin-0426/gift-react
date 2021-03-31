@@ -1,35 +1,21 @@
-:global .tab {
-  position: relative;
-}
-:global .tab .tab-z {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-}
-:global .tab .tab-z:hover {
-  border: dashed 4px #84ba3f;
-}
-.pageDesignCard {
+:local(.pageDesignCard) {
   width: 100%;
   height: 550px;
   padding: 0 11px;
   overflow-y: scroll;
 }
-.pageDesignCard::-webkit-scrollbar {
+:local(.pageDesignCard)::-webkit-scrollbar {
   width: 7px;
 }
-.pageDesignCard::-webkit-scrollbar-thumb {
+:local(.pageDesignCard)::-webkit-scrollbar-thumb {
   border-radius: 20px;
   background: rgba(131, 131, 131, 0.2);
 }
-.pageDesignCard:hover::-webkit-scrollbar-thumb {
+:local(.pageDesignCard):hover::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.3);
   transition: all 1s;
 }
-.pageDesignCard .phoneTop {
+:local(.pageDesignCard) :global(.phoneTop) {
   width: 100%;
   height: 66px;
   background-image: url('../assets/images/pageDesign/phone-top.png');
@@ -39,185 +25,229 @@
   text-align: center;
   line-height: 92px;
 }
-.pageDesignCard header {
+:local(.pageDesignCard) :global header {
   width: 100%;
-  padding-bottom: 15px;
+  padding-bottom: 23px;
   background-image: url('../assets/images/pageDesign/herder-bag.png');
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: 100% ;
 }
-.pageDesignCard header .top {
+:local(.pageDesignCard) :global header .tab {
+  position: relative;
+}
+:local(.pageDesignCard) :global header .tab .tab-z {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+:local(.pageDesignCard) :global header .tab .tab-z:hover {
+  border: dashed 4px #84ba3f;
+}
+:local(.pageDesignCard) :global header .tab .tab-z-active {
+  border: dashed 4px #84ba3f;
+}
+:local(.pageDesignCard) :global header .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.pageDesignCard header .top :global(.pageDesignLogo) {
+:local(.pageDesignCard) :global header .top .pageDesignLogo {
   width: 20%;
   margin-right: 10px;
   margin-top: 3px;
 }
-.pageDesignCard header .top :local(.search) {
+:local(.pageDesignCard) :global header .top :local(.search) {
   box-sizing: border-box;
   padding: 4px 8px;
   width: 65%;
   background-color: #ffffff;
-  border-radius: 30px;
   border: solid 1px #f2f2f2;
   margin-right: 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
-.pageDesignCard header .top :local(.search) :global .search-icon {
+:local(.pageDesignCard) :global header .top :local(.search) :global .search-icon {
   display: block;
   width: 15px;
 }
-.pageDesignCard header .top :local(.search) :global div {
-  display: block;
+:local(.pageDesignCard) :global header .top :local(.search) :global .search-txt {
   font-size: 12px;
   color: #999;
 }
-.pageDesignCard header .top :local(.search) :global .scan {
+:local(.pageDesignCard) :global header .top :local(.search) :global .scan {
   display: block;
   width: 15px;
 }
-.pageDesignCard header .top :global(.user-pic) {
+:local(.pageDesignCard) :global header .top .user-pic {
   width: 30px;
   height: 30px;
 }
-.pageDesignCard header .top :global(.user-pic) img {
+:local(.pageDesignCard) :global header .top .user-pic img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
-.pageDesignCard header :global(.banner) {
+:local(.pageDesignCard) :global header .banner {
   box-sizing: border-box;
   width: 100%;
   padding: 11px;
+  position: relative;
 }
-.pageDesignCard header :global(.banner) img {
+:local(.pageDesignCard) :global header .banner .point-box {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+:local(.pageDesignCard) :global header .banner .point-box .point-box-item {
+  background-color: #d3d3d3;
+}
+:local(.pageDesignCard) :global header .banner img {
   display: block;
   max-width: 100%;
 }
-.pageDesignCard :global section .nav {
+:local(.pageDesignCard) :global section .tab {
+  position: relative;
+}
+:local(.pageDesignCard) :global section .tab .tab-z {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+:local(.pageDesignCard) :global section .tab .tab-z:hover {
+  border: dashed 4px #84ba3f;
+}
+:local(.pageDesignCard) :global section .tab .tab-z-active {
+  border: dashed 4px #84ba3f;
+}
+:local(.pageDesignCard) :global section .nav {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 11px;
+  padding: 11px 11px;
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 0;
 }
-.pageDesignCard :global section .nav li {
+:local(.pageDesignCard) :global section .nav li {
   width: 25%;
   text-align: center;
   margin-bottom: 20px;
 }
-.pageDesignCard :global section .nav li img {
+:local(.pageDesignCard) :global section .nav li img {
   display: block;
   width: 33px;
   margin: 0 auto;
   margin-bottom: 12px;
 }
-.pageDesignCard :global section .nav li span {
+:local(.pageDesignCard) :global section .nav li span {
   font-size: 13px;
   color: #000000;
 }
-.pageDesignCard :global section .notice-wrapper {
+:local(.pageDesignCard) :global section .notice-wrapper {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 11px;
+  padding: 11px 11px;
 }
-.pageDesignCard :global section .notice-wrapper .notice {
+:local(.pageDesignCard) :global section .notice-wrapper .notice {
   width: 100%;
   padding: 10px;
   margin: 0 auto;
   background-image: linear-gradient(90deg, #ff3f5a 0%, #ff8e66 66%), linear-gradient(#ffffff, #ffffff);
   background-blend-mode: normal, 
-                            normal;
+                        normal;
   box-shadow: inset 0px 38px 0px 0px rgba(255, 255, 255, 0.25);
   border-radius: 43px;
   overflow: hidden;
 }
-.pageDesignCard :global section .notice-wrapper .notice .title {
+:local(.pageDesignCard) :global section .notice-wrapper .notice .title {
   float: left;
   display: flex;
   align-items: center;
   margin-right: 10px;
 }
-.pageDesignCard :global section .notice-wrapper .notice .title .title-icon {
+:local(.pageDesignCard) :global section .notice-wrapper .notice .title .title-icon {
   width: 22px;
   margin-right: 3px;
 }
-.pageDesignCard :global section .notice-wrapper .notice .title span {
+:local(.pageDesignCard) :global section .notice-wrapper .notice .title span {
   font-size: 12px;
   color: #ffffff;
 }
-.pageDesignCard :global section .notice-wrapper .notice .main {
+:local(.pageDesignCard) :global section .notice-wrapper .notice .main {
   float: left;
   font-size: 12px;
   color: #ffffff;
 }
-.pageDesignCard :global section .notice-wrapper .notice .more {
+:local(.pageDesignCard) :global section .notice-wrapper .notice .more {
   float: right;
   font-size: 12px;
   color: #ff415a;
   font-weight: bolder;
 }
-.pageDesignCard :global section .rcm-goods {
+:local(.pageDesignCard) :global section .rcm-goods {
   box-sizing: border-box;
   width: 100%;
-  margin-top: 35px;
+  margin-top: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 11px;
+  padding: 11px 11px;
+  margin-bottom: 0;
 }
-.pageDesignCard :global section .rcm-goods li {
+:local(.pageDesignCard) :global section .rcm-goods li {
   width: 32%;
 }
-.pageDesignCard :global section .rcm-goods li img {
+:local(.pageDesignCard) :global section .rcm-goods li img {
   display: block;
   max-width: 100%;
 }
-.pageDesignCard :global section .adv {
+:local(.pageDesignCard) :global section .adv {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 11px;
+  padding: 11px 11px;
 }
-.pageDesignCard :global section .adv img {
+:local(.pageDesignCard) :global section .adv img {
   display: block;
   max-width: 100%;
 }
-.pageDesignCard :global section .tab-classify {
+:local(.pageDesignCard) :global section .tab-classify {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.pageDesignCard :global section .tab-classify .tab-item {
+:local(.pageDesignCard) :global section .tab-classify .tab-item {
   width: 25%;
   text-align: center;
 }
-.pageDesignCard :global section .tab-classify .tab-item .title {
+:local(.pageDesignCard) :global section .tab-classify .tab-item .title {
   font-size: 13px;
   line-height: 32px;
   letter-spacing: -0.3px;
   color: #1a1a1a;
   font-weight: 500;
 }
-.pageDesignCard :global section .tab-classify .tab-item .prompt {
+:local(.pageDesignCard) :global section .tab-classify .tab-item .prompt {
   margin-top: -5px;
   font-size: 12px;
   color: #aeaeae;
 }
-.pageDesignCard :global section .tab-classify .tab-item-active .title {
+:local(.pageDesignCard) :global section .tab-classify .tab-item-active .title {
   font-size: 15px;
   color: #ff8400;
 }
-.pageDesignCard :global section .tab-classify .tab-item-active .prompt {
+:local(.pageDesignCard) :global section .tab-classify .tab-item-active .prompt {
   color: #ff8400;
 }
-.pageDesignCard :global section .tab-classify .tab-item-active .line {
+:local(.pageDesignCard) :global section .tab-classify .tab-item-active .line {
   position: relative;
   width: 13px;
   height: 3px;
@@ -226,66 +256,66 @@
   margin: 0 auto;
   top: 5px;
 }
-.pageDesignCard :global section .tab-obj-classify {
+:local(.pageDesignCard) :global section .tab-obj-classify {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 15px;
   overflow: hidden;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item {
   width: 49%;
   background-color: #fff;
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 11px;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item img {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item img {
   max-width: 100%;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item .goods-name {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item .goods-name {
   font-size: 12px;
   color: #000000;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item .describe {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item .describe {
   font-size: 12px;
   color: #aeaeae;
   margin: 5px 0;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item .price-wrapper {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item .price-wrapper {
   display: flex;
   align-items: baseline;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item .price-wrapper .price {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item .price-wrapper .price {
   font-size: 14px;
   color: #ff0000;
   margin-right: 5px;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item .price-wrapper .line-price {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item .price-wrapper .line-price {
   font-size: 12px;
   color: #aeaeae;
   text-decoration: line-through;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item:nth-child(odd) {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item:nth-child(odd) {
   float: left;
 }
-.pageDesignCard :global section .tab-obj-classify .classify-obj-item:nth-child(even) {
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item:nth-child(even) {
   float: right;
 }
-.pageSetWrapper {
+:global .pageSetWrapper {
   width: 100%;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   padding: 17px;
 }
-.pageSetWrapper :global .tab-obj-item {
+:global .pageSetWrapper .tab-obj-item {
   display: none;
 }
-.pageSetWrapper :global .active {
+:global .pageSetWrapper .active {
   display: block;
 }
-.pageSetWrapper :global .active .nodes-box {
+:global .pageSetWrapper .active .nodes-box {
   position: relative;
 }
-.pageSetWrapper :global .active .nodes-box .delete {
+:global .pageSetWrapper .active .nodes-box .delete {
   position: absolute;
   top: -10px;
   right: -10px;
@@ -296,6 +326,6 @@
   background-size: 100%;
   background-repeat: no-repeat;
 }
-.pageSetWrapper :global .active .nodes-box .delete:hover {
+:global .pageSetWrapper .active .nodes-box .delete:hover {
   background-image: url('../assets/images/delete-active.png');
 }

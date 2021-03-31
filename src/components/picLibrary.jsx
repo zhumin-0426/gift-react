@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Button, Row, Col, Select, message, Pagination, Input, Popconfirm } from 'antd';
+import { Modal, Spin, Row, Col, Select, message, Pagination, Input, Popconfirm } from 'antd';
 import { QuestionCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import Draggable from 'react-draggable';
 import Delete from '../assets/images/pageDesign/delete.png';
@@ -10,7 +10,7 @@ import styles from '../css/picLibrary.module.css';
 const { Option } = Select;
 const { confirm } = Modal;
 // 对话框=>确认
-function showConfirm(groupId, picCollection) {
+function showConfirm(groupId, picCollection,initpicLibrary) {
     confirm({
         centered: true,
         title: '确定移动该图片吗?',
@@ -19,13 +19,16 @@ function showConfirm(groupId, picCollection) {
         icon: <ExclamationCircleOutlined />,
         content: '移动后将不在该分组内',
         onOk() {
-            console.log('OK');
             let data = {
                 groupId: groupId,
                 picCollection: picCollection
             }
             axios.postAxios('/picUpload/picMove', data).then(res => {
-                console.log('res', res)
+                console.log('移动图片', res)
+                if(res.status===200){
+                    message.success(res.data.status)
+                    initpicLibrary()
+                }
             })
         },
         onCancel() {
@@ -48,18 +51,23 @@ class AddGroup extends React.Component {
     }
     // 确认按钮
     handleOk() {
-        console.log(this.state.picGroupName);
-        const sideBarJudgeTxt = this.state.sideBarJudgeTxt;
+        const sideBarJudgeTxt = this.props.sideBarJudgeTxt;
         if (sideBarJudgeTxt === 'add') {
             const data = { picGroupName: this.state.picGroupName }
             axios.postAxios('/picUpload/addPicSideBar', data).then(res => {
                 console.log("res", res);
+                if (res.status === 200) {
+                    this.props.initpicLibrary()
+                }
             })
         } else {
             console.log("分组编辑")
             const data = { id: this.props.picGroupId, picGroupName: this.state.picGroupName }
             axios.postAxios('/picUpload/editorPicSideBar', data).then(res => {
                 console.log("res", res);
+                if (res.status === 200) {
+                    this.props.initpicLibrary()
+                }
             })
         }
         this.props.changeAddGroupStatus(this.state.isModalVisible)
@@ -134,12 +142,27 @@ class PicLibrary extends React.Component {
     componentDidMount() {
         this.initpicLibrary()
     }
+    // 图片上传
+    upLoadFile(e) {
+        console.log('files', e.target.files);
+        e.preventDefault();
+        let file = e.target.files[0];
+        const formdata = new FormData();
+        formdata.append('file', file);
+        formdata.append('picGroupId', this.state.picGroupId)
+        axios.postAxios('/picUpload/upload', formdata).then(res => {
+            console.log('res', res);
+            if(res.status===200){
+                message.success(res.data.status);
+                this.initpicLibrary()
+            }
+        })
+    }
     /*
      图片库数据初始化
     */
     initpicLibrary(page = 1) {
-        console.log("图片数据初始化话")
-        const picGroupId = this.state.picGroupId;
+        let picGroupId = this.state.picGroupId;
         let params = { picGroupId: picGroupId, page: page }
         axios.getAxios('/picUpload/index', params).then(res => {
             console.log("res", res)
@@ -163,7 +186,7 @@ class PicLibrary extends React.Component {
         this.setState({
             visible: false,
         });
-        this.props.picLibraryBackStatus(this.state.visible)
+        this.props.picLibraryBackData(this.state.visible,this.state.picCollection)
     };
     // 对话框=>删除/取消/背景
     handleCancel = e => {
@@ -171,24 +194,30 @@ class PicLibrary extends React.Component {
         this.setState({
             visible: false,
         });
-        this.props.picLibraryBackStatus(this.state.visible)
+        this.props.picLibraryBackData(this.state.visible)
     };
     // 侧边栏点击事件
     sideItemChange(e, name) {
-        console.log("b")
         const groupId = Number(e.target.dataset.groupId);
+        console.log('groupId',groupId)
+        /*
+            因setState是异步更新数据，故调用第二个回调参数：函数
+            待变量更新完毕后执行
+        */
         this.setState({
             currentSideItemId: groupId,
             // picGroupItemName: name,
             picGroupId: groupId
+        }, () => {
+            this.initpicLibrary()
         })
     }
     // 添加分组
     addGroupChange(judge) {
         this.setState({
-            sideBarJudgeTxt: judge
+            sideBarJudgeTxt: judge,
+            isModalVisible: true
         })
-        this.setState({ isModalVisible: true })
     }
     // 编辑分组
     editorGroup(e, id, judge) {
@@ -197,31 +226,30 @@ class PicLibrary extends React.Component {
     }
     // 删除分组
     deleteGroup(id, name) {
-        console.log("name", name)
         axios.postAxios('/picUpload/deletePicSideBar', { id: id, picGroupName: name }).then(res => {
-            // console.log("删除分组成功",res)
-        })
-    }
-    // 子组件传值
-    changeAddGroupStatus(data) {
-        this.setState({
-            isModalVisible: !data
+            if (res.status == 200) {
+                message.success(res.data.status);
+                this.initpicLibrary()
+            }
         })
     }
     // 移动图片
     movePic(groupId) {
         console.log("groupId", groupId)
-        showConfirm(groupId, this.state.picCollection)
+        showConfirm(groupId, this.state.picCollection,this.initpicLibrary)
     }
     // 删除图片
     deletePic() {
-        console.log("a");
         let picCollection = this.state.picCollection;
         let data = {
             picCollection: picCollection
         }
         axios.postAxios('/picUpload/picRemove', data).then(res => {
-            console.log("res", res)
+            console.log("删除图片", res);
+            if(res.status===200){
+                message.success(res.data.status);
+                this.initpicLibrary()
+            }
         })
     }
     // 选取图片
@@ -242,6 +270,12 @@ class PicLibrary extends React.Component {
     pageChange(page) {
         this.initpicLibrary(page)
     }
+    // 子组件传值
+    changeAddGroupStatus(data) {
+        this.setState({
+            isModalVisible: !data
+        })
+    }
     onStart = (event, uiData) => {
         const { clientWidth, clientHeight } = window?.document?.documentElement;
         const targetRect = this.draggleRef?.current?.getBoundingClientRect();
@@ -255,24 +289,12 @@ class PicLibrary extends React.Component {
         });
     };
     draggleRef = React.createRef();
-    // 图片上传
-    upLoadFile(e) {
-        console.log('files', e.target.files);
-        e.preventDefault();
-        let file = e.target.files[0];
-        const formdata = new FormData();
-        formdata.append('file', file);
-        formdata.append('picGroupId', this.state.picGroupId)
-        axios.postAxios('/picUpload/upload', formdata).then(res => {
-            console.log('res', res);
-        })
-    }
     render() {
         const { bounds, disabled, visible } = this.state;
         let sideList = this.state.sideList;
         return (
             <>
-                {this.state.isModalVisible ? <AddGroup isModalVisible={this.state.isModalVisible} sideBarJudgeTxt={this.state.sideBarJudgeTxt} picGroupId={this.state.picGroupId} changeAddGroupStatus={this.changeAddGroupStatus} /> : ''}
+                {this.state.isModalVisible ? <AddGroup isModalVisible={this.state.isModalVisible} sideBarJudgeTxt={this.state.sideBarJudgeTxt} picGroupId={this.state.picGroupId} changeAddGroupStatus={this.changeAddGroupStatus} initpicLibrary={this.initpicLibrary} /> : ''}
                 <Modal
                     centered
                     title={
@@ -332,7 +354,7 @@ class PicLibrary extends React.Component {
                                         <React.Fragment key={item.id}>
                                             <li
                                                 className={this.state.currentSideItemId === index + 2 ? "new-side-item side-item side-item-active" : "  new-side-item side-item"}
-                                                data-group-id={index + 2}
+                                                data-group-id={item.id}
                                                 onClick={(e) => this.sideItemChange(e, item.picGroupName)}
                                             >
                                                 <div className="editor" onClick={(e) => this.editorGroup(e, item.id, item.picGroupName)}><img src={Editor} alt="" /></div>
@@ -352,8 +374,8 @@ class PicLibrary extends React.Component {
                                 <div className="top dis-flx justify-space-between">
                                     <div className="left">
                                         <Select placeholder="移动图片" style={{ width: 120 }} onSelect={this.movePic}>
-                                            <Option value={0}>全部</Option>
-                                            <Option value={1}>未分组</Option>
+                                            {/* <Option value={0}>全部</Option>
+                                            <Option value={1}>未分组</Option> */}
                                             {
                                                 sideList.map((item, index) => {
                                                     return <React.Fragment key={index}>

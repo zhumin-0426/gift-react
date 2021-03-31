@@ -1,6 +1,6 @@
 import React from 'react';
 // 样式
-import styles from '../../css/pageDesign.module.css';
+import pageDesignStyles from '../../css/pageDesign.module.css';
 // 图片
 import PageDesignLogo from '../../assets/images/pageDesign/logo.png';
 import SearchIcon from '../../assets/images/pageDesign/search-icon.png';
@@ -32,8 +32,8 @@ class PageDesign extends React.Component {
             // 轮播
             bannerPointColor: "#ffffff",
             bannerPointShape: "square",
-            bannerTopBottomMargin: "",
-            bannerLfteRightMargin: "",
+            // bannerTopBottomMargin: "",
+            // bannerLfteRightMargin: "",
             bannerNodesList: [
                 { linkAddress: "https://www.baidu.com" }
             ],
@@ -133,15 +133,15 @@ class PageDesign extends React.Component {
         let val = `${value}%`;
         console.log('val', val)
         switch (name) {
-            case "bannerTopBottomMargin":
-                this.setState({ bannerTopBottomMargin: val });
-                break;
-            case "bannerLfteRightMargin":
-                this.setState({ bannerLfteRightMargin: val });
-                break;
-            case "bannerLfteRightMargin":
-                this.setState({ bannerLfteRightMargin: val });
-                break;
+            // case "bannerTopBottomMargin":
+            //     this.setState({ bannerTopBottomMargin: val });
+            //     break;
+            // case "bannerLfteRightMargin":
+            //     this.setState({ bannerLfteRightMargin: val });
+            //     break;
+            // case "bannerLfteRightMargin":
+            //     this.setState({ bannerLfteRightMargin: val });
+            //     break;
             case "navTopBottomMargin":
                 this.setState({ navTopBottomMargin: val });
                 break;
@@ -190,7 +190,6 @@ class PageDesign extends React.Component {
             case "goodsTabLeftRightMargin":
                 this.setState({ goodsTabLeftRightMargin: val });
                 break;
-            // 
             case "goodsTopBottomMargin":
                 this.setState({ goodsTopBottomMargin: val });
                 break;
@@ -457,6 +456,58 @@ class PageDesign extends React.Component {
         })
         // 商品
         let goodsPlayMain = this.state.goodsPlayMain;
+        /*
+            动态样式
+            根据表单数据进行变化
+        */
+        //搜索框样式    
+        const searchStyles = {
+            searchStyle: () => {
+                switch (this.state.searchStyle) {
+                    case 'party':
+                        return "0"
+                        break;
+                    case 'arc':
+                        return "4px"
+                        break;
+                    default:
+                        return "30px"
+                        break;
+                }
+            },
+            seachTxtAlign: () => {
+                switch (this.state.seachTxtAlign) {
+                    case 'left':
+                        return "flex-start"
+                        break;
+                    case 'center':
+                        return "center"
+                        break;
+                    default:
+                        return "flex-end"
+                        break;
+                }
+            }
+        }
+        // 轮播样式
+        const bannerStyles = {
+            bannerPointColor: () => {
+                return this.state.bannerPointColor;
+            },
+            bannerPointShape: () => {
+                switch (this.state.bannerPointShape) {
+                    case 'square':
+                        return ["40px", "8px", "8px", "0", "5px", "-20px"]
+                        break;
+                    case 'round':
+                        return ["40px", "8px", "8px", "50%", "5px", "-20px"]
+                        break;
+                    default:
+                        return ["78px", "26px", "2px", "0", "0", "-39px"]
+                        break;
+                }
+            }
+        }
         return (
             <div className="main">
                 <Row className="content-title mb-10">
@@ -472,40 +523,45 @@ class PageDesign extends React.Component {
                 </Row>
                 <Row gutter={30}>
                     <Col span={6}>
-                        <div className={styles.pageDesignCard}>
-                            <div className={styles.phoneTop}>
+                        <div className={pageDesignStyles.pageDesignCard}>
+                            <div className="phoneTop">
                                 <h4>礼品汇</h4>
                             </div>
                             <header>
                                 {/* 搜索 */}
-                                <div className={styles.top + ' pd-11 tab'}>
-                                    <div className="tab-z" data-tabstate="1" onClick={this.tabHandle}></div>
+                                <div className='top pd-11 tab'>
+                                    <div className={this.state.tabState === 1 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="1" onClick={this.tabHandle}></div>
                                     <div className="pageDesignLogo">
                                         <img className="w100" src={PageDesignLogo} alt="" />
                                     </div>
-                                    <div className={styles.search}>
+                                    <div className={pageDesignStyles.search} style={{ borderRadius: searchStyles.searchStyle(), justifyContent: searchStyles.seachTxtAlign() }}>
                                         <div className="search-icon">
                                             <img className="w100 dis-block" src={SearchIcon} alt="" />
                                         </div>
-                                        <div>{this.state.searchTxt}</div>
-                                        <div className="scan">
+                                        <div className="search-txt">{this.state.searchTxt}</div>
+                                        {/* <div className="scan">
                                             <img className="w100 dis-block" src={Scan} alt="" />
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="user-pic">
                                         <img src={UserPic} alt="" />
                                     </div>
                                 </div>
                                 {/* 轮播 */}
-                                <div className=" banner tab">
-                                    <div className="tab-z" data-tabstate="2" onClick={this.tabHandle}></div>
+                                <div className="banner tab">
+                                    <div className={this.state.tabState === 2 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="2" onClick={this.tabHandle}></div>
+                                    <ul className="point-box" style={{ width: bannerStyles.bannerPointShape()[0], marginLeft: bannerStyles.bannerPointShape()[5] }}>
+                                        <li className="point-box-item" style={{ width: bannerStyles.bannerPointShape()[1], height: bannerStyles.bannerPointShape()[2], borderRadius: bannerStyles.bannerPointShape()[3] }}></li>
+                                        <li className="point-box-item" style={{ backgroundColor: bannerStyles.bannerPointColor(), width: bannerStyles.bannerPointShape()[1], height: bannerStyles.bannerPointShape()[2], borderRadius: bannerStyles.bannerPointShape()[3], marginLeft: bannerStyles.bannerPointShape()[4], marginRight: bannerStyles.bannerPointShape()[4] }}></li>
+                                        <li className="point-box-item" style={{ width: bannerStyles.bannerPointShape()[1], height: bannerStyles.bannerPointShape()[2], borderRadius: bannerStyles.bannerPointShape()[3] }}></li>
+                                    </ul>
                                     <img src={Banner} alt="" />
                                 </div>
                             </header>
                             <section>
                                 {/* 导航 */}
                                 <ul className="nav tab">
-                                    <div className="tab-z" data-tabstate="3" onClick={this.tabHandle}></div>
+                                    <div className={this.state.tabState === 3 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="3" onClick={this.tabHandle}></div>
                                     <li>
                                         <img src={NavIcon} alt="" />
                                         <span>家居家纺</span>
@@ -529,7 +585,7 @@ class PageDesign extends React.Component {
                                 </ul>
                                 {/* 提示 */}
                                 <div className="notice-wrapper tab">
-                                    <div className="tab-z" data-tabstate="4" onClick={this.tabHandle}></div>
+                                    <div className={this.state.tabState === 4 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="4" onClick={this.tabHandle}></div>
                                     <div className="notice">
                                         <div className="title">
                                             <img className="title-icon" src={TigIcon} alt="" />
@@ -543,7 +599,7 @@ class PageDesign extends React.Component {
                                 </div>
                                 {/* 推荐 */}
                                 <ul className=" rcm-goods tab">
-                                    <div className="tab-z" data-tabstate="5" onClick={this.tabHandle}></div>
+                                    <div className={this.state.tabState === 5 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="5" onClick={this.tabHandle}></div>
                                     <li>
                                         <img src={goodsBarItem1} alt="" />
                                     </li>
@@ -556,12 +612,12 @@ class PageDesign extends React.Component {
                                 </ul>
                                 {/* 广告 */}
                                 <div className=" adv tab">
-                                    <div className="tab-z" data-tabstate="6" onClick={this.tabHandle}></div>
+                                    <div className={this.state.tabState === 6 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="6" onClick={this.tabHandle}></div>
                                     <img className="w100 dis-block" src={Adversing} alt="" />
                                 </div>
                                 {/* 商品 */}
                                 <div className=" tab-classify tab">
-                                    <div className="tab-z" data-tabstate="7" onClick={this.tabHandle}></div>
+                                    <div className={this.state.tabState === 7 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="7" onClick={this.tabHandle}></div>
                                     <div className="tab-item tab-item-active">
                                         <div className="txt">全部</div>
                                         <div className="prompt">为您推荐</div>
@@ -584,7 +640,7 @@ class PageDesign extends React.Component {
                                     </div>
                                 </div>
                                 <div className="tab-obj-classify tab">
-                                    <div className="tab-z" data-tabstate="8" onClick={this.tabHandle}></div>
+                                    <div className={this.state.tabState === 8 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="8" onClick={this.tabHandle}></div>
                                     <div className="classify-obj-item">
                                         <img src={Goods1} alt="" />
                                         <div className="goods-name line-clamp2">多用途舒适枕芯 3D螺旋卷曲
@@ -630,7 +686,7 @@ class PageDesign extends React.Component {
                         </div>
                     </Col>
                     <Col span={10}>
-                        <div className={styles.pageSetWrapper}>
+                        <div className="pageSetWrapper">
                             {/* 图片库组件 */}
                             {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
                             <Form
@@ -666,12 +722,12 @@ class PageDesign extends React.Component {
                                     <Form.Item label="指示点形状" name="bannerPointShape">
                                         <Radio.Group name="bannerPointShape" options={bannerPointShapeOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.bannerPointShape} />
                                     </Form.Item>
-                                    <Form.Item label="上下边距" name="bannerTopBottomMargin">
+                                    {/* <Form.Item label="上下边距" name="bannerTopBottomMargin">
                                         <Slider onChange={(value) => this.sliderChange('bannerTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="左右边距" name="bannerLfteRightMargin">
                                         <Slider onChange={(value) => this.sliderChange('bannerLfteRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     {bannerNodesItems}
                                     <Form.Item>
                                         <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('bannerNodesList')}>添加一个</Button>
