@@ -1,10 +1,11 @@
 import React from 'react';
+import axios from '../../common/js/axios';
 // 样式
 import pageDesignStyles from '../../css/pageDesign.module.css';
 // 图片
 import PageDesignLogo from '../../assets/images/pageDesign/logo.png';
 import SearchIcon from '../../assets/images/pageDesign/search-icon.png';
-import Scan from '../../assets/images/pageDesign/scan.png';
+// import Scan from '../../assets/images/pageDesign/scan.png';
 import UserPic from '../../assets/images/pageDesign/user-pic.png';
 import Banner from '../../assets/images/pageDesign/banner.png';
 import NavIcon from '../../assets/images/pageDesign/nav-item-icon1.png';
@@ -14,6 +15,7 @@ import goodsBarItem2 from '../../assets/images/pageDesign/goods-bar-item2.png';
 import goodsBarItem3 from '../../assets/images/pageDesign/goods-bar-item3.png';
 import Adversing from '../../assets/images/pageDesign/adversing.png';
 import Goods1 from '../../assets/images/pageDesign/goods1.png';
+import picDefUrl from '../../assets/images/img-upload-bag.png';
 // antd 组件
 import { Row, Col, Breadcrumb, Divider, Form, Input, Radio, Slider, Checkbox, Button } from 'antd';
 // 图片库组件
@@ -30,60 +32,62 @@ class PageDesign extends React.Component {
             searchStyle: "party",
             seachTxtAlign: "left",
             // 轮播
-            bannerPointColor: "#ffffff",
+            bannerPointColor: "#ff0000",
             bannerPointShape: "square",
             // bannerTopBottomMargin: "",
             // bannerLfteRightMargin: "",
             bannerNodesList: [
-                { linkAddress: "https://www.baidu.com" }
+                { linkAddress: "https://www.baidu.com", picUrl: "", picDefUrl: "" }
             ],
             // 导航
-            navOutBgCol: "#ffffff",
-            navTopBottomMargin: "",
-            navLeftRightMargin: "",
-            navInsBgCol: "#ffffff",
-            navInsTopMargin: "",
-            navInsRightMargin: "",
-            navInsBottomMargin: "",
-            navInsLeftMargin: "",
-            navInsTopRound: "",
-            navInsTopRound: "",
-            navInsBottomRound: "",
-            navLineNum: "3",
+            // navOutBgCol: "#ffffff",
+            // navTopBottomMargin: "",
+            // navLeftRightMargin: "",
+            // navInsBgCol: "#ffffff",
+            // navInsTopMargin: "",
+            // navInsRightMargin: "",
+            // navInsBottomMargin: "",
+            // navInsLeftMargin: "",
+            // navInsTopRound: "",
+            // navInsTopRound: "",
+            // navInsBottomRound: "",
+            // navLineNum: "3",
             navNodesList: [
-                { navTxt: "", navTxtCol: "", linkAddress: "https://www.baidu.com" }
+                { navTxt: "家居家纺", navTxtCol: "#000000", linkAddress: "https://www.baidu.com", picUrl: "" }
             ],
             // 系统消息
-            noticeTopBottomMargin: "",
-            noticeLeftRightMargin: "",
+            noticeTopBottomMargin: "0%",
+            // noticeLeftRightMargin: "",
             // 推荐
-            rcmTopBottomMargin: "",
-            rcmLeftRightMargin: "",
+            rcmTopBottomMargin: "0%",
+            // rcmLeftRightMargin: "",
             recNodesList: [
-                { linkAddress: "" }
+                { linkAddress: "http://www.baidu.com", picUrl: "" }
             ],
             //广告栏 
-            advTopBottomMargin: "",
-            advLeftRightMargin: "",
-            advNodesList: [{ linkAddress: "https://www.baidu.com" }],
+            advTopBottomMargin: "0%",
+            // advLeftRightMargin: "",
+            advNodesList: [{ linkAddress: "https://www.baidu.com", picUrl: "" }],
             // 商品分类导航
-            goodsTabTopBottomMargin: "",
-            goodsTabLeftRightMargin: "",
+            goodsTabTopBottomMargin: "0%",
+            // goodsTabLeftRightMargin: "",
             goodsTabNodesList: [
-                { goodsTabTitle: "", goodsTabScptTxt: "" }
+                { goodsTabTitle: "全部", goodsTabScptTxt: "为您推荐" }
             ],
             // 商品
             goodsSort: "comprehensive",
-            goodsPlayMain: ['goodsName', 'goodsScr'],
-            goodsTopBottomMargin: "",
-            goodsLfteRightMargin: "",
-            goodsPicRound: "",
-            goodsInsTopBottomMargin: "",
-            goodsInsLfteRightMargin: "",
-            goodsOutTopBottomMargin: "",
-            goodsOutLfteRightMargin: "",
+            goodsPlayMain: ['goodsName'],
+            // goodsTopBottomMargin: "",
+            // goodsLfteRightMargin: "",
+            // goodsPicRound: "",
+            // goodsInsTopBottomMargin: "",
+            // goodsInsLfteRightMargin: "",
+            // goodsOutTopBottomMargin: "",
+            // goodsOutLfteRightMargin: "",
             // 图片库
-            picLibraryStatus: false
+            picLibraryStatus: false,
+            storeIndex: 0,
+            colName: ""
         }
         this.tabHandle = this.tabHandle.bind(this);
         this.radioHandle = this.radioHandle.bind(this);
@@ -92,7 +96,7 @@ class PageDesign extends React.Component {
         this.colorPicker = this.colorPicker.bind(this);
         this.inputChange = this.inputChange.bind(this);
         this.addOptionsNodes = this.addOptionsNodes.bind(this);
-        this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
+        this.picLibraryBackData = this.picLibraryBackData.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
     }
     // 点击切换
@@ -169,48 +173,48 @@ class PageDesign extends React.Component {
             case "noticeTopBottomMargin":
                 this.setState({ noticeTopBottomMargin: val });
                 break;
-            case "noticeLeftRightMargin":
-                this.setState({ noticeLeftRightMargin: val });
-                break;
+            // case "noticeLeftRightMargin":
+            //     this.setState({ noticeLeftRightMargin: val });
+            //     break;
             case "rcmTopBottomMargin":
                 this.setState({ rcmTopBottomMargin: val });
                 break;
-            case "rcmLeftRightMargin":
-                this.setState({ rcmLeftRightMargin: val });
-                break;
+            // case "rcmLeftRightMargin":
+            //     this.setState({ rcmLeftRightMargin: val });
+            //     break;
             case "advTopBottomMargin":
                 this.setState({ advTopBottomMargin: val });
                 break;
-            case "advLeftRightMargin":
-                this.setState({ advLeftRightMargin: val });
-                break;
+            // case "advLeftRightMargin":
+            //     this.setState({ advLeftRightMargin: val });
+            //     break;
             case "goodsTabTopBottomMargin":
                 this.setState({ goodsTabTopBottomMargin: val });
                 break;
-            case "goodsTabLeftRightMargin":
-                this.setState({ goodsTabLeftRightMargin: val });
-                break;
-            case "goodsTopBottomMargin":
-                this.setState({ goodsTopBottomMargin: val });
-                break;
-            case "goodsLfteRightMargin":
-                this.setState({ goodsLfteRightMargin: val });
-                break;
-            case "goodsPicRound":
-                this.setState({ goodsPicRound: val });
-                break;
-            case "goodsInsTopBottomMargin":
-                this.setState({ goodsInsTopBottomMargin: val });
-                break;
-            case "goodsInsLfteRightMargin":
-                this.setState({ goodsInsLfteRightMargin: val });
-                break;
-            case "goodsOutTopBottomMargin":
-                this.setState({ goodsOutTopBottomMargin: val });
-                break;
-            case "goodsOutLfteRightMargin":
-                this.setState({ goodsOutLfteRightMargin: val });
-                break;
+            // case "goodsTabLeftRightMargin":
+            //     this.setState({ goodsTabLeftRightMargin: val });
+            //     break;
+            // case "goodsTopBottomMargin":
+            //     this.setState({ goodsTopBottomMargin: val });
+            //     break;
+            // case "goodsLfteRightMargin":
+            //     this.setState({ goodsLfteRightMargin: val });
+            //     break;
+            // case "goodsPicRound":
+            //     this.setState({ goodsPicRound: val });
+            //     break;
+            // case "goodsInsTopBottomMargin":
+            //     this.setState({ goodsInsTopBottomMargin: val });
+            //     break;
+            // case "goodsInsLfteRightMargin":
+            //     this.setState({ goodsInsLfteRightMargin: val });
+            //     break;
+            // case "goodsOutTopBottomMargin":
+            //     this.setState({ goodsOutTopBottomMargin: val });
+            //     break;
+            // case "goodsOutLfteRightMargin":
+            //     this.setState({ goodsOutLfteRightMargin: val });
+            //     break;
             default:
                 break;
         }
@@ -231,11 +235,10 @@ class PageDesign extends React.Component {
             case "navInsBgCol":
                 this.setState({ navInsBgCol: color });
                 break;
-            case 'navTxtCol':
+            default:
                 let navNodesList = this.state.navNodesList;
                 navNodesList[index].navTxtCol = color;
                 this.setState(navNodesList);
-            default:
                 break;
         }
     }
@@ -288,16 +291,16 @@ class PageDesign extends React.Component {
         let newNodesObj
         switch (stateArrName) {
             case 'bannerNodesList':
-                newNodesObj = { linkAddress: '' };
+                newNodesObj = { linkAddress: '', picUrl: "" };
                 break;
             case 'navNodesList':
-                newNodesObj = { navTxt: '', navTxtCol: "", linkAddress: '' };
+                newNodesObj = { navTxt: '', navTxtCol: "", linkAddress: '', picUrl: "" };
                 break;
             case 'recNodesList':
-                newNodesObj = { linkAddress: '' };
+                newNodesObj = { linkAddress: '', picUrl: '' };
                 break;
             case 'advNodesList':
-                newNodesObj = { linkAddress: '' };
+                newNodesObj = { linkAddress: '', picUrl: "" };
                 break;
             case 'goodsTabNodesList':
                 newNodesObj = { goodsTabTitle: "", goodsTabScptTxt: "" };
@@ -320,13 +323,43 @@ class PageDesign extends React.Component {
         }
     }
     // 图片库=>数据返回
-    picLibraryBackStatus(data) {
+    picLibraryBackData(data, picCollection) {
+        console.log('picCollection',picCollection)
+        let colName = this.state.colName;
+        let storeIndex = this.state.storeIndex;
+        let arr = []
+        switch (colName) {
+            case 'bannerNodesList':
+                arr = this.state.bannerNodesList;
+                picCollection.length > 0 ? arr[storeIndex].picUrl = picCollection[0] : arr[storeIndex].picUrl = '';
+                break;
+            case 'navNodesList':
+                arr = this.state.navNodesList;
+                picCollection.length > 0 ? arr[storeIndex].picUrl = picCollection[0] : arr[storeIndex].picUrl = '';
+                break;
+            case 'recNodesList':
+                arr = this.state.recNodesList;
+                picCollection.length > 0 ? arr[storeIndex].picUrl = picCollection[0] : arr[storeIndex].picUrl = '';
+                break;
+            default:
+                arr = this.state.advNodesList;
+                picCollection.length > 0 ? arr[storeIndex].picUrl = picCollection[0] : arr[storeIndex].picUrl = '';
+                break;
+        }
+        console.log('arr',arr)
         this.setState({
-            picLibraryStatus: !data
+            picLibraryStatus: !data,
+            colName: arr
         })
+        console.log(this.state.bannerNodesList)
+        console.log("picCollection", picCollection)
     }
-    picLibraryStatusChange() {
-        this.setState({ picLibraryStatus: true });
+    picLibraryStatusChange(index, colName) {
+        this.setState({
+            picLibraryStatus: true,
+            storeIndex: index,
+            colName: colName
+        });
     }
     render() {
         // 搜索框样式单选
@@ -348,31 +381,24 @@ class PageDesign extends React.Component {
             { label: '长方形', value: 'rectangle' },
         ]
         // 导航数量
-        const navLineNumOptions = [
-            { label: '3', value: '3' },
-            { label: '4', value: '4' },
-            { label: '5', value: '5' },
-        ]
+        // const navLineNumOptions = [
+        //     { label: '3', value: '3' },
+        //     { label: '4', value: '4' },
+        //     { label: '5', value: '5' },
+        // ]
         // 商品排序
         const goodsSortOptions = [
             { label: '综合', value: 'comprehensive' },
             { label: '销量', value: 'sales' },
             { label: '价格', value: 'price' },
         ]
-        // 表单提交成功
-        const onFinish = (values) => {
-            console.log('Success:', values);
-        };
-        // 表单提交失败
-        const onFinishFailed = (errorInfo) => {
-            console.log('Failed:', errorInfo);
-        };
         // 轮播节点列表
         let bannerNodesList = this.state.bannerNodesList;
         let bannerNodesItems = bannerNodesList.map((item, index) => {
             return <div className="nodes-box pd-17 bg-f7f bor-rds-3 mb-20" key={index}>
                 <Form.Item label="图片" name="bannerPic">
-                    <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
+                    <div className="ipt-file-cover-element pos-r" onClick={() => this.picLibraryStatusChange(index, 'bannerNodesList')}>
+                        {item.picUrl !== '' ? <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={item.picUrl} alt="" /> : <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={picDefUrl} alt="" />}
                     </div>
                 </Form.Item>
                 <Form.Item label="链接地址" name={['bannerNodesList', index, 'linkAddress']}>
@@ -386,7 +412,8 @@ class PageDesign extends React.Component {
         let bannerNodesItem = navNodesList.map((item, index) => {
             return <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
                 <Form.Item label="图片" name="navPic">
-                    <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
+                    <div className="ipt-file-cover-element pos-r" onClick={() => this.picLibraryStatusChange(index, 'navNodesList')}>
+                        {item.picUrl !== '' ? <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={item.picUrl} alt="" /> : <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={picDefUrl} alt="" />}
                     </div>
                 </Form.Item>
                 <Form.Item label="文字内容" name={['navNodesList', index, 'navTxt']}>
@@ -394,7 +421,7 @@ class PageDesign extends React.Component {
                 </Form.Item>
                 <Form.Item label="文字颜色" name={['navNodesList', index, 'navTxtCol']}>
                     <InputColor
-                        initialValue="#ffffff"
+                        initialValue={item.navTxtCol}
                         onChange={(value) => this.colorPicker('navTxtCol', value, index)}
                         placement="right"
                     ></InputColor>
@@ -411,7 +438,8 @@ class PageDesign extends React.Component {
             return (
                 <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
                     <Form.Item label="图片" name="rcmPic">
-                        <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
+                        <div className="ipt-file-cover-element pos-r" onClick={() => this.picLibraryStatusChange(index, 'recNodesList')}>
+                            {item.picUrl !== '' ? <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={item.picUrl} alt="" /> : <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={picDefUrl} alt="" />}
                         </div>
                     </Form.Item>
                     <Form.Item label="H5链接" name={['recNodesList', index, 'linkAddress']}>
@@ -427,7 +455,8 @@ class PageDesign extends React.Component {
             return (
                 <div className="nodes-box from-item pd-17 bg-f7f bor-rds-3 mb-20">
                     <Form.Item label="图片" name="advPic">
-                        <div className="ipt-file-cover-element pos-r" onClick={this.picLibraryStatusChange}>
+                        <div className="ipt-file-cover-element pos-r" onClick={() => this.picLibraryStatusChange(index, 'advNodesList')}>
+                            {item.picUrl !== '' ? <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={item.picUrl} alt="" /> : <img style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }} src={picDefUrl} alt="" />}
                         </div>
                     </Form.Item>
                     <Form.Item label="H5链接" name={['advNodesList', index, 'linkAddress']}>
@@ -466,26 +495,20 @@ class PageDesign extends React.Component {
                 switch (this.state.searchStyle) {
                     case 'party':
                         return "0"
-                        break;
                     case 'arc':
                         return "4px"
-                        break;
                     default:
                         return "30px"
-                        break;
                 }
             },
             seachTxtAlign: () => {
                 switch (this.state.seachTxtAlign) {
                     case 'left':
                         return "flex-start"
-                        break;
                     case 'center':
                         return "center"
-                        break;
                     default:
                         return "flex-end"
-                        break;
                 }
             }
         }
@@ -498,16 +521,51 @@ class PageDesign extends React.Component {
                 switch (this.state.bannerPointShape) {
                     case 'square':
                         return ["40px", "8px", "8px", "0", "5px", "-20px"]
-                        break;
                     case 'round':
                         return ["40px", "8px", "8px", "50%", "5px", "-20px"]
-                        break;
                     default:
                         return ["78px", "26px", "2px", "0", "0", "-39px"]
-                        break;
                 }
             }
         }
+        // 系统消息
+        const noticeStyles = {
+            noticeTopBottomMargin: () => {
+                return this.state.noticeTopBottomMargin
+            }
+        }
+        // 热门推荐
+        const recStyles = {
+            rcmTopBottomMargin: () => {
+                return this.state.rcmTopBottomMargin
+            }
+        }
+        // 广告栏
+        const advStyles = {
+            advTopBottomMargin: () => {
+                return this.state.advTopBottomMargin
+            }
+        }
+        // 商品tab
+        const goodsTabStyles = {
+            goodsTabTopBottomMargin: () => {
+                return this.state.goodsTabTopBottomMargin
+            }
+        }
+        // 表单提交成功
+        const onFinish = (data) => {
+            console.log('Success:', data);
+            let params = {
+                data: data
+            }
+            axios.postAxios('/pageDesign/storePageSet', params).then(res => {
+                console.log('res', res)
+            })
+        };
+        // 表单提交失败
+        const onFinishFailed = (errorInfo) => {
+            console.log('Failed:', errorInfo);
+        };
         return (
             <div className="main">
                 <Row className="content-title mb-10">
@@ -586,19 +644,19 @@ class PageDesign extends React.Component {
                                 {/* 提示 */}
                                 <div className="notice-wrapper tab">
                                     <div className={this.state.tabState === 4 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="4" onClick={this.tabHandle}></div>
-                                    <div className="notice">
+                                    <div className="notice" style={{ margin: noticeStyles.noticeTopBottomMargin() + '0' }}>
                                         <div className="title">
                                             <img className="title-icon" src={TigIcon} alt="" />
                                             <span>最新通知</span>
                                         </div>
                                         <div className="main">
-                                            NIKE ADIDAS 进驻顺的积分...
-                                            </div>
+                                            系统消息
+                                        </div>
                                         <div className="more">更多</div>
                                     </div>
                                 </div>
                                 {/* 推荐 */}
-                                <ul className=" rcm-goods tab">
+                                <ul className=" rcm-goods tab" style={{ margin: recStyles.rcmTopBottomMargin() + '0' }}>
                                     <div className={this.state.tabState === 5 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="5" onClick={this.tabHandle}></div>
                                     <li>
                                         <img src={goodsBarItem1} alt="" />
@@ -611,12 +669,12 @@ class PageDesign extends React.Component {
                                     </li>
                                 </ul>
                                 {/* 广告 */}
-                                <div className=" adv tab">
+                                <div className=" adv tab" style={{ margin: advStyles.advTopBottomMargin + '0' }}>
                                     <div className={this.state.tabState === 6 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="6" onClick={this.tabHandle}></div>
                                     <img className="w100 dis-block" src={Adversing} alt="" />
                                 </div>
-                                {/* 商品 */}
-                                <div className=" tab-classify tab">
+                                {/* 商品tab */}
+                                <div className=" tab-classify tab" style={{ margin: goodsTabStyles.goodsTabTopBottomMargin() + '0' }}>
                                     <div className={this.state.tabState === 7 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="7" onClick={this.tabHandle}></div>
                                     <div className="tab-item tab-item-active">
                                         <div className="txt">全部</div>
@@ -639,47 +697,48 @@ class PageDesign extends React.Component {
                                         <div className="line"></div>
                                     </div>
                                 </div>
+                                {/* 商品tabObj */}
                                 <div className="tab-obj-classify tab">
                                     <div className={this.state.tabState === 8 ? 'tab-z tab-z-active' : 'tab-z'} data-tabstate="8" onClick={this.tabHandle}></div>
                                     <div className="classify-obj-item">
                                         <img src={Goods1} alt="" />
-                                        <div className="goods-name line-clamp2">多用途舒适枕芯 3D螺旋卷曲
-    立体纤维 有效缓解睡眠难题</div>
-                                        <div className="describe line-clamp1">美观且大方，不容错过</div>
+                                        <div className="goods-name line-clamp2">{goodsPlayMain.includes('goodsName') ? '商品名称' : ''}</div>
+                                        <div className="describe line-clamp1">{goodsPlayMain.includes('goodsScr') ? '商品描述' : ''}</div>
                                         <div className="price-wrapper">
-                                            <div className="price">999</div>
-                                            <div className="line-price">1999</div>
+                                            <div className="price">{goodsPlayMain.includes('goodsPrice') ? '价格' : ''}</div>
+                                            <div className="line-price">{goodsPlayMain.includes('goodsLinePrice') ? '划线价格' : ''}</div>
                                         </div>
+                                        <div className="sales">{goodsPlayMain.includes('goodsSales') ? '销量' : ''}</div>
                                     </div>
                                     <div className="classify-obj-item">
                                         <img src={Goods1} alt="" />
-                                        <div className="goods-name line-clamp2">多用途舒适枕芯 3D螺旋卷曲
-    立体纤维 有效缓解睡眠难题</div>
-                                        <div className="describe line-clamp1">美观且大方，不容错过</div>
+                                        <div className="goods-name line-clamp2">{goodsPlayMain.includes('goodsName') ? '商品名称' : ''}</div>
+                                        <div className="describe line-clamp1">{goodsPlayMain.includes('goodsScr') ? '商品描述' : ''}</div>
                                         <div className="price-wrapper">
-                                            <div className="price">999</div>
-                                            <div className="line-price">1999</div>
+                                            <div className="price">{goodsPlayMain.includes('goodsPrice') ? '价格' : ''}</div>
+                                            <div className="line-price">{goodsPlayMain.includes('goodsLinePrice') ? '划线价格' : ''}</div>
                                         </div>
+                                        <div className="sales">{goodsPlayMain.includes('goodsSales') ? '销量' : ''}</div>
                                     </div>
                                     <div className="classify-obj-item">
                                         <img src={Goods1} alt="" />
-                                        <div className="goods-name line-clamp2">多用途舒适枕芯 3D螺旋卷曲
-    立体纤维 有效缓解睡眠难题</div>
-                                        <div className="describe line-clamp1">美观且大方，不容错过</div>
+                                        <div className="goods-name line-clamp2">{goodsPlayMain.includes('goodsName') ? '商品名称' : ''}</div>
+                                        <div className="describe line-clamp1">{goodsPlayMain.includes('goodsScr') ? '商品描述' : ''}</div>
                                         <div className="price-wrapper">
-                                            <div className="price">999</div>
-                                            <div className="line-price">1999</div>
+                                            <div className="price">{goodsPlayMain.includes('goodsPrice') ? '价格' : ''}</div>
+                                            <div className="line-price">{goodsPlayMain.includes('goodsLinePrice') ? '划线价格' : ''}</div>
                                         </div>
+                                        <div className="sales">{goodsPlayMain.includes('goodsSales') ? '销量' : ''}</div>
                                     </div>
                                     <div className="classify-obj-item">
                                         <img src={Goods1} alt="" />
-                                        <div className="goods-name line-clamp2">多用途舒适枕芯 3D螺旋卷曲
-    立体纤维 有效缓解睡眠难题</div>
-                                        <div className="describe line-clamp1">美观且大方，不容错过</div>
+                                        <div className="goods-name line-clamp2">{goodsPlayMain.includes('goodsName') ? '商品名称' : ''}</div>
+                                        <div className="describe line-clamp1">{goodsPlayMain.includes('goodsScr') ? '商品描述' : ''}</div>
                                         <div className="price-wrapper">
-                                            <div className="price">999</div>
-                                            <div className="line-price">1999</div>
+                                            <div className="price">{goodsPlayMain.includes('goodsPrice') ? '价格' : ''}</div>
+                                            <div className="line-price">{goodsPlayMain.includes('goodsLinePrice') ? '划线价格' : ''}</div>
                                         </div>
+                                        <div className="sales">{goodsPlayMain.includes('goodsSales') ? '销量' : ''}</div>
                                     </div>
                                 </div>
                             </section>
@@ -688,10 +747,35 @@ class PageDesign extends React.Component {
                     <Col span={10}>
                         <div className="pageSetWrapper">
                             {/* 图片库组件 */}
-                            {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
+                            {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackData={this.picLibraryBackData} /> : ''}
                             <Form
                                 name="page_set_form"
-                                initialValues={{ bannerNodesList: bannerNodesList, navNodesList: navNodesList, recNodesList: recNodesList, advNodesList: advNodesList, goodsTabNodesList: goodsTabNodesList, goodsPlayMain: goodsPlayMain }}
+                                initialValues={{
+                                    // 搜索框
+                                    searchTxt:this.state.searchTxt,
+                                    searchStyle:this.state.searchStyle,
+                                    seachTxtAlign:this.state.seachTxtAlign,
+                                    // 轮播
+                                    bannerPointColor: this.state.bannerPointColor,
+                                    bannerPointShape: this.state.bannerPointShape,
+                                    bannerNodesList: this.state.bannerNodesList,
+                                    // 导航
+                                    navNodesList: navNodesList,
+                                    // 系统消息
+                                    noticeTopBottomMargin: this.state.noticeTopBottomMargin, 
+                                    // 热门推荐
+                                    rcmTopBottomMargin: this.state.rcmTopBottomMargin,
+                                    recNodesList: recNodesList,
+                                     //广告栏 
+                                    advTopBottomMargin:this.state.advTopBottomMargin,
+                                    advNodesList: advNodesList,
+                                    // 商品分类导航
+                                    goodsTabTopBottomMargin: this.state.goodsTabTopBottomMargin,
+                                    goodsTabNodesList: goodsTabNodesList,
+                                    // / 商品
+                                    goodsSort: this.state.goodsSort,
+                                    goodsPlayMain: this.state.goodsPlayMain,
+                                }}
                                 onFinish={onFinish}
                                 onFinishFailed={onFinishFailed}>
                                 {/* 搜索设置 */}
@@ -714,7 +798,7 @@ class PageDesign extends React.Component {
                                     <Divider />
                                     <Form.Item label="指示点颜色" name="bannerPointColor">
                                         <InputColor
-                                            initialValue="#ffffff"
+                                            initialValue={this.state.bannerPointColor}
                                             onChange={(value) => this.colorPicker('bannerPointColor', value)}
                                             placement="right"
                                         ></InputColor>
@@ -737,7 +821,7 @@ class PageDesign extends React.Component {
                                 <div className={this.state.tabState === 3 ? 'nav-set active' : 'nav-set tab-obj-item'}>
                                     <h3 className="page-set-title">导航</h3>
                                     <Divider />
-                                    <Form.Item label="外框背景颜色" name="navOutBgCol">
+                                    {/* <Form.Item label="外框背景颜色" name="navOutBgCol">
                                         <InputColor
                                             initialValue="#ffffff"
                                             onChange={(value) => this.colorPicker('navOutBgCol', value)}
@@ -775,10 +859,10 @@ class PageDesign extends React.Component {
                                     </Form.Item>
                                     <Form.Item label="下圆角" name="navInsBottomRound">
                                         <Slider onChange={(value) => this.sliderChange('navInsBottomRound', value)} tipFormatter={this.sliderTipFormatter} />
-                                    </Form.Item>
-                                    <Form.Item label="每行数量" name="navLineNum">
+                                    </Form.Item> */}
+                                    {/* <Form.Item label="每行数量" name="navLineNum">
                                         <Radio.Group name="navLineNum" options={navLineNumOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.navLineNum} />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     {bannerNodesItem}
                                     <Form.Item>
                                         <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('navNodesList')}>添加一个</Button>
@@ -791,9 +875,9 @@ class PageDesign extends React.Component {
                                     <Form.Item label="上下边距" name="noticeTopBottomMargin">
                                         <Slider onChange={(value) => this.sliderChange('noticeTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
-                                    <Form.Item label="左右边距" name="noticeLeftRightMargin">
+                                    {/* <Form.Item label="左右边距" name="noticeLeftRightMargin">
                                         <Slider onChange={(value) => this.sliderChange('noticeLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                 </div>
                                 {/* 热门推荐 */}
                                 <div className={this.state.tabState === 5 ? 'rcm-goods-set active' : 'rcm-goods-set tab-obj-item'}>
@@ -802,9 +886,9 @@ class PageDesign extends React.Component {
                                     <Form.Item label="上下边距" name="rcmTopBottomMargin">
                                         <Slider onChange={(value) => this.sliderChange('rcmTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
-                                    <Form.Item label="左右边距" name="rcmLeftRightMargin">
+                                    {/* <Form.Item label="左右边距" name="rcmLeftRightMargin">
                                         <Slider onChange={(value) => this.sliderChange('rcmLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     {recNodesItem}
                                     <Form.Item>
                                         <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('recNodesList')}>添加一个</Button>
@@ -817,9 +901,9 @@ class PageDesign extends React.Component {
                                     <Form.Item label="上下边距" name="advTopBottomMargin">
                                         <Slider onChange={(value) => this.sliderChange('advTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
-                                    <Form.Item label="左右边距" name="advLeftRightMargin">
+                                    {/* <Form.Item label="左右边距" name="advLeftRightMargin">
                                         <Slider onChange={(value) => this.sliderChange('advLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     {advNodesItem}
                                     <Form.Item>
                                         <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('advNodesList')}>添加一个</Button>
@@ -832,9 +916,9 @@ class PageDesign extends React.Component {
                                     <Form.Item label="上下边距" name="goodsTabTopBottomMargin">
                                         <Slider onChange={(value) => this.sliderChange('goodsTabTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
-                                    <Form.Item label="左右边距" name="goodsTabLeftRightMargin">
+                                    {/* <Form.Item label="左右边距" name="goodsTabLeftRightMargin">
                                         <Slider onChange={(value) => this.sliderChange('goodsTabLeftRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     {goodsTabNodesItem}
                                     <Form.Item>
                                         <Button className="pull-right" type="default" onClick={() => this.addOptionsNodes('goodsTabNodesList')}>添加一个</Button>
@@ -844,18 +928,18 @@ class PageDesign extends React.Component {
                                 <div className={this.state.tabState === 8 ? 'goods-set active' : 'goods-set tab-obj-item'}>
                                     <h3 className="page-set-title">商品</h3>
                                     <Divider />
-                                    <Form.Item label="商品分类" name="goodsClassify">
+                                    {/* <Form.Item label="商品分类" name="goodsClassify">
                                         <select className="form-select w100" name="" id="">
                                             <option value="">1</option>
                                             <option value="">2</option>
                                             <option value="">3</option>
                                         </select>
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     <Form.Item label="商品排序" name="goodsSort">
                                         <Radio.Group name="goodsSort" options={goodsSortOptions} onChange={(e) => this.radioHandle(e)} defaultValue={this.state.goodsSort} />
                                     </Form.Item>
                                     <Divider />
-                                    <Form.Item label="商品上下边距" name="goodsTopBottomMargin">
+                                    {/* <Form.Item label="商品上下边距" name="goodsTopBottomMargin">
                                         <Slider onChange={(value) => this.sliderChange('goodsTopBottomMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
                                     <Form.Item label="商品左右边距" name="goodsLfteRightMargin">
@@ -878,7 +962,7 @@ class PageDesign extends React.Component {
                                     <Form.Item label="外框左右边距" name="goodsOutLfteRightMargin">
                                         <Slider onChange={(value) => this.sliderChange('goodsOutLfteRightMargin', value)} tipFormatter={this.sliderTipFormatter} />
                                     </Form.Item>
-                                    <Divider />
+                                    <Divider /> */}
                                     <Form.Item label="显示内容" name="goodsPlayMain">
                                         <Checkbox
                                             data-val="goodsName"

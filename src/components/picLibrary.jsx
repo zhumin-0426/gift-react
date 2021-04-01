@@ -10,7 +10,7 @@ import styles from '../css/picLibrary.module.css';
 const { Option } = Select;
 const { confirm } = Modal;
 // 对话框=>确认
-function showConfirm(groupId, picCollection,initpicLibrary) {
+function showConfirm(groupId, picCollection, initpicLibrary) {
     confirm({
         centered: true,
         title: '确定移动该图片吗?',
@@ -25,7 +25,7 @@ function showConfirm(groupId, picCollection,initpicLibrary) {
             }
             axios.postAxios('/picUpload/picMove', data).then(res => {
                 console.log('移动图片', res)
-                if(res.status===200){
+                if (res.status === 200) {
                     message.success(res.data.status)
                     initpicLibrary()
                 }
@@ -152,7 +152,7 @@ class PicLibrary extends React.Component {
         formdata.append('picGroupId', this.state.picGroupId)
         axios.postAxios('/picUpload/upload', formdata).then(res => {
             console.log('res', res);
-            if(res.status===200){
+            if (res.status === 200) {
                 message.success(res.data.status);
                 this.initpicLibrary()
             }
@@ -186,7 +186,7 @@ class PicLibrary extends React.Component {
         this.setState({
             visible: false,
         });
-        this.props.picLibraryBackData(this.state.visible,this.state.picCollection)
+        this.props.picLibraryBackData(this.state.visible, this.state.picCollection)
     };
     // 对话框=>删除/取消/背景
     handleCancel = e => {
@@ -194,12 +194,12 @@ class PicLibrary extends React.Component {
         this.setState({
             visible: false,
         });
-        this.props.picLibraryBackData(this.state.visible)
+        this.props.picLibraryBackData(this.state.visible,this.state.picCollection)
     };
     // 侧边栏点击事件
     sideItemChange(e, name) {
         const groupId = Number(e.target.dataset.groupId);
-        console.log('groupId',groupId)
+        console.log('groupId', groupId)
         /*
             因setState是异步更新数据，故调用第二个回调参数：函数
             待变量更新完毕后执行
@@ -236,7 +236,7 @@ class PicLibrary extends React.Component {
     // 移动图片
     movePic(groupId) {
         console.log("groupId", groupId)
-        showConfirm(groupId, this.state.picCollection,this.initpicLibrary)
+        showConfirm(groupId, this.state.picCollection, this.initpicLibrary)
     }
     // 删除图片
     deletePic() {
@@ -246,7 +246,7 @@ class PicLibrary extends React.Component {
         }
         axios.postAxios('/picUpload/picRemove', data).then(res => {
             console.log("删除图片", res);
-            if(res.status===200){
+            if (res.status === 200) {
                 message.success(res.data.status);
                 this.initpicLibrary()
             }

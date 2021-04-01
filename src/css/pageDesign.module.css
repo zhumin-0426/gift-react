@@ -45,10 +45,10 @@
   z-index: 1;
 }
 :local(.pageDesignCard) :global header .tab .tab-z:hover {
-  border: dashed 4px #84ba3f;
+  border: dashed 3px #84ba3f;
 }
 :local(.pageDesignCard) :global header .tab .tab-z-active {
-  border: dashed 4px #84ba3f;
+  border: dashed 3px #84ba3f;
 }
 :local(.pageDesignCard) :global header .top {
   display: flex;
@@ -123,10 +123,10 @@
   z-index: 1;
 }
 :local(.pageDesignCard) :global section .tab .tab-z:hover {
-  border: dashed 4px #84ba3f;
+  border: dashed 3px #84ba3f;
 }
 :local(.pageDesignCard) :global section .tab .tab-z-active {
-  border: dashed 4px #84ba3f;
+  border: dashed 3px #84ba3f;
 }
 :local(.pageDesignCard) :global section .nav {
   box-sizing: border-box;
@@ -293,6 +293,10 @@
   font-size: 12px;
   color: #aeaeae;
   text-decoration: line-through;
+}
+:local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item .sales {
+  font-size: 14px;
+  color: #aeaeae;
 }
 :local(.pageDesignCard) :global section .tab-obj-classify .classify-obj-item:nth-child(odd) {
   float: left;

@@ -624,9 +624,6 @@
 .ipt-file-cover-element {
   width: 94px;
   height: 50px;
-  background-image: url('../../assets/images/img-upload-bag.png');
-  background-repeat: no-repeat;
-  background-size: 94px 50px;
   cursor: pointer;
 }
 .ant-form-item-label > label {
