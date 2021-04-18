@@ -1,39 +1,109 @@
 
-import React, { PureComponent } from "react";
-class Demo extends PureComponent {
+import React from "react";
+import { Form, Input, Button, Checkbox, Radio } from 'antd';
+class Compiler extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      requiredMark: "optional"
+    }
+  }
+  onFinish = (values) => {
+    console.log('Success:', values);
+    console.log(this.formRef)
+  };
+
+  onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+  resetForm = () => {
+    console.log(this.formRef.current)
+    this.formRef.current.resetFields()
+  }
+  setRequiredMarkType = (requiredMarkValue) => {
+    this.setState({
+      requiredMark: requiredMarkValue
+    })
+  }
+  onRequiredTypeChange = ({ requiredMarkValue }) => {
+    console.log('requiredMarkValue', requiredMarkValue)
+    this.setRequiredMarkType(requiredMarkValue);
+  };
+  formRef = React.createRef();
   render() {
-    const { show, children } = this.props;
+    const layout = {
+      labelCol: {
+        span: 2,
+      },
+      wrapperCol: {
+        span: 22,
+      },
+    };
+    const tailLayout = {
+      wrapperCol: {
+        offset: 2,
+        span: 2,
+      },
+    };
+    /**
+      * antd form表单相关属性
+      * @param initialValues 初始化表单数据
+      * @param layout 布局（按删格布局）
+      * @param ref (通过React.createRef创建表单数据域)
+      * @param requiredMark 控制必选样式切换
+      * @param size 表单尺寸
+      * @returns {boolean}
+    */
     return (
-      <div
-        style={{
-          display: show ? "block" : "none",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          backgroundColor: "rgba(0,0,0,.3)",
-          zIndex: 400
-        }}
-        onClick={() => {
-          this.props.hide();
-        }}
-      >
-        <div
-          style={{
-            width: "70%",
-            height: "100%",
-            float: "right",
-            backgroundColor: "#fff"
+      <div className="wrapper">
+        <h3>这是一个表单提交的demo</h3>
+        <Form
+          {...layout}
+          onFinish={this.onFinish}
+          onFinishFailed={this.onFinishFailed}
+          ref={this.formRef}
+          initialValues={{
+            accound: "18820854754"
           }}
-          onClick={e => {
-            e.stopPropagation();
-          }}
+          layout="vertical"
+          size="large"
+          onValuesChange={this.onRequiredTypeChange}
+          requiredMark={this.state.requiredMark}
         >
-          {children}
-        </div>
+          <Form.Item label="必选切换" name="requiredMarkValue">
+            <Radio.Group>
+              <Radio.Button value="optional">Optional</Radio.Button>
+              <Radio.Button value>Required</Radio.Button>
+              <Radio.Button value={false}>Hidden</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            label="账号"
+            name="accound"
+            rules={[
+              {
+                required: true,
+                message: "请输入您的账号！"
+              }
+            ]}
+          >
+            <Input></Input>
+          </Form.Item>
+          <Form.Item
+            label="密码"
+            name="password"
+          >
+            <Input.Password></Input.Password>
+          </Form.Item>
+          <Form.Item
+            {...tailLayout}
+          >
+            <Button htmlType="submit">提交</Button>
+            <Button htmlType="button" onClick={this.resetForm}>重置</Button>
+          </Form.Item>
+        </Form>
       </div>
-    );
+    )
   }
 }
-export default Demo
+export default Compiler
