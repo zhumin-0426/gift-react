@@ -3,7 +3,7 @@ import React from 'react';
 import AddGoodsCssMoudle from '../../css/addGoods.module.css';
 import UploadIcon from '../../assets/icon/upload.png';
 // antd 组件
-import { Row, Col, Breadcrumb, Form, Input, Radio,Button} from 'antd';
+import { Row, Col, Breadcrumb, Form, Input, Radio, Button, message } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 import Editor from 'react-umeditor';
 // 图片库组件
@@ -20,12 +20,12 @@ class FromList extends React.Component {
             picLibraryStatus: false,
             // 商品规格
             goodsStyle: 'single',
-             spec: false,
-             specName: "",
-             specVal: "",
-             specAttrList: [],
-             newSpecVal: "",
-             newSpecValIndex: 0
+            spec: false,
+            specName: "",
+            specVal: "",
+            specAttrList: [],
+            newSpecVal: "",
+            newSpecValIndex: 0
         }
         this.prevStepEvent = this.prevStepEvent.bind(this);
         this.nextStepEvent = this.nextStepEvent.bind(this);
@@ -53,8 +53,8 @@ class FromList extends React.Component {
     }
     // 输入框
     iptHandle(e, index) {
+        console.log("")
         let val = e.target.value;
-        console.log("name", e.target.name)
         this.setState({
             [e.target.name]: val,
             newSpecValIndex: index
@@ -62,8 +62,6 @@ class FromList extends React.Component {
     }
     // 单选按钮
     radioHandle(name, e) {
-        console.log('name', name);
-        console.log('radio1 checked', e.target.value);
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -103,29 +101,41 @@ class FromList extends React.Component {
     picLibraryStatusChange() {
         this.setState({ picLibraryStatus: true });
     }
-     // 商品规格=>添加
-     addSpec() {
+    // 商品规格=>添加
+    addSpec() {
         this.setState({
             spec: true
         })
     }
-    // 商品规格=> 确认
+    /*
+        商品规格=> 确认
+        specAttrList：规格集合
+        specName：规格名称
+        specVal：规格值
+    */
     specConfirm() {
-        let specAttrList = this.state.specAttrList;
-        let attrObj = {
-            specName: this.state.specName,
-            children: [
-                { attr: this.state.specVal }
-            ]
+        console.log('specName', this.state.specName)
+        let specName = this.state.specName;
+        let specVal = this.state.specVal;
+        if (specName !== '' && specVal !== '') {
+            let specAttrList = this.state.specAttrList;
+            let attrObj = {
+                specName: this.state.specName,
+                children: [
+                    { attr: this.state.specVal }
+                ]
+            }
+            specAttrList.push(attrObj)
+            this.setState({
+                spec: false,
+                specAttrList: specAttrList,
+                specName: "",
+                specVal: "",
+            })
+            console.log('specAttrList', specAttrList)
+        } else {
+            message.error('您还未输入规格名称/规格值')
         }
-        specAttrList.push(attrObj)
-        this.setState({
-            spec: false,
-            specAttrList: specAttrList,
-            specName: "",
-            specVal: "",
-        })
-        console.log('specAttrList', specAttrList)
     }
     // 商品规格=> 取消
     specCancel() {
@@ -145,7 +155,6 @@ class FromList extends React.Component {
     }
     // 计算属性的乘积(获取配对的可能性)
     countSum(specIndex) {
-        console.log("specList", this.state.specAttrList);
         let num = 1;
         this.state.specAttrList.forEach((item, index) => {
             if (index >= specIndex && item.children.length) {
@@ -216,7 +225,7 @@ class FromList extends React.Component {
                     <Button size="small" type="primary" onClick={this.specConfirm} style={{ marginLeft: "15px" }}>确定</Button>
                 </Form.Item>
             </div>
-        } else {
+        } else {    
             specBtn = <div className="spec-btn-box">
                 <Form.Item>
                     <Button onClick={this.addSpec}>添加规格</Button>
@@ -296,6 +305,7 @@ class FromList extends React.Component {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                 >
+                    {/* 商品属性 */}
                     <div className={tabid === '0' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
                         <Form.Item
                             label="商品名称"
@@ -307,7 +317,7 @@ class FromList extends React.Component {
                                 },
                             ]}
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
                         <Form.Item
                             label="商品描述"
@@ -345,11 +355,11 @@ class FromList extends React.Component {
                             {specAttrNodesItem}
                             {/* 多规格输入框 */}
                             <div className={this.state.spec ? "spec-box-active" : "spec-box"}>
-                                <Form.Item label="规格名" name="specName" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
-                                    <Input style={{ width: "30%" }} name="specName" placeholder="请输入规格名称" onChange={(e) => this.iptHandle(e)} />
+                                <Form.Item label="规格名" name="specName">
+                                    <Input name="specName" style={{ width: "30%" }} placeholder="请输入规格名称" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
-                                <Form.Item label="规格值" name="specVal" rules={[{ required: true, message: '亲，您还没有输入规格名称哦！' }]}>
-                                    <Input style={{ width: "30%" }} name="specVal" placeholder="请输入规格值" onChange={(e) => this.iptHandle(e)} />
+                                <Form.Item label="规格值" name="specVal">
+                                    <Input name="specVal" style={{ width: "30%" }} placeholder="请输入规格值" onChange={(e) => this.iptHandle(e)} />
                                 </Form.Item>
                             </div>
                             {/* 多规格按钮 */}
@@ -381,6 +391,7 @@ class FromList extends React.Component {
                             <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
                         </FormItem>
                     </div>
+                    {/* 商品图片 */}
                     <div className={tabid === '1' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
                         <Form.Item>
                             <div className={AddGoodsCssMoudle.fromControlFile} onClick={this.picLibraryStatusChange}>
@@ -394,6 +405,7 @@ class FromList extends React.Component {
                             <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
                         </FormItem>
                     </div>
+                    {/* 商品详情 */}
                     <div className={tabid === '2' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
                         <FormItem><Editor ref="editor"
                             icons={icons}
@@ -405,6 +417,7 @@ class FromList extends React.Component {
                             <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
                         </FormItem>
                     </div>
+                    {/* 商品数量 */}
                     <div className={tabid === '3' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
                         <Form.Item
                             label="销量"
