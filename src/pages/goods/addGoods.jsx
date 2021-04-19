@@ -74,16 +74,16 @@ class FromList extends React.Component {
         specArr.forEach(i => i instanceof Array ? i.forEach(x => mateArr.push(x.spec_val)) : mateArr.push(i.spec_val))
         let obj = {
             mateArr,
-            mateData:{
-                specGoodsPrice:name==='specGoodsPrice'?event.target.value:'',
-                specGoodsLinePrice:name==='specGoodsLinePrice'?event.target.value:'',
-                specGoodsInventory:name==='specGoodsInventory'?event.target.value:'',
-                specGoodsSalse:name==='specGoodsSalse'?event.target.value:''
+            mateData: {
+                specGoodsPrice: name === 'specGoodsPrice' ? event.target.value : '',
+                specGoodsLinePrice: name === 'specGoodsLinePrice' ? event.target.value : '',
+                specGoodsInventory: name === 'specGoodsInventory' ? event.target.value : '',
+                specGoodsSalse: name === 'specGoodsSalse' ? event.target.value : ''
             }
         }
         dkejSpecArr[index] = obj;
         this.setState(dkejSpecArr);
-        console.log('dkejSpecArr',dkejSpecArr)
+        console.log('dkejSpecArr', dkejSpecArr)
     }
     // 单选按钮
     radioChange(name, e) {

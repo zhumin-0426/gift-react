@@ -1,6 +1,7 @@
 
 import React from "react";
-import { Form, Input, Button, Checkbox, Radio } from 'antd';
+import { Form, Input, Button, Checkbox, Radio, InputNumber } from 'antd';
+import FormItem from "antd/lib/form/FormItem";
 class Compiler extends React.Component {
   constructor(props) {
     super(props)
@@ -8,6 +9,9 @@ class Compiler extends React.Component {
       requiredMark: "optional"
     }
   }
+  /**
+   * 表单提交
+   * */ 
   onFinish = (values) => {
     console.log('Success:', values);
     console.log(this.formRef)
@@ -20,6 +24,9 @@ class Compiler extends React.Component {
     console.log(this.formRef.current)
     this.formRef.current.resetFields()
   }
+  /**
+   * 表单设置
+   * */ 
   setRequiredMarkType = (requiredMarkValue) => {
     this.setState({
       requiredMark: requiredMarkValue
@@ -28,6 +35,9 @@ class Compiler extends React.Component {
   onRequiredTypeChange = ({ requiredMarkValue }) => {
     console.log('requiredMarkValue', requiredMarkValue)
     this.setRequiredMarkType(requiredMarkValue);
+  };
+  onNumberChange = (value) => {
+    setNumber({ ...validatePrimeNumber(value), value });
   };
   formRef = React.createRef();
   render() {
@@ -45,6 +55,7 @@ class Compiler extends React.Component {
         span: 2,
       },
     };
+
     /**
       * antd form表单相关属性
       * @param initialValues 初始化表单数据
@@ -101,6 +112,9 @@ class Compiler extends React.Component {
             <Button htmlType="submit">提交</Button>
             <Button htmlType="button" onClick={this.resetForm}>重置</Button>
           </Form.Item>
+          <FormItem>
+            <InputNumber min={8} max={12} value={number.value} onChange={onNumberChange} />
+          </FormItem>
         </Form>
       </div>
     )
