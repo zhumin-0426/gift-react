@@ -5,11 +5,9 @@ import AddGoodsCssMoudle from '../../css/addGoods.module.css';
 import UploadIcon from '../../assets/icon/upload.png';
 // antd 组件
 import { Row, Col, Breadcrumb, Form, Input, Radio, Button } from 'antd';
-import FormItem from 'antd/lib/form/FormItem';
 import Editor from 'react-umeditor';
 // 图片库组件
 import PicLibrary from '../../components/picLibrary';
-const { TextArea } = Input;
 
 class FromList extends React.Component {
     constructor(props) {
@@ -300,70 +298,37 @@ class FromList extends React.Component {
                 return td
             })
         }
-        const onFinish = (values) => {
-            console.log('表单提交', values);
-            let data = {
-                goodsName: values.goodsName,
-                goodsDescribe: values.goodsDescribe,
-                goodsStyle: values.goodsStyle,
-                price: values.price,
-                linePrice: values.linePrice,
-                sales: values.sales,
-                inventory: values.sales,
-            };
-            console.log('data', data)
-            axios.postAxios('/goods/add', data).then(res => {
-                console.log('res', res)
-            })
-        };
-        const onFinishFailed = (errorInfo) => {
-            console.log('表单提交失败:', errorInfo);
-        };
         return (
             <>
                 {/* 图片库组件 */}
                 {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
-                <Form
-                    layout="vertical"
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                >
+                <form>
                     {/* 商品属性 */}
                     <div className={tabid === '0' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                        <Form.Item
-                            label="商品名称"
-                            name="goodsName"
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="商品描述"
-                            name="goodsDescribe"
-                        >
-                            <TextArea rows={4} />
-                        </Form.Item>
-                        <Form.Item
-                            label="商品类别"
-                            name="goodsType"
-                        >
-                            <select className="form-select w100">
+                        <div className="form-item mb-20">
+                            <label className="dis-block mb-10 text-626">商品名称&nbsp;*</label>
+                            <input className="form-input w100" name="goodsName" />
+                        </div>
+                        <div className="form-item mb-20">
+                            <label className="dis-block mb-10 text-626">商品描述&nbsp;*</label>
+                            <textarea name="goodsDescribe" className="form-textarea w100" cols="30" rows="10"></textarea>
+                        </div>
+                        <div className="form-item mb-20">
+                            <label className="dis-block mb-10 text-626">商品类别&nbsp;*</label>
+                            <select className="form-select w100" name="goodsType">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
-                        </Form.Item>
-                        <Form.Item
-                            label="商品价格"
-                            name="price"
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="划线价格"
-                            name="linePrice"
-                        >
-                            <Input />
-                        </Form.Item>
+                        </div>
+                        <div className="form-item mb-20">
+                            <label className="dis-block mb-10 text-626">商品价格&nbsp;*</label>
+                            <input className="form-input w100" name="goodsPrice" />
+                        </div>
+                        <div className="form-item mb-20">
+                            <label className="dis-block mb-10 text-626">划线价格&nbsp;*</label>
+                            <input className="form-input w100" name="linePrice" />
+                        </div>
                         <Form.Item label="商品规格" name="goodsStyle">
                             <Radio.Group
                                 name="goodsStyle"
@@ -372,6 +337,21 @@ class FromList extends React.Component {
                                 onChange={(e) => this.radioChange("goodsStyle", e)}
                             />
                         </Form.Item>
+                        <div className="form-item dis-flx align-content-center">
+                            <div className="title">商品规格：</div>
+                            <div className="form-item-radio dis-flx align-items-center">
+                                <input type="radio" name="single" id="single" style={{backgroundColor:"#666",marginRight:"5px"}}/>
+                                <label htmlFor="single">
+                                    单规格
+                                </label>
+                            </div>
+                            <div className="form-item-radio  dis-flx align-items-center ml-5">
+                                <input type="radio" name="double" id="double"  style={{backgroundColor:"#666",marginRight:"5px"}}/>
+                                <label htmlFor="double">
+                                    多规格
+                                </label>
+                            </div>
+                        </div>
                         <div className={this.state.goodsStyle === 'double' ? 'goods-spec-active pd-20 mb-30' : "goods-spec pd-20 mb-30"}>
                             {/* 多规格属性 */}
                             {specAttrNodesItem}
@@ -442,56 +422,54 @@ class FromList extends React.Component {
                                 </table>
                             }
                         </div>
-                        <FormItem>
+                        <div className="form-item over-flow">
                             <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
-                        </FormItem>
+                        </div>
                     </div>
                     {/* 商品图片 */}
                     <div className={tabid === '1' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                        <Form.Item>
+                        <div className="form-item mb-20">
                             <div className={AddGoodsCssMoudle.fromControlFile} onClick={this.picLibraryStatusChange}>
                                 <img src={UploadIcon} alt="" />
                             </div>
                             <p className="text-align fon-13 text-626"> 上传图片</p>
                             <div className="prompt text-6c7 fon-12">尺寸750x750像素比，大小2M以下</div>
-                        </Form.Item>
-                        <FormItem>
+                        </div>
+                        <div className="form-item over-flow">
                             <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
                             <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
-                        </FormItem>
+                        </div>
                     </div>
                     {/* 商品详情 */}
                     <div className={tabid === '2' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                        <FormItem><Editor ref="editor"
-                            icons={icons}
-                            value={this.state.content} defaultValue="<p>React Umeditor</p>"
-                            onChange={this.handleChange.bind(this)}
-                            plugins={plugins} /></FormItem>
-                        <FormItem>
+                        <div className="form-item mb-20">
+                            <Editor ref="editor"
+                                icons={icons}
+                                value={this.state.content} defaultValue="<p>React Umeditor</p>"
+                                onChange={this.handleChange.bind(this)}
+                                plugins={plugins} />
+                        </div>
+                        <div className="form-item over-flow">
                             <div className="next-step-btn fon-13 pull-right" onClick={this.nextStepEvent}><i className="iconfont icon-longarrowright mr-10 fon-12"></i>下一步</div>
                             <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
-                        </FormItem>
+                        </div>
                     </div>
                     {/* 商品数量 */}
                     <div className={tabid === '3' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                        <Form.Item
-                            label="销量"
-                            name="sales"
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="库存"
-                            name="inventory"
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item>
+                        <div className="form-item mb-20 text-626">
+                            <label className="dis-block mb-10 text-626">销量&nbsp;*</label>
+                            <input className="form-input w100" name="sales" />
+                        </div>
+                        <div className="form-item mb-20">
+                            <label className="dis-block mb-10 text-626">库存&nbsp;*</label>
+                            <input className="form-input w100" name="inventory" />
+                        </div>
+                        <div className="form-item over-flow">
                             <button type="submit" className="next-step-btn fon-13 pull-right"><i className="iconfont icon-save24 mr-10 fon-12"></i>提交</button>
                             <div className="prev-step-btn mr-20 fon-13 pull-right" onClick={this.prevStepEvent}><i className="iconfont icon-long-arrow-left mr-10 fon-12"></i>上一步</div>
-                        </Form.Item>
+                        </div>
                     </div>
-                </Form>
+                </form>
             </>
         )
     }
