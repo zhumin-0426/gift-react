@@ -1,28 +1,61 @@
-import { Form, Input, Button } from 'antd';
 import React from "react";
-function Compiler() {
-  let [form] = Form.useForm();//使用useForm控制表单数据域/或者使用React.createRef()
-  function onFinish(values) {
-    console.log(form)
+import Editor from 'react-umeditor';
+class Compiler extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      content: ""
+    }
+    this.getIcons = this.getIcons.bind(this)
+    this.getPlugins = this.getPlugins.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
-  return (
-    <>
-      <Form
-        form={form}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          name="phone"
-        >
-          <Input placeholder="请输入您的电话号码" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-        </Button>
-        </Form.Item>
-      </Form>
-    </>
-  )
+  getIcons() {
+    var icons = [
+      "source | undo redo | bold italic underline strikethrough fontborder emphasis | ",
+      "paragraph fontfamily fontsize | superscript subscript | ",
+      "forecolor backcolor | removeformat | insertorderedlist insertunorderedlist | selectall | ",
+      "cleardoc  | indent outdent | justifyleft justifycenter justifyright | touppercase tolowercase | ",
+      "horizontal date time  | image emotion spechars | inserttable"
+    ]
+    return icons;
+  }
+  getPlugins() {
+    console.log("图片上传")
+    return {
+      "image": {
+        "uploader": {
+          "name": "file",
+          "url": "/api/goods/goodsDetail",
+          "filter": function (res) {
+            return res.picUrl
+          }
+        }
+      }
+    }
+  }
+  handleChange(content) {
+    this.getPlugins()
+    this.setState({
+      content: content
+    }, () => {
+      console.log("content", this.state.content)
+    })
+  }
+  render() {
+    const icons = this.getIcons();
+    const plugins = this.getPlugins();
+    return (
+      <>
+        <div className="editor" style={{width:"50%"}}>
+          <Editor ref="editor"
+            icons={icons}
+            value={this.state.content}
+            onChange={this.handleChange}
+            plugins={plugins} />
+        </div>
+      </>
+    )
+  }
 }
 export default Compiler

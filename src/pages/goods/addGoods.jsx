@@ -4,7 +4,7 @@ import axios from '../../common/js/axios'
 import AddGoodsCssMoudle from '../../css/addGoods.module.css';
 import UploadIcon from '../../assets/icon/upload.png';
 // antd 组件
-import { Row, Col, Breadcrumb, Form, Input, Radio, Button } from 'antd';
+import { Row, Col, Breadcrumb, Radio, Button } from 'antd';
 import Editor from 'react-umeditor';
 // 图片库组件
 import PicLibrary from '../../components/picLibrary';
@@ -38,15 +38,17 @@ class FromList extends React.Component {
         this.iptHandle = this.iptHandle.bind(this);
         this.addSpecVal = this.addSpecVal.bind(this);
         this.converter = this.converter.bind(this);
+        this.deleteSpec = this.deleteSpec.bind(this);
+        this.deleteSpecVal = this.deleteSpecVal.bind(this)
     }
     // 上一步
     prevStepEvent() {
-        var tabid = (Number(this.props.tabid) - 1) + '';
+        var tabid = (Number(this.props.tabid) - 1).toString();
         this.props.childPassData(tabid)
     }
     // 下一步
     nextStepEvent() {
-        var tabid = (Number(this.props.tabid) + 1) + '';
+        var tabid = (Number(this.props.tabid) + 1).toString();
         this.props.childPassData(tabid)
     }
     // 输入框
@@ -84,15 +86,17 @@ class FromList extends React.Component {
         console.log('dkejSpecArr', dkejSpecArr)
     }
     // 单选按钮
-    radioChange(name, e) {
+    radioChange(e) {
         this.setState({
-            [e.target.name]: e.target.value
+            goodsStyle: e.target.value
         })
     }
     // 编辑器
     handleChange(content) {
         this.setState({
             content: content
+        },()=>{
+            console.log('content',this.state.content)
         })
     }
     getIcons() {
@@ -110,7 +114,10 @@ class FromList extends React.Component {
             "image": {
                 "uploader": {
                     "name": "file",
-                    "url": "/api/upload"
+                    "url": "/api/goods/goodsDetail",
+                    "filter": function (res) {
+                      return res.picUrl
+                    }
                 }
             }
         }
@@ -166,6 +173,14 @@ class FromList extends React.Component {
         })
     }
     /**
+     * 商品规格=>删除
+    */
+    deleteSpec(e, index) {
+        let specAttrList = this.state.specAttrList;
+        specAttrList.splice(index, 1);
+        this.setState(specAttrList)
+    }
+    /**
        *商品规格=>添加=>确认按钮
        *@specAttrList 规格属性集合
        *@specName 规格名称
@@ -183,6 +198,8 @@ class FromList extends React.Component {
         this.setState({
             spec: false,
             specAttrList: specAttrList,
+            specName: '',
+            specVal: ''
         })
     }
     /**
@@ -204,10 +221,15 @@ class FromList extends React.Component {
         if (this.state.newSpecVal !== "" && this.state.newSpecValIndex === index) {
             let specAttrList = this.state.specAttrList;
             specAttrList[index].children.push({ spec_val: this.state.newSpecVal })
-            this.setState({ specAttrList: specAttrList, newSpecVal: "" })
+            this.setState({ specAttrList: specAttrList, newSpecVal: '' })
         } else {
             alert("请输入您的规格值！")
         }
+    }
+    deleteSpecVal(e, index, attrIndexItem) {
+        let specAttrList = this.state.specAttrList;
+        specAttrList[index].children.splice(attrIndexItem, 1);
+        this.setState(specAttrList)
     }
     render() {
         const tabid = this.props.tabid;
@@ -215,29 +237,25 @@ class FromList extends React.Component {
         const specAttrList = this.state.specAttrList;
         const icons = this.getIcons();
         const plugins = this.getPlugins();
-        const goodsStyleOptions = [
-            { label: '单规格', value: 'single' },
-            { label: '多规格', value: 'double' }
-        ];
         /**
             *规格按钮渲染
             *@spec false/true => 显示/隐藏
         */
         let specBtnRender
         if (spec) {
-            specBtnRender = <div className="spec-btn-box dis-flx">
-                <Form.Item>
+            specBtnRender = <div className="spec-btn-box dis-flx mb-10">
+                <div className="form-item">
                     <Button size="small" block onClick={this.specCancel}>取消</Button>
-                </Form.Item>
-                <Form.Item>
+                </div>
+                <div className="form-item">
                     <Button size="small" type="primary" onClick={this.specConfirm} style={{ marginLeft: "15px" }}>确定</Button>
-                </Form.Item>
+                </div>
             </div>
         } else {
             specBtnRender = <div className="spec-btn-box">
-                <Form.Item>
+                <div className="form-item mb-10">
                     <Button onClick={this.addSpec}>添加规格</Button>
-                </Form.Item>
+                </div>
             </div>
         }
         /**
@@ -250,7 +268,7 @@ class FromList extends React.Component {
                     <div className="spec-attr-box">
                         <div className="name">
                             {item.spec_name}
-                            <div className="delete-cover"></div>
+                            <div className="delete-cover" onClick={(e) => this.deleteSpec(e, index)}></div>
                         </div>
                         <div className="val-box">
                             {item.children.map((attrValItem, attrIndexItem) => {
@@ -259,14 +277,14 @@ class FromList extends React.Component {
                                         <ul>
                                             <li className="val">
                                                 {attrValItem.spec_val}
-                                                <div className="delete-cover"></div>
+                                                <div className="delete-cover" onClick={(e) => this.deleteSpecVal(e, index, attrIndexItem)}></div>
                                             </li>
                                         </ul>
                                     </React.Fragment>
                                 )
                             })}
                             <div className="add-val-box">
-                                <input name="newSpecVal" onChange={(e) => this.iptHandle(e, index)} />
+                                <input name="newSpecVal" value={this.state.newSpecVal} onChange={(e) => this.iptHandle(e, index)} />
                                 <div className="btn" onClick={() => this.addSpecVal(index)}>添加</div>
                             </div>
                         </div>
@@ -301,7 +319,7 @@ class FromList extends React.Component {
         return (
             <>
                 {/* 图片库组件 */}
-                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : ''}
+                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : null}
                 <form>
                     {/* 商品属性 */}
                     <div className={tabid === '0' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
@@ -329,27 +347,21 @@ class FromList extends React.Component {
                             <label className="dis-block mb-10 text-626">划线价格&nbsp;*</label>
                             <input className="form-input w100" name="linePrice" />
                         </div>
-                        <Form.Item label="商品规格" name="goodsStyle">
-                            <Radio.Group
-                                name="goodsStyle"
-                                defaultValue={this.state.goodsStyle}
-                                options={goodsStyleOptions}
-                                onChange={(e) => this.radioChange("goodsStyle", e)}
-                            />
-                        </Form.Item>
-                        <div className="form-item dis-flx align-content-center">
+                        <div className="form-item dis-flx align-content-center mb-20">
                             <div className="title">商品规格：</div>
                             <div className="form-item-radio dis-flx align-items-center">
-                                <input type="radio" name="single" id="single" style={{backgroundColor:"#666",marginRight:"5px"}}/>
+                                <Radio value="single" checked={this.state.goodsStyle === 'single' ? true : false} onChange={this.radioChange} id="single" style={{ marginRight: "5px" }} >单规格</Radio>
+                                {/* <input type="radio" value="single" checked={this.state.goodsStyle === 'single' ? true : false} onChange={this.radioChange} id="single" style={{ marginRight: "5px" }} />
                                 <label htmlFor="single">
                                     单规格
-                                </label>
+                                </label> */}
                             </div>
                             <div className="form-item-radio  dis-flx align-items-center ml-5">
-                                <input type="radio" name="double" id="double"  style={{backgroundColor:"#666",marginRight:"5px"}}/>
+                                <Radio value="double" checked={this.state.goodsStyle === 'double' ? true : false} id="double" style={{ marginRight: "5px" }} onChange={this.radioChange} >多规格</Radio>
+                                {/* <input type="radio" value="double" checked={this.state.goodsStyle === 'double' ? true : false} id="double" style={{ marginRight: "5px" }} onChange={this.radioChange} />
                                 <label htmlFor="double">
                                     多规格
-                                </label>
+                                </label> */}
                             </div>
                         </div>
                         <div className={this.state.goodsStyle === 'double' ? 'goods-spec-active pd-20 mb-30' : "goods-spec pd-20 mb-30"}>
@@ -359,13 +371,15 @@ class FromList extends React.Component {
                             *多规格输入框 
                             *@spec fase/true 显示/隐藏
                             */}
-                            <div className={this.state.spec ? "spec-box-active" : "spec-box"}>
-                                <Form.Item label="规格名" name="specName">
-                                    <Input defaultValue={this.state.specName} name="specName" placeholder="请输入规格名称" style={{ width: "30%" }} onChange={(e) => this.iptHandle(e)} />
-                                </Form.Item>
-                                <Form.Item label="规格值" name="specVal">
-                                    <Input name="specVal" placeholder="请输入规格值" style={{ width: "30%" }} onChange={(e) => this.iptHandle(e)} />
-                                </Form.Item>
+                            <div className={this.state.spec ? "spec-box-active mb-20" : "spec-box"}>
+                                <div className="form-item">
+                                    <label className="mr-10">规格名</label>
+                                    <input className="form-input w100 mb-20" name="specName" value={this.state.specName} placeholder="请输入规格名称" style={{ width: "20%" }} onChange={(e) => this.iptHandle(e)} />
+                                </div>
+                                <div className="form-item">
+                                    <label className="mr-10">规格值</label>
+                                    <input className="form-input w100" name="specVal" value={this.state.specVal} placeholder="请输入规格值" style={{ width: "20%" }} onChange={(e) => this.iptHandle(e)} />
+                                </div>
                             </div>
                             {/* 多规格按钮 */}
                             {specBtnRender}
@@ -374,7 +388,7 @@ class FromList extends React.Component {
                             *@specAttrList 规格集合
                              */}
                             {
-                                specAttrList.length === 0 ? '' : <table className="spec-table">
+                                specAttrList.length === 0 ? null : <table className="spec-table">
                                     <thead align="center">
                                         <tr className="spec-table-thead-tr">
                                             {specAttrList.map((item, index) => {
@@ -393,7 +407,7 @@ class FromList extends React.Component {
                                     </thead>
                                     <tbody align="center">
                                         {
-                                            specArr === undefined ? '' : specArr.map((_, idx) => {
+                                            specArr === undefined ? null : specArr.map((_, idx) => {
                                                 return (
                                                     <tr className="spec-table-tbody-tr" key={idx}>
                                                         {
@@ -445,7 +459,7 @@ class FromList extends React.Component {
                         <div className="form-item mb-20">
                             <Editor ref="editor"
                                 icons={icons}
-                                value={this.state.content} defaultValue="<p>React Umeditor</p>"
+                                value={this.state.content}
                                 onChange={this.handleChange.bind(this)}
                                 plugins={plugins} />
                         </div>
