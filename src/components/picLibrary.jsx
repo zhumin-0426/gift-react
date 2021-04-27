@@ -404,11 +404,11 @@ class PicLibrary extends React.Component {
                                     {this.state.picList.map((item, index) => {
                                         return (
                                             <React.Fragment key={index}>
-                                                <li onClick={() => this.ckeckPic(index)}>
+                                                <li className="content-item" onClick={() => this.ckeckPic(index)}>
                                                     <div className="img-box">
-                                                        <img src={item.picUrl} />
-                                                        {/* <div className="img" style={{ backgroundImage: "url(" + `${item.picUrl}` + ")" }}>
-                                                        </div> */}
+                                                        {/* <img src={item.picUrl} /> */}
+                                                        <div className="img" style={{ backgroundImage: "url("+'http://127.0.0.1:8888/upload/'+ item.picUrl + ")" }}>
+                                                        </div>
                                                         <p className="line-clamp1">{item.picName}</p>
                                                         <div className={item.coverBol ? "cover cover-active" : "cover"}>
                                                             <img src={Checkout} alt="" />

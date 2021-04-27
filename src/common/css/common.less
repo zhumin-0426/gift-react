@@ -58,6 +58,9 @@
     .align-self{
         align-self: center;
     }
+    .align-content-center{
+        align-content: center
+    }
     .align-items-center{
         align-items: center;
     }
@@ -345,6 +348,47 @@
     .small-logo{
         height: 40px;
     }
+    // form-input
+    .form-input{
+        border-radius: 2px;
+        font-size: 13px;
+        height: auto;
+        line-height: 1.33333;
+        padding: 15px 15px 15px 20px;
+        background: #f6f7f8;
+        color: #323232;
+        border: 0px solid transparent;
+        &:focus{
+            outline: none;
+            background: #ffffff;
+            box-shadow:0 0 10px rgba(0,0,0,0.08);
+            transition: box-shadow,background 0.8s
+        }
+        &::-webkit-input-placeholder { 
+            color: #626262; 
+        }
+        &:-moz-placeholder { 
+            color: #626262; 
+        }
+        &::-moz-placeholder {  
+            color: #626262; 
+        }
+        &:-ms-input-placeholder {  
+            color: #626262; 
+        }
+    }
+    .ipt-plh::-webkit-input-placeholder { 
+        color: #323a40; 
+    }
+    .ipt-plh:-moz-placeholder { 
+        color: #323a40; 
+    }
+    .ipt-plh::-moz-placeholder {  
+        color: #323a40; 
+    }
+    .ipt-plh:-ms-input-placeholder {  
+        color: #323a40; 
+    }
     // form-select
     .form-select{
         border-radius: 2px;
@@ -376,6 +420,35 @@
             &:-ms-input-placeholder {  
                 color: #626262;
             }
+    }
+    // form-textarea
+    .form-textarea{
+        border-radius: 2px;
+        font-size: 13px;
+        height: 80px;
+        line-height: 1.33333;
+        padding: 15px 15px 15px 20px;
+        background: #f6f7f8;
+        color: #323232;
+        border: none;
+        &:focus{
+            outline: none;
+            background: #ffffff;
+            box-shadow:0 0 10px rgba(0,0,0,0.08);
+            transition: box-shadow,background 0.8s;
+        }
+        &::-webkit-input-placeholder { 
+            color: #626262; 
+        }
+        &:-moz-placeholder { 
+            color: #626262; 
+        }
+        &::-moz-placeholder {  
+            color: #626262; 
+        }
+        &:-ms-input-placeholder {  
+            color: #626262;
+        }
     }
     // ant-textarea
     .ant-textarea{
@@ -485,47 +558,6 @@
         &:-ms-input-placeholder {  
             color: #626262;
         }
-    }
-    // form-input
-    .form-txt-control{
-        border-radius: 2px;
-        font-size: 13px;
-        height: auto;
-        line-height: 1.33333;
-        padding: 15px 15px 15px 20px;
-        background: #f6f7f8;
-        color: #323232;
-        border: 0px solid transparent;
-        &:focus{
-            outline: none;
-            background: #ffffff;
-            box-shadow:0 0 10px rgba(0,0,0,0.08);
-            transition: box-shadow,background 0.8s
-        }
-        &::-webkit-input-placeholder { 
-            color: #626262; 
-        }
-        &:-moz-placeholder { 
-            color: #626262; 
-        }
-        &::-moz-placeholder {  
-            color: #626262; 
-        }
-        &:-ms-input-placeholder {  
-            color: #626262; 
-        }
-    }
-    .ipt-plh::-webkit-input-placeholder { 
-        color: #323a40; 
-    }
-    .ipt-plh:-moz-placeholder { 
-        color: #323a40; 
-    }
-    .ipt-plh::-moz-placeholder {  
-        color: #323a40; 
-    }
-    .ipt-plh:-ms-input-placeholder {  
-        color: #323a40; 
     }
     // from-input-bottom-line
     .input-bottom-line{
