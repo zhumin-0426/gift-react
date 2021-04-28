@@ -203,6 +203,42 @@
 .tabObj .tabObjItem :global ul .tab-obj-item:last-child {
   margin-bottom: 0;
 }
+.tabObj .tabObjItem :global .goods-pic-box {
+  display: flex;
+}
+.tabObj .tabObjItem :global .goods-pic-box .goods-pic-box-item {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: solid 1px #F5F5F5;
+}
+.tabObj .tabObjItem :global .goods-pic-box .goods-pic-box-item .goods-pic {
+  width: inherit;
+  height: inherit;
+  background: no-repeat center center / 100%;
+}
+.tabObj .tabObjItem :global .goods-pic-box .goods-pic-box-item .goods-pic-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.tabObj .tabObjItem :global .goods-pic-box .goods-pic-box-item .goods-pic-cover img {
+  width: 25px;
+  height: 25px;
+}
+.tabObj .tabObjItem :global .goods-pic-box .goods-pic-box-item:hover .goods-pic-cover {
+  opacity: 1;
+}
 .tabObj .active {
   display: block;
 }
