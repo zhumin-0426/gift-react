@@ -508,7 +508,7 @@ class FromList extends React.Component {
                                     return (
                                         <React.Fragment key={index}>
                                             <li className="goods-pic-box-item mr-10">
-                                                <div className="goods-pic" style={{ backgroundImage: "url(" + 'http://127.0.0.1:8888/upload/' + item + ")" }}></div>
+                                                <div className="goods-pic" style={{ backgroundImage: "url(" + 'http://127.0.0.1:8888/' + item + ")" }}></div>
                                                 <div className="goods-pic-cover" onClick={(e) => this.delGoodsPic(e, index)}>
                                                     <img src={deleteGoodsPicIcon} alt="" />
                                                 </div>

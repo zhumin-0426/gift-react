@@ -407,7 +407,7 @@ class PicLibrary extends React.Component {
                                                 <li className="content-item" onClick={() => this.ckeckPic(index)}>
                                                     <div className="img-box">
                                                         {/* <img src={item.picUrl} /> */}
-                                                        <div className="img" style={{ backgroundImage: "url("+'http://127.0.0.1:8888/upload/'+ item.picUrl + ")" }}>
+                                                        <div className="img" style={{ backgroundImage: "url("+'http://127.0.0.1:8888/'+ item.picUrl + ")" }}>
                                                         </div>
                                                         <p className="line-clamp1">{item.picName}</p>
                                                         <div className={item.coverBol ? "cover cover-active" : "cover"}>
