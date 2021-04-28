@@ -8,6 +8,8 @@ import { Row, Col, Breadcrumb, Radio, Button } from 'antd';
 import Editor from 'react-umeditor';
 // 图片库组件
 import PicLibrary from '../../components/picLibrary';
+// 图片
+import deleteGoodsPicIcon from '../../assets/images/delete-goods-pic-icon.png';
 
 class FromList extends React.Component {
     constructor(props) {
@@ -17,20 +19,34 @@ class FromList extends React.Component {
             content: "",
             // 图片库
             picLibraryStatus: false,
+            // 商品图片
+            goodsPic: [],
             // 商品规格
             goodsStyle: 'single',
             spec: false,
             specName: "",
             specVal: "",
-            specAttrList: [],
+            specAttrList: [
+                {
+                    spec_name: "颜色",
+                    children: [
+                        { spec_val: "白色" },
+                        { spec_val: "黄色" }
+                    ]
+                }
+            ],
             newSpecVal: "",
             newSpecValIndex: 0,
-            dkejSpecArr: []
+            dkejSpecArr: [],
+            // 商品状态
+            goodsStatus: "lineTop",
+            // 库存计算方式
+            inventoryCount: "order"
         }
         this.prevStepEvent = this.prevStepEvent.bind(this);
         this.nextStepEvent = this.nextStepEvent.bind(this);
         this.radioChange = this.radioChange.bind(this);
-        this.picLibraryBackStatus = this.picLibraryBackStatus.bind(this);
+        this.picLibraryBackData = this.picLibraryBackData.bind(this);
         this.picLibraryStatusChange = this.picLibraryStatusChange.bind(this);
         this.addSpec = this.addSpec.bind(this);
         this.specConfirm = this.specConfirm.bind(this);
@@ -70,15 +86,27 @@ class FromList extends React.Component {
         const dkejSpecArr = this.state.dkejSpecArr;
         const specAttrList = this.state.specAttrList;
         const specArr = this.converter(specAttrList);
-        let mateArr = []
-        specArr.forEach(i => i instanceof Array ? i.forEach(x => mateArr.push(x.spec_val)) : mateArr.push(i.spec_val))
-        let obj = {
-            mateArr,
-            mateData: {
-                specGoodsPrice: name === 'specGoodsPrice' ? event.target.value : '',
-                specGoodsLinePrice: name === 'specGoodsLinePrice' ? event.target.value : '',
-                specGoodsInventory: name === 'specGoodsInventory' ? event.target.value : '',
-                specGoodsSalse: name === 'specGoodsSalse' ? event.target.value : ''
+        let mateArr = [];
+        for (let i = 0; i < specArr.length; i++) {
+            mateArr[i] = [];
+            if (specArr[i].length) {
+                for (let x = 0; x < specArr[i].length; x++) {
+                    mateArr[i][x] = specArr[i][x].spec_val
+                }
+            } else {
+                mateArr[i][0] = specArr[i].spec_val
+            }
+        }
+        let obj = {}
+        for (let k = 0; k < mateArr.length; k++) {
+            obj = {
+                mateArr: mateArr[k],
+                mateData: {
+                    specGoodsPrice: name === 'specGoodsPrice' ? event.target.value : '',
+                    specGoodsLinePrice: name === 'specGoodsLinePrice' ? event.target.value : '',
+                    specGoodsInventory: name === 'specGoodsInventory' ? event.target.value : '',
+                    specGoodsSalse: name === 'specGoodsSalse' ? event.target.value : ''
+                }
             }
         }
         dkejSpecArr[index] = obj;
@@ -86,17 +114,31 @@ class FromList extends React.Component {
         console.log('dkejSpecArr', dkejSpecArr)
     }
     // 单选按钮
-    radioChange(e) {
-        this.setState({
-            goodsStyle: e.target.value
-        })
+    radioChange(e, name) {
+        switch (name) {
+            case 'goodsStyle':
+                this.setState({
+                    goodsStyle: e.target.value
+                })
+                break;
+            case 'goodsStatus':
+                this.setState({
+                    goodsStatus: e.target.value
+                })
+                break;
+            case 'inventoryCount':
+                this.setState({
+                    inventoryCount: e.target.value
+                })
+                break;
+        }
     }
     // 编辑器
     handleChange(content) {
         this.setState({
             content: content
-        },()=>{
-            console.log('content',this.state.content)
+        }, () => {
+            console.log('content', this.state.content)
         })
     }
     getIcons() {
@@ -116,7 +158,7 @@ class FromList extends React.Component {
                     "name": "file",
                     "url": "/api/goods/goodsDetail",
                     "filter": function (res) {
-                      return res.picUrl
+                        return res.picUrl
                     }
                 }
             }
@@ -155,13 +197,27 @@ class FromList extends React.Component {
     /**
      * @picLibraryStatus true/false 显示/隐藏
     */
-    picLibraryBackStatus(data) {
+    picLibraryBackData(picLibraryStatus, goodsPic) {
+        let newGoodsPic = this.state.goodsPic;
+        goodsPic.forEach(item => newGoodsPic.push(item));
         this.setState({
-            picLibraryStatus: !data
+            picLibraryStatus: !picLibraryStatus,
+            goodsPic: newGoodsPic
         })
     }
     picLibraryStatusChange() {
         this.setState({ picLibraryStatus: true });
+    }
+    /**
+    * 删除商品图片
+    * @e 目标对象
+    * @index 数组索引值 
+    * @goodPic 存储图片的数组
+    * */
+    delGoodsPic(e, index) {
+        let goodPic = this.state.goodsPic;
+        goodPic.splice(index, 1);
+        this.setState(goodPic)
     }
     /**
        *商品规格=>添加
@@ -319,7 +375,7 @@ class FromList extends React.Component {
         return (
             <>
                 {/* 图片库组件 */}
-                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackStatus={this.picLibraryBackStatus} /> : null}
+                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackData={this.picLibraryBackData} /> : null}
                 <form>
                     {/* 商品属性 */}
                     <div className={tabid === '0' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
@@ -339,31 +395,35 @@ class FromList extends React.Component {
                                 <option value="3">3</option>
                             </select>
                         </div>
-                        <div className="form-item mb-20">
-                            <label className="dis-block mb-10 text-626">商品价格&nbsp;*</label>
-                            <input className="form-input w100" name="goodsPrice" />
-                        </div>
-                        <div className="form-item mb-20">
-                            <label className="dis-block mb-10 text-626">划线价格&nbsp;*</label>
-                            <input className="form-input w100" name="linePrice" />
-                        </div>
                         <div className="form-item dis-flx align-content-center mb-20">
                             <div className="title">商品规格：</div>
                             <div className="form-item-radio dis-flx align-items-center">
-                                <Radio value="single" checked={this.state.goodsStyle === 'single' ? true : false} onChange={this.radioChange} id="single" style={{ marginRight: "5px" }} >单规格</Radio>
-                                {/* <input type="radio" value="single" checked={this.state.goodsStyle === 'single' ? true : false} onChange={this.radioChange} id="single" style={{ marginRight: "5px" }} />
-                                <label htmlFor="single">
-                                    单规格
-                                </label> */}
+                                <Radio value="single" checked={this.state.goodsStyle === 'single' ? true : false} onChange={(e) => this.radioChange(e, 'goodsStyle')} id="single" style={{ marginRight: "5px" }} >单规格</Radio>
                             </div>
                             <div className="form-item-radio  dis-flx align-items-center ml-5">
-                                <Radio value="double" checked={this.state.goodsStyle === 'double' ? true : false} id="double" style={{ marginRight: "5px" }} onChange={this.radioChange} >多规格</Radio>
-                                {/* <input type="radio" value="double" checked={this.state.goodsStyle === 'double' ? true : false} id="double" style={{ marginRight: "5px" }} onChange={this.radioChange} />
-                                <label htmlFor="double">
-                                    多规格
-                                </label> */}
+                                <Radio value="double" checked={this.state.goodsStyle === 'double' ? true : false} id="double" style={{ marginRight: "5px" }} onChange={(e) => this.radioChange(e, 'goodsStyle')} >多规格</Radio>
                             </div>
                         </div>
+                        {/* 单规格 */}
+                        <div className={this.state.goodsStyle === 'single' ? 'goods-spec-active pd-20 mb-30' : "goods-spec pd-20 mb-30"}>
+                            <div className="form-item mb-20">
+                                <label className="dis-block mb-10 text-626">商品价格&nbsp;*</label>
+                                <input className="form-input w100" name="goodsPrice" />
+                            </div>
+                            <div className="form-item mb-20">
+                                <label className="dis-block mb-10 text-626">划线价格&nbsp;*</label>
+                                <input className="form-input w100" name="linePrice" />
+                            </div>
+                            <div className="form-item mb-20 text-626">
+                                <label className="dis-block mb-10 text-626">销量&nbsp;*</label>
+                                <input className="form-input w100" name="sales" />
+                            </div>
+                            <div className="form-item mb-20">
+                                <label className="dis-block mb-10 text-626">库存&nbsp;*</label>
+                                <input className="form-input w100" name="inventory" />
+                            </div>
+                        </div>
+                        {/* 多规格 */}
                         <div className={this.state.goodsStyle === 'double' ? 'goods-spec-active pd-20 mb-30' : "goods-spec pd-20 mb-30"}>
                             {/* 多规格属性 */}
                             {specAttrNodesItem}
@@ -442,6 +502,22 @@ class FromList extends React.Component {
                     </div>
                     {/* 商品图片 */}
                     <div className={tabid === '1' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
+                        <ul className="goods-pic-box mb-20">
+                            {
+                                this.state.goodsPic.length > 0 ? this.state.goodsPic.map((item, index) => {
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <li className="goods-pic-box-item mr-10">
+                                                <div className="goods-pic" style={{ backgroundImage: "url(" + 'http://127.0.0.1:8888/upload/' + item + ")" }}></div>
+                                                <div className="goods-pic-cover" onClick={(e) => this.delGoodsPic(e, index)}>
+                                                    <img src={deleteGoodsPicIcon} alt="" />
+                                                </div>
+                                            </li>
+                                        </React.Fragment>
+                                    )
+                                }) : null
+                            }
+                        </ul>
                         <div className="form-item mb-20">
                             <div className={AddGoodsCssMoudle.fromControlFile} onClick={this.picLibraryStatusChange}>
                                 <img src={UploadIcon} alt="" />
@@ -470,13 +546,25 @@ class FromList extends React.Component {
                     </div>
                     {/* 商品数量 */}
                     <div className={tabid === '3' ? `${AddGoodsCssMoudle.active} ${AddGoodsCssMoudle.tabObjItem}` : `${AddGoodsCssMoudle.tabObjItem}`}>
-                        <div className="form-item mb-20 text-626">
-                            <label className="dis-block mb-10 text-626">销量&nbsp;*</label>
-                            <input className="form-input w100" name="sales" />
+                        <div className="form-item dis-flx align-content-center mb-20">
+                            {/* <label className="dis-block mb-10 text-626">商品状态&nbsp;*</label>
+                            <input className="form-input w100" name="sales" /> */}
+                            <div className="title">商品状态：</div>
+                            <div className="form-item-radio dis-flx align-items-center">
+                                <Radio value="lineTop" checked={this.state.goodsStatus === 'lineTop' ? true : false} onChange={(e) => this.radioChange(e, 'goodsStatus')} style={{ marginRight: "5px" }} >上架</Radio>
+                            </div>
+                            <div className="form-item-radio  dis-flx align-items-center ml-5">
+                                <Radio value="lineBottom" checked={this.state.goodsStatus === 'lineBottom' ? true : false} style={{ marginRight: "5px" }} onChange={(e) => this.radioChange(e, 'goodsStatus')} >下架</Radio>
+                            </div>
                         </div>
-                        <div className="form-item mb-20">
-                            <label className="dis-block mb-10 text-626">库存&nbsp;*</label>
-                            <input className="form-input w100" name="inventory" />
+                        <div className="form-item dis-flx align-content-center mb-20">
+                            <div className="title">库存计算方式：</div>
+                            <div className="form-item-radio dis-flx align-items-center">
+                                <Radio value="order" checked={this.state.inventoryCount === 'order' ? true : false} onChange={(e) => this.radioChange(e, 'inventoryCount')} style={{ marginRight: "5px" }} >下单减库存</Radio>
+                            </div>
+                            <div className="form-item-radio  dis-flx align-items-center ml-5">
+                                <Radio value="payMent" checked={this.state.inventoryCount === 'payMent' ? true : false} style={{ marginRight: "5px" }} onChange={(e) => this.radioChange(e, 'inventoryCount')} >付款减库存</Radio>
+                            </div>
                         </div>
                         <div className="form-item over-flow">
                             <button type="submit" className="next-step-btn fon-13 pull-right"><i className="iconfont icon-save24 mr-10 fon-12"></i>提交</button>
@@ -532,7 +620,7 @@ class AddGoods extends React.Component {
                                 <li className={this.state.tabid === "0" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="0" onClick={this.tabChangeEvent}>商品属性</li>
                                 <li className={this.state.tabid === "1" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="1" onClick={this.tabChangeEvent}>商品图片</li>
                                 <li className={this.state.tabid === "2" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="2" onClick={this.tabChangeEvent}>商品详情</li>
-                                <li className={this.state.tabid === "3" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="3" onClick={this.tabChangeEvent}>商品数量</li>
+                                <li className={this.state.tabid === "3" ? `${AddGoodsCssMoudle.tabItem} ${AddGoodsCssMoudle.tabItemActive}` : `${AddGoodsCssMoudle.tabItem}`} data-tabid="3" onClick={this.tabChangeEvent}>厂家设置</li>
                             </ul>
                             <div className={AddGoodsCssMoudle.tabObj}>
                                 <FromList tabid={this.state.tabid} childPassData={this.childPassData} />

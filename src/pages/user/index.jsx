@@ -176,7 +176,7 @@ class Users extends React.Component {
         return (
             <div className="main">
                 {/* 图片库组件 */}
-                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackData={this.picLibraryBackData} /> : ''}
+                {this.state.picLibraryStatus ? <PicLibrary picLibraryStatus={this.state.picLibraryStatus} picLibraryBackData={this.picLibraryBackData} /> : null}
                 <Row>
                     <Col span={12}>
                         <h3><strong>用户信息</strong></h3>

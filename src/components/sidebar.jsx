@@ -98,12 +98,12 @@ let sideMenuList = [
     },
     {
         id: 4,
-        menuItemTitle: "会员",
+        menuItemTitle: "联系人",
         menuItemIcon: <UserOutlined />,
         level1: [
             {
                 id: 11,
-                menuItemTitle: "会员列表",
+                menuItemTitle: "联系人列表",
                 lever2: [],
                 url: '/members'
             },
